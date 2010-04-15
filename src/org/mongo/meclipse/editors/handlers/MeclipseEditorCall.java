@@ -15,6 +15,9 @@ import org.mongo.meclipse.views.*;
 import org.mongo.meclipse.editors.*;
 import org.mongo.meclipse.views.objects.*;
 
+/**
+ * @author Flavio [FlaPer87] Percoco Premoli
+ */
 public class MeclipseEditorCall extends AbstractHandler implements IHandler {
 
 	@Override

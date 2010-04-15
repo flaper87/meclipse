@@ -42,6 +42,9 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
+/**
+ * @author Flavio [FlaPer87] Percoco Premoli
+ */
 public class MeclipseEditor extends MultiPageEditorPart implements
 IResourceChangeListener {
 

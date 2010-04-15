@@ -3,6 +3,9 @@ package org.mongo.meclipse.views;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 
+/**
+ * @author Flavio [FlaPer87] Percoco Premoli
+ */
 public class MeclipseTreeViewer extends TreeViewer {
 
 	private MeclipseView view;

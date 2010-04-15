@@ -48,20 +48,8 @@ import org.mongo.meclipse.views.objects.*;
 import org.mongo.meclipse.wizards.ConnectionWizard;
 
 /**
- * This sample class demonstrates how to plug-in a new workbench view. The view
- * shows data obtained from the model. The sample creates a dummy model on the
- * fly, but a real implementation would connect to the model available either in
- * this or another plug-in (e.g. the workspace). The view is connected to the
- * model using a content provider.
- * <p>
- * The view uses a label provider to define how model objects should be
- * presented in the view. Each view can present the same model objects using
- * different labels and icons, if needed. Alternatively, a single label provider
- * can be shared between views in order to ensure that objects of the same type
- * are presented in the same way everywhere.
- * <p>
+ * @author Flavio [FlaPer87] Percoco Premoli
  */
-
 public class MeclipseView extends ViewPart {
 
 	/**
@@ -99,7 +87,7 @@ public class MeclipseView extends ViewPart {
 
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(),
-				"org.python.pydev.django.viewer");
+				"org.mongo.meclipse.views");
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();

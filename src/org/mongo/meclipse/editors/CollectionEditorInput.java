@@ -5,7 +5,9 @@ import org.eclipse.ui.IPersistableElement;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.mongo.meclipse.views.objects.Collection;
 
-
+/**
+ * @author Flavio [FlaPer87] Percoco Premoli
+ */
 public class CollectionEditorInput implements IEditorInput {
 
 	private final Collection person;

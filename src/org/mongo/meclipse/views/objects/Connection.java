@@ -16,6 +16,9 @@ import org.mongo.meclipse.wizards.ConnectionWizard;
 
 import com.mongodb.*;
 
+/**
+ * @author Flavio [FlaPer87] Percoco Premoli
+ */
 public final class Connection extends TreeParent {
 	private String host;
 	private int port;

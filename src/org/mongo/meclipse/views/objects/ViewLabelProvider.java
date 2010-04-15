@@ -5,6 +5,9 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
+/**
+ * @author Flavio [FlaPer87] Percoco Premoli
+ */
 public class ViewLabelProvider extends LabelProvider {
 
 	public String getText(Object obj) {

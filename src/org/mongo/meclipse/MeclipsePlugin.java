@@ -10,6 +10,7 @@ import com.mongodb.DB;
 
 /**
  * The activator class controls the plug-in life cycle
+ * @author Flavio [FlaPer87] Percoco Premoli
  */
 public class MeclipsePlugin extends AbstractUIPlugin {
 

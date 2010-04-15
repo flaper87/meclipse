@@ -2,6 +2,9 @@ package org.mongo.meclipse.views.objects;
 
 import java.util.ArrayList;
 
+/**
+ * @author Flavio [FlaPer87] Percoco Premoli
+ */
 public class TreeParent extends TreeObject {
 	private ArrayList children;
 	public TreeParent(String name) {

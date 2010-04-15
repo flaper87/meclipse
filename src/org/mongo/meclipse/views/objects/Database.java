@@ -5,6 +5,9 @@ import java.util.Set;
 
 import com.mongodb.*;
 
+/**
+ * @author Flavio [FlaPer87] Percoco Premoli
+ */
 public final class Database extends TreeParent {
 	private DB db;
 	

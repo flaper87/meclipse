@@ -9,6 +9,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 
+/**
+ * @author Flavio [FlaPer87] Percoco Premoli
+ */
 public final class Collection extends TreeObject {
 
 	private DBCollection col;

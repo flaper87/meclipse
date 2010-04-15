@@ -6,6 +6,9 @@ import org.eclipse.jface.viewers.Viewer;
 
 import org.eclipse.ui.part.*;
 
+/**
+ * @author Flavio [FlaPer87] Percoco Premoli
+ */
 public class ViewContentProvider implements IStructuredContentProvider,
 		ITreeContentProvider {
 	private TreeParent invisibleRoot;

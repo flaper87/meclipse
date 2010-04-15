@@ -11,13 +11,10 @@ import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 import org.eclipse.jface.viewers.*;
 import org.mongo.meclipse.views.objects.Connection;
 
-/**
- * The "New" wizard page allows setting the container for
- * the new file as well as the file name. The page
- * will only accept file name without the extension OR
- * with the extension that matches the expected one (invokatron).
- */
 
+/**
+ * @author Flavio [FlaPer87] Percoco Premoli
+ */
 public class ConnectionWizardPage extends WizardPage {
 	private Text connName;
 	private Text host;
