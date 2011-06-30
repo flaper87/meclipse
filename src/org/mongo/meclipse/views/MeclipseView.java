@@ -85,6 +85,9 @@ public class MeclipseView extends ViewPart {
 		viewer.setSorter(new NameSorter());
 		viewer.setInput(getViewSite());
 
+		// Hook viewer up to the Eclipse selection provider:
+		getSite().setSelectionProvider(viewer);
+		
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(),
 				"org.mongo.meclipse.views");
