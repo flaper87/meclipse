@@ -11,6 +11,11 @@ What does Meclipse do???
 * It loads (as TreeView) the list of databases and collections.
 * It loads the data found in the collection. To do this, Meclipse opens a new Editor and shows the data loaded (This part needs a lot of work).
 
+What does it look like???
+
+Here's a shot of the DB view:
+http://www.flickr.com/photos/inajamaica/5891422750/
+
 TODO:
 * Meclipse already shows the connections, databases, collections and data stored in MongoDB so I think that the critical point (where I'm/you're/we're should focus ) is how data is shown in the editor.
 * Many other things.
