@@ -23,6 +23,6 @@ public class TreeParent extends TreeObject {
 		return (TreeObject [])children.toArray(new TreeObject[children.size()]);
 	}
 	public boolean hasChildren() {
-		return children.size()>0;
+		return true;
 	}
 }

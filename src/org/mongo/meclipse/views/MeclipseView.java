@@ -217,6 +217,7 @@ public class MeclipseView extends ViewPart {
 				conn.setViewer(mView);
 				content.getRoot().addChild(conn);
 				viewer.refresh(true);
+				conn.doubleClickAction(); // hack to get the expansion arrow to show immediately in the tree view
 			}
 		};
 
