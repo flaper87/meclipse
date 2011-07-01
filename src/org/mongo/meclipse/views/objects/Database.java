@@ -9,7 +9,6 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.views.properties.IPropertySource;
-import org.mongo.meclipse.views.objects.properties.CollectionPropertySource;
 import org.mongo.meclipse.views.objects.properties.DatabasePropertySource;
 
 import com.mongodb.*;
