@@ -9,8 +9,9 @@ What does Meclipse do???
 
 * It has a MongoDB View that contains a list of servers (connections). It is possible to add/remove connections. They are saved in a settings file.
 * It loads (as TreeView) the list of databases and collections.
- * View number of documents and the indexes in a collection in Eclipse Properties View
+ * View stats about databases and collections in Eclipse Properties View
  * View serverStatus() output in Eclipse Properties View
+ * Set the profiling level for any given database
 * It loads the data found in the collection. To do this, Meclipse opens a new Editor and shows the data loaded (This part needs a lot of work).
 
 What does it look like???
