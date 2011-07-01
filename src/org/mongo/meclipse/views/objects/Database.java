@@ -3,6 +3,15 @@ package org.mongo.meclipse.views.objects;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.Separator;
+import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.mongo.meclipse.views.objects.properties.CollectionPropertySource;
+import org.mongo.meclipse.views.objects.properties.DatabasePropertySource;
+
 import com.mongodb.*;
 
 /**
@@ -10,9 +19,36 @@ import com.mongodb.*;
  */
 public final class Database extends TreeParent {
 	private DB db;
+	private IAction setProfileLevel0;
+	private IAction setProfileLevel1;
+	private IAction setProfileLevel2;
 	
 	public Database(String name) {
 		super(name);
+		makeActions();
+	}
+	
+	private void makeActions() {
+		setProfileLevel0 = new Action() {
+			public void run() {
+				db.command( new BasicDBObject( "profile" , 0 ));
+			}
+		};
+		setProfileLevel0.setText("Set Profile Level : 0");
+		
+		setProfileLevel1 = new Action() {
+			public void run() {
+				db.command( new BasicDBObject( "profile" , 1 ));
+			}
+		};
+		setProfileLevel1.setText("Set Profile Level : 1");
+		
+		setProfileLevel2 = new Action() {
+			public void run() {
+				db.command( new BasicDBObject( "profile" , 2 ));
+			}
+		};
+		setProfileLevel2.setText("Set Profile Level : 2");
 	}
 	
 	@Override
@@ -44,4 +80,24 @@ public final class Database extends TreeParent {
 		}
 	}
 
+    /**
+     * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
+     */
+    public Object getAdapter(Class adapter) {
+		 if (adapter == IPropertySource.class) {
+			return new DatabasePropertySource(this);
+		 }
+       return null;
+    }
+    
+	@Override
+	public void fillContextMenu(IMenuManager manager) {
+		manager.add(setProfileLevel0);
+		manager.add(setProfileLevel1);
+		manager.add(setProfileLevel2);
+		manager.add(new Separator());
+		//drillDownAdapter.addNavigationActions(manager);
+		// Other plug-ins can contribute there actions here
+		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+	}
 }

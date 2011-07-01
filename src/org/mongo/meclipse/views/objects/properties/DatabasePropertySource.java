@@ -1,0 +1,66 @@
+package org.mongo.meclipse.views.objects.properties;
+
+import org.eclipse.ui.views.properties.IPropertyDescriptor;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.eclipse.ui.views.properties.PropertyDescriptor;
+import org.mongo.meclipse.views.objects.Database;
+import org.mongo.meclipse.views.objects.properties.CollectionPropertySource.IndexesPropertySource;
+
+import com.mongodb.DBObject;
+
+public class DatabasePropertySource implements IPropertySource {
+	private static final String NAME = "NAME";
+	private static final String PROFILING_LEVEL = "PROFILING_LEVEL";
+	private Database database;
+
+	public DatabasePropertySource(Database database)
+	{
+		this.database = database;
+	}
+	
+	@Override
+	public Object getEditableValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IPropertyDescriptor[] getPropertyDescriptors() {
+		return new IPropertyDescriptor[]
+       		{
+	       		new PropertyDescriptor(NAME, "Name"),
+	       		new PropertyDescriptor(PROFILING_LEVEL, "Profile Level"),
+       		};
+	}
+
+	@Override
+	public Object getPropertyValue(Object id) {
+		if (id.equals(NAME))
+			return database.getDB().getName();
+		else if (id.equals(PROFILING_LEVEL))
+		{
+			DBObject curProfileLevel = database.getDB().command("profile");
+			return curProfileLevel.get("was");
+		}
+		else return null;
+	}
+
+	@Override
+	public boolean isPropertySet(Object id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void resetPropertyValue(Object id) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setPropertyValue(Object id, Object value) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
