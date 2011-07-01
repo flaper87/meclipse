@@ -20,10 +20,11 @@
             id="org.mongo.meclipse">
       </category>
       <view
-            name="MongoDB View"
             category="org.mongo.meclipse"
             class="org.mongo.meclipse.views.MeclipseView"
-            id="org.mongo.meclipse.views.MeclipseView">
+            icon="icons/leaf.png"
+            id="org.mongo.meclipse.views.MeclipseView"
+            name="MongoDB View">
       </view>
    </extension>
    <extension point="org.eclipse.ui.commands">
