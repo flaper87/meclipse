@@ -5,25 +5,20 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.core.runtime.*;
-import org.eclipse.jface.operation.*;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Iterator;
-import java.util.List;
+import java.net.MalformedURLException;
+import java.util.Map;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
 import java.io.*;
 import org.eclipse.ui.*;
-import org.eclipse.ui.ide.IDE;
-import org.mongo.meclipse.views.MeclipseView;
+import org.mongo.meclipse.MeclipsePlugin;
+import org.mongo.meclipse.preferences.SavedServer;
 import org.mongo.meclipse.views.objects.Connection;
-import org.mongo.meclipse.views.objects.Database;
-import org.mongo.meclipse.views.objects.ViewContentProvider;
 
 /**
- * @author Flavio [FlaPer87] Percoco Premoli
+ * @author Flavio [FlaPer87] Percoco Premoli,
+ * @author Joey Mink, ExoAnalytic Solutions
  */
 public class ConnectionWizard extends Wizard implements INewWizard {
 	private ConnectionWizardPage page;
@@ -52,6 +47,51 @@ public class ConnectionWizard extends Wizard implements INewWizard {
 	 * using wizard as execution context.
 	 */
 	public boolean performFinish() {
+		// save server preferences here
+		if (page.isSaveConnection())
+		{
+			FileWriter writer = null;
+			try {
+				Map<String, SavedServer> savedServers = page.getSavedServers();
+
+				IPath libPath = MeclipsePlugin.getDefault().getStateLocation();
+				libPath = libPath.append("servers.cfg");
+				File file = libPath.toFile();
+				if (!file.exists())
+					file.createNewFile();
+				writer = new FileWriter(file, false); // overwrite all servers
+				for (SavedServer server : savedServers.values())
+				{
+					if (!server.getName().equals(page.getConnName())) // don't want duplicates
+						writer.write(server.getName() + "," + server.getHost() + "," + server.getPort() + "\n");
+				}
+				
+				// Write the newly-created connection
+				writer.write(page.getConnName() + "," + page.getHost() + "," + page.getPort() + "\n");
+				// TODO: use CsvWriter
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			catch(IOException ex)
+			{
+				ex.printStackTrace();
+			}
+			finally
+			{
+				if (writer != null)
+				{
+					try
+					{
+						writer.close();
+					}
+					catch (IOException e1)
+					{
+						e1.printStackTrace();
+					}
+				}
+			}// end finally
+		}// end if
 		return true;
 	}
 	

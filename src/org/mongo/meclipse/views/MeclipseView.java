@@ -217,6 +217,7 @@ public class MeclipseView extends ViewPart {
 				conn.setViewer(mView);
 				content.getRoot().addChild(conn);
 				viewer.refresh(true);
+				conn.doubleClickAction(); // hack to get the expansion arrow to show immediately in the tree view
 			}
 		};
 
@@ -277,46 +278,18 @@ public class MeclipseView extends ViewPart {
 
 	// Taken from EclipseTracPlugin
 	protected void notifyChanged() {
+		/*
 		try {
 			savePreferences();
 		} catch (ParserConfigurationException e) {
 		} catch (IOException e) {
 		} catch (TransformerException e) {
 		}
+		*/
 	}
 
 	// Taken from EclipseTracPlugin
-	private void savePreferences() throws ParserConfigurationException,
-			IOException, TransformerException {
-		FileOutputStream stream = null;
-		try {
-			String xml = getServerInfoAsXML();
-			IPath libPath = MeclipsePlugin.getDefault().getStateLocation();
-			libPath = libPath.append("servers.xml");
-			File file = libPath.toFile();
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-			stream = new FileOutputStream(file);
-			stream.write(xml.getBytes("UTF8")); //$NON-NLS-1$
-		} catch (IOException e) {
-//			Log.error("exception is occured.", e);
-		} catch (ParserConfigurationException e) {
-//			Log.error("exception is occured.", e);
-		} catch (TransformerException e) {
-//			Log.error("exception is occured.", e);
-		} finally {
-			if (stream != null) {
-				try {
-					stream.close();
-				} catch (IOException e1) {
-				}
-			}
-		}
-	}
-
-	// Taken from EclipseTracPlugin
-	private String getServerInfoAsXML() throws ParserConfigurationException,
+	/*private String getServerInfoAsXML() throws ParserConfigurationException,
 			IOException, TransformerException {
 		Document doc = getDocument();
 		Element config = doc.createElement("connectionsInfo"); //$NON-NLS-1$
@@ -333,7 +306,9 @@ public class MeclipseView extends ViewPart {
 		}
 		return serializeDocument(doc);
 	}
-
+	*/
+	
+	/*
 	// Taken from EclipseTracPlugin
 	private Document getDocument() throws ParserConfigurationException {
 		DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
@@ -341,7 +316,9 @@ public class MeclipseView extends ViewPart {
 		Document doc = docBuilder.newDocument();
 		return doc;
 	}
+	*/
 
+	/*
 	// Taken from EclipseTracPlugin
 	private String serializeDocument(Document doc) throws IOException,
 			TransformerException {
@@ -358,4 +335,5 @@ public class MeclipseView extends ViewPart {
 
 		return s.toString("UTF8"); //$NON-NLS-1$			
 	}
+	*/
 }

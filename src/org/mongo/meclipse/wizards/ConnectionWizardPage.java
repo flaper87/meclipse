@@ -1,19 +1,31 @@
 package org.mongo.meclipse.wizards;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.core.resources.*;
-import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.events.*;
-import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 import org.eclipse.jface.viewers.*;
+import org.mongo.meclipse.MeclipsePlugin;
+import org.mongo.meclipse.preferences.SavedServer;
 import org.mongo.meclipse.views.objects.Connection;
 
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli
+ * @author Joey Mink, ExoAnalytic Solutions
  */
 public class ConnectionWizardPage extends WizardPage {
 	private Text connName;
@@ -23,6 +35,14 @@ public class ConnectionWizardPage extends WizardPage {
 	private Text password;
 	private Connection conn;
 	private ISelection selection;
+	private Button saveCheckBox;
+	private Combo savedServersSelect;
+	/** the servers that were saved at the time this wizard page was loaded **/
+	private Map<String, SavedServer> savedServers = new HashMap<String, SavedServer>();
+
+	public Map<String, SavedServer> getSavedServers() {
+		return savedServers;
+	}
 
 	/**
 	 * Constructor for SampleNewWizardPage.
@@ -46,8 +66,24 @@ public class ConnectionWizardPage extends WizardPage {
 		layout.verticalSpacing = 9;
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.widthHint = 250;
+
+		savedServers.clear();
+		for (SavedServer server : loadSavedServers())
+			savedServers.put(server.getName(), server);
 		
 		Label label = new Label(container, SWT.NULL);
+		label.setText("&Load saved server?");
+		savedServersSelect = new Combo(container, SWT.READ_ONLY);
+		savedServersSelect.setLayoutData(gd);
+		for (SavedServer server : savedServers.values())
+			savedServersSelect.add(server.getName());
+		savedServersSelect.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				populateFromSavedServer();
+			}
+		});
+		
+		label = new Label(container, SWT.NULL);
 		label.setText("&Name:");
 		connName = new Text(container, SWT.BORDER | SWT.SINGLE);
 		connName.setLayoutData(gd);
@@ -80,11 +116,71 @@ public class ConnectionWizardPage extends WizardPage {
 			}
 		});
 		
+		saveCheckBox = new Button(container, SWT.CHECK);
+		saveCheckBox.setText("Save connection");
+		saveCheckBox.setLayoutData(gd);
+		
 		initialize();
 		setControl(container);
 		setPageComplete(false);
 	}
 	
+	private void populateFromSavedServer()
+	{
+		String selection = savedServersSelect.getItems()[savedServersSelect.getSelectionIndex()];
+		//if (selection == null || selection.length > 1)
+		//	throw new IllegalStateException("Should only be able to select one item form saved servers select.");
+		
+		SavedServer server = savedServers.get(selection/*[0]*/);
+		if (server == null)
+			return;
+		
+		this.connName.setText(server.getName());
+		this.host.setText(server.getHost());
+		this.port.setText(String.valueOf(server.getPort()));
+	}
+	
+	private SavedServer[] loadSavedServers() {
+		FileInputStream inputStream = null;
+		try {
+			IPath libPath = MeclipsePlugin.getDefault().getStateLocation();
+			libPath = libPath.append("servers.cfg");
+			File file = libPath.toFile();
+			if (!file.exists())
+				return new SavedServer[0];
+			
+			inputStream = new FileInputStream(file);
+			DataInputStream dataInputStream = new DataInputStream(inputStream);
+			BufferedReader bReader = new BufferedReader(new InputStreamReader(dataInputStream));
+			
+			java.util.List<SavedServer> savedServersList = new ArrayList<SavedServer>();
+			String line;
+			while ((line = bReader.readLine()) != null)
+			{
+				// TODO: use CsvWriter
+				String[] values = line.split(",");
+				SavedServer server = new SavedServer();
+				server.setName(values[0]);
+				server.setHost(values[1]);
+				try
+				{
+					server.setPort(Integer.valueOf(values[2]));
+				}
+				catch (NumberFormatException ex)
+				{
+					System.out.println(ex);
+				}
+				savedServersList.add(server);
+			}
+			return savedServersList.toArray(new SavedServer[savedServersList.size()]);
+		}
+		catch(IOException ex)
+		{
+			ex.printStackTrace();
+		}
+		return new SavedServer[0];
+	}
+
 	/**
 	 * Tests if the current workbench selection is a suitable
 	 * container to use.
@@ -124,6 +220,7 @@ public class ConnectionWizardPage extends WizardPage {
 		}
 		
 		try {
+			// TODO: add connection management - don't want more than one connection to the same svr
 			conn = new Connection(name, host, getPort());
 			if (conn.validate()) {
 				updateStatus(null);
@@ -170,4 +267,7 @@ public class ConnectionWizardPage extends WizardPage {
 		return password.getText();
 	}
 	
+	public Boolean isSaveConnection() {
+		return saveCheckBox.getSelection();
+	}
 }

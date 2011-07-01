@@ -104,6 +104,7 @@ public final class Connection extends TreeParent {
 			Database newChild = new Database(iterador.next());
 			newChild.setViewer(view);
 			addChild(newChild);
+			newChild.doubleClickAction(); // show us the expansion arrow immediately if the db has collections
 		}
 	}
 	
