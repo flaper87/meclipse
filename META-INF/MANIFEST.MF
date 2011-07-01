@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.ui.navigator,
  org.eclipse.ui.views
-Bundle-Vendor: Flavio Percoco Premoli
+Bundle-Vendor: Flavio Percoco Premoli, Joey Mink
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: libs/mongo.jar,
