@@ -5,14 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jface.action.*;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.PlatformUI;
-import org.mongo.meclipse.Images;
-import org.mongo.meclipse.wizards.ConnectionWizard;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.mongo.meclipse.views.objects.properties.ConnectionPropertySource;
 
 import com.mongodb.*;
 
@@ -125,4 +120,20 @@ public final class Connection extends TreeParent {
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
+	public DBObject getServerStatus()
+	{
+		String firstDbName = connection.getDatabaseNames().get(0);
+		DBObject status = connection.getDB(firstDbName).command("serverStatus");
+		return status;
+	}
+	
+    /**
+     * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
+     */
+    public Object getAdapter(Class adapter) {
+		 if (adapter == IPropertySource.class) {
+			return new ConnectionPropertySource(this);
+		 }
+       return null;
+    }
 }
