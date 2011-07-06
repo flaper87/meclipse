@@ -1,6 +1,6 @@
-package org.mongo.meclipse.views.objects.properties;
+package org.mongodb.meclipse.views.objects.properties;
 
-import org.mongo.meclipse.views.objects.Connection;
+import org.mongodb.meclipse.views.objects.Connection;
 
 public class ConnectionPropertySource extends DBObjectPropertySource {
 

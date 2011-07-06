@@ -1,4 +1,4 @@
-package org.mongo.meclipse;
+package org.mongodb.meclipse;
 
 //TAKEN From EclipseTracPlugin
 import org.eclipse.jface.resource.ImageDescriptor;

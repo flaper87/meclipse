@@ -1,4 +1,4 @@
-package org.mongo.meclipse.views.objects;
+package org.mongodb.meclipse.views.objects;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.Action;
@@ -9,7 +9,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.mongo.meclipse.views.MeclipseView;
+import org.mongodb.meclipse.views.MeclipseView;
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli

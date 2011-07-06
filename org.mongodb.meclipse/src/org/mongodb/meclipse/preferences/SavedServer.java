@@ -1,4 +1,4 @@
-package org.mongo.meclipse.preferences;
+package org.mongodb.meclipse.preferences;
 
 import java.net.URL;
 

@@ -1,4 +1,4 @@
-package org.mongo.meclipse.wizards;
+package org.mongodb.meclipse.wizards;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -18,9 +18,9 @@ import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.events.*;
 import org.eclipse.jface.viewers.*;
-import org.mongo.meclipse.MeclipsePlugin;
-import org.mongo.meclipse.preferences.SavedServer;
-import org.mongo.meclipse.views.objects.Connection;
+import org.mongodb.meclipse.MeclipsePlugin;
+import org.mongodb.meclipse.preferences.SavedServer;
+import org.mongodb.meclipse.views.objects.Connection;
 
 
 /**

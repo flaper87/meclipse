@@ -1,9 +1,9 @@
-package org.mongo.meclipse.editors;
+package org.mongodb.meclipse.editors;
 
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.mongo.meclipse.views.objects.Collection;
+import org.mongodb.meclipse.views.objects.Collection;
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli

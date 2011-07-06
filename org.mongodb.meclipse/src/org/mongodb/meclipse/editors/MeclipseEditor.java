@@ -1,4 +1,4 @@
-package org.mongo.meclipse.editors;
+package org.mongodb.meclipse.editors;
 
 
 
@@ -36,7 +36,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.FontDialog;
-import org.mongo.meclipse.views.objects.Collection;
+import org.mongodb.meclipse.views.objects.Collection;
 
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -49,7 +49,7 @@ public class MeclipseEditor extends MultiPageEditorPart implements
 IResourceChangeListener {
 
 
-	public static final String ID = "org.mongo.meclipse.editors.meclipseEditor";
+	public static final String ID = "org.mongodb.meclipse.editors.meclipseEditor";
 
 	private Collection col;
 	/** The text editor used in page 0. */

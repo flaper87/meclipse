@@ -18,7 +18,7 @@
    </license>
 
    <plugin
-         id="org.mongo.meclipse"
+         id="org.mongodb.meclipse"
          download-size="0"
          install-size="0"
          version="0.0.0"

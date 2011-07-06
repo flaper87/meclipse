@@ -1,4 +1,4 @@
-package org.mongo.meclipse.editors.handlers;
+package org.mongodb.meclipse.editors.handlers;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -11,9 +11,9 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import org.mongo.meclipse.views.*;
-import org.mongo.meclipse.editors.*;
-import org.mongo.meclipse.views.objects.*;
+import org.mongodb.meclipse.editors.*;
+import org.mongodb.meclipse.views.*;
+import org.mongodb.meclipse.views.objects.*;
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli

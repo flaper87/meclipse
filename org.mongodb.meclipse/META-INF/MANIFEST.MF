@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Meclipse
-Bundle-SymbolicName: org.mongo.meclipse; singleton:=true
+Bundle-SymbolicName: org.mongodb.meclipse; singleton:=true
 Bundle-Version: 0.0.3.qualifier
-Bundle-Activator: org.mongo.meclipse.MeclipsePlugin
+Bundle-Activator: org.mongodb.meclipse.MeclipsePlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.jface.text,

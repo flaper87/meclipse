@@ -5,11 +5,11 @@
   <!-- Meclipse editor -->
    <extension point="org.eclipse.ui.editors">
       <editor
-            class="org.mongo.meclipse.editors.MeclipseEditor"
+            class="org.mongodb.meclipse.editors.MeclipseEditor"
             contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
             default="true"
             icon="icons/template.gif"
-            id="org.mongo.meclipse.editors.meclipseEditor"
+            id="org.mongodb.meclipse.editors.meclipseEditor"
             name="MeclipseEditor">
       </editor>
    </extension>
@@ -17,21 +17,21 @@
    <extension point="org.eclipse.ui.views">
       <category
             name="Meclipse"
-            id="org.mongo.meclipse">
+            id="org.mongodb.meclipse">
       </category>
       <view
-            category="org.mongo.meclipse"
-            class="org.mongo.meclipse.views.MeclipseView"
+            category="org.mongodb.meclipse"
+            class="org.mongodb.meclipse.views.MeclipseView"
             icon="icons/leaf.png"
-            id="org.mongo.meclipse.views.MeclipseView"
+            id="org.mongodb.meclipse.views.MeclipseView"
             name="MongoDB View">
       </view>
    </extension>
    <extension point="org.eclipse.ui.commands">
    <command
             description="Calls the Meclipse Editor"
-            id="org.mongo.meclipse.editors.handlers.CallEditor"
-            defaultHandler="org.mongo.meclipse.editors.handlers.MeclipseEditorCall"
+            id="org.mongodb.meclipse.editors.handlers.CallEditor"
+            defaultHandler="org.mongodb.meclipse.editors.handlers.MeclipseEditorCall"
             name="Meclipse Editor">
       </command>
    </extension>

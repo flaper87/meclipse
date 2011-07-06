@@ -1,4 +1,4 @@
-package org.mongo.meclipse.views.objects;
+package org.mongodb.meclipse.views.objects;
 
 import com.mongodb.*;
 
@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.properties.IPropertySource;
-import org.mongo.meclipse.views.objects.properties.CollectionPropertySource;
+import org.mongodb.meclipse.views.objects.properties.CollectionPropertySource;
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli
@@ -41,11 +41,11 @@ implements IAdaptable {
 		IHandlerService handlerService = (IHandlerService) view.getSite().getService(IHandlerService.class);
 		try {
 			handlerService.executeCommand(
-					"org.mongo.meclipse.editors.handlers.CallEditor", null);
+					"org.mongodb.meclipse.editors.handlers.CallEditor", null);
 		} catch (Exception ex) {
 			System.out.println(ex.toString());
 //			throw new RuntimeException(
-//					"org.mongo.meclipse.editors.handlers.CallEditor not found");
+//					"org.mongodb.meclipse.editors.handlers.CallEditor not found");
 		}
 	}
 	

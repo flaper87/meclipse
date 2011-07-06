@@ -1,10 +1,10 @@
-package org.mongo.meclipse.views.objects.properties;
+package org.mongodb.meclipse.views.objects.properties;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
-import org.mongo.meclipse.views.objects.Database;
-import org.mongo.meclipse.views.objects.properties.CollectionPropertySource.IndexesPropertySource;
+import org.mongodb.meclipse.views.objects.Database;
+import org.mongodb.meclipse.views.objects.properties.CollectionPropertySource.IndexesPropertySource;
 
 import com.mongodb.DBObject;
 
