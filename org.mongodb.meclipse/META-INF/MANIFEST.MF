@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Meclipse
 Bundle-SymbolicName: org.mongo.meclipse; singleton:=true
-Bundle-Version: 0.0.3
+Bundle-Version: 0.0.3.qualifier
 Bundle-Activator: org.mongo.meclipse.MeclipsePlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

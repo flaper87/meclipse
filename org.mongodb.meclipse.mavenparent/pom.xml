@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	This is the parent pom.xml file from which all of the meclipse
+	bundles (plug-ins) inherit from.
+-->
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.mongodb.meclipse</groupId>
+	<artifactId>mavenparent</artifactId>
+	<version>0.0.3-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<tycho-version>0.12.0</tycho-version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>helios</id>
+			<url>http://download.eclipse.org/releases/helios</url>
+			<layout>p2</layout>
+		</repository>
+      		<repository> 
+            		<id>sonatype-staging</id> 
+	          	<url>https://repository.sonatype.org/content/repositories/sonatype_org-002/</url>
+		</repository> 
+	</repositories>
+
+	<pluginRepositories> 
+	        <pluginRepository> 
+			<id>sonatype-staging</id> 
+			<url>https://repository.sonatype.org/content/repositories/sonatype_org-002/</url>
+		</pluginRepository> 
+	</pluginRepositories> 
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<resolver>p2</resolver>
+					<!--target> <artifact> <groupId>${project.groupId}</groupId> <artifactId>${project.artifactId}</artifactId> 
+						<version>${project.version}</version> <classifier>TargetFileNameWithoutExtension</classifier> 
+						</artifact> </target -->
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<reporting>
+	    <plugins>
+	      <plugin>
+	        <groupId>org.codehaus.mojo</groupId>
+	        <artifactId>findbugs-maven-plugin</artifactId>
+	        <version>2.3.2</version>
+	        <configuration>
+	        	<findbugsXmlOutput>true</findbugsXmlOutput>
+	        </configuration>
+	      </plugin>
+	    </plugins>
+	  </reporting>
+</project>
