@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+  <!-- Meclipse editor -->
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            class="org.mongodb.meclipse.editors.MeclipseEditor"
+            contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
+            default="true"
+            icon="icons/template.gif"
+            id="org.mongodb.meclipse.editors.meclipseEditor"
+            name="MeclipseEditor">
+      </editor>
+   </extension>
+   
+   <extension point="org.eclipse.ui.views">
+      <category
+            name="Meclipse"
+            id="org.mongodb.meclipse">
+      </category>
+      <view
+            category="org.mongodb.meclipse"
+            class="org.mongodb.meclipse.views.MeclipseView"
+            icon="icons/leaf.png"
+            id="org.mongodb.meclipse.views.MeclipseView"
+            name="MongoDB View">
+      </view>
+   </extension>
+   <extension point="org.eclipse.ui.commands">
+   <command
+            description="Calls the Meclipse Editor"
+            id="org.mongodb.meclipse.editors.handlers.CallEditor"
+            defaultHandler="org.mongodb.meclipse.editors.handlers.MeclipseEditorCall"
+            name="Meclipse Editor">
+      </command>
+   </extension>
+</plugin>
