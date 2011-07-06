@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Meclipse
+Bundle-SymbolicName: org.mongodb.meclipse; singleton:=true
+Bundle-Version: 0.0.3.qualifier
+Bundle-Activator: org.mongodb.meclipse.MeclipsePlugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.jface.text,
+ org.eclipse.core.resources,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.ui.navigator,
+ org.eclipse.ui.views,
+ org.eclipse.core.expressions
+Bundle-Vendor: Flavio Percoco Premoli, Joey Mink
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: libs/mongo.jar,
+ .

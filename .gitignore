@@ -1,0 +1,8 @@
+# ignore build artifacts:
+*/target/
+*/.settings/
+*/bin/
+
+# ignore eclipse app settings
+.metadata/
+
