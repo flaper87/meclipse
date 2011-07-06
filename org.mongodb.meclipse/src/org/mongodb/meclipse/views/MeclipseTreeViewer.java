@@ -1,4 +1,4 @@
-package org.mongo.meclipse.views;
+package org.mongodb.meclipse.views;
 
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;

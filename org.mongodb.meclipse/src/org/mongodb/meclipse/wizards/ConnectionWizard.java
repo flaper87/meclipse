@@ -1,4 +1,4 @@
-package org.mongo.meclipse.wizards;
+package org.mongodb.meclipse.wizards;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -12,9 +12,9 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.core.runtime.CoreException;
 import java.io.*;
 import org.eclipse.ui.*;
-import org.mongo.meclipse.MeclipsePlugin;
-import org.mongo.meclipse.preferences.SavedServer;
-import org.mongo.meclipse.views.objects.Connection;
+import org.mongodb.meclipse.MeclipsePlugin;
+import org.mongodb.meclipse.preferences.SavedServer;
+import org.mongodb.meclipse.views.objects.Connection;
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli,

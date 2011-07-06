@@ -1,4 +1,4 @@
-package org.mongo.meclipse.views.objects;
+package org.mongodb.meclipse.views.objects;
 
 import java.net.UnknownHostException;
 import java.util.Iterator;
@@ -7,7 +7,7 @@ import java.util.List;
 import org.eclipse.jface.action.*;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.views.properties.IPropertySource;
-import org.mongo.meclipse.views.objects.properties.ConnectionPropertySource;
+import org.mongodb.meclipse.views.objects.properties.ConnectionPropertySource;
 
 import com.mongodb.*;
 

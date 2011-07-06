@@ -1,4 +1,4 @@
-package org.mongo.meclipse.views.objects;
+package org.mongodb.meclipse.views.objects;
 
 import java.util.ArrayList;
 

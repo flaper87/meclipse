@@ -1,4 +1,4 @@
-package org.mongo.meclipse;
+package org.mongodb.meclipse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import org.osgi.framework.BundleContext;
 public class MeclipsePlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.mongo.meclipse";
+	public static final String PLUGIN_ID = "org.mongodb.meclipse";
 
 	// The shared instance
 	private static MeclipsePlugin plugin;

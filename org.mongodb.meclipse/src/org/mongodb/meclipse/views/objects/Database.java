@@ -1,4 +1,4 @@
-package org.mongo.meclipse.views.objects;
+package org.mongodb.meclipse.views.objects;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -9,7 +9,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.views.properties.IPropertySource;
-import org.mongo.meclipse.views.objects.properties.DatabasePropertySource;
+import org.mongodb.meclipse.views.objects.properties.DatabasePropertySource;
 
 import com.mongodb.*;
 

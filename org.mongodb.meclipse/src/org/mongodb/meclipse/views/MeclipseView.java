@@ -1,4 +1,4 @@
-package org.mongo.meclipse.views;
+package org.mongodb.meclipse.views;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,9 +28,9 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import org.mongo.meclipse.*;
-import org.mongo.meclipse.views.objects.*;
-import org.mongo.meclipse.wizards.ConnectionWizard;
+import org.mongodb.meclipse.*;
+import org.mongodb.meclipse.views.objects.*;
+import org.mongodb.meclipse.wizards.ConnectionWizard;
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli
@@ -40,7 +40,7 @@ public class MeclipseView extends ViewPart {
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
-	public static final String ID = "org.mongo.meclipse.views.MeclipseView";
+	public static final String ID = "org.mongodb.meclipse.views.MeclipseView";
 
 	private TreeViewer viewer;
 	private DrillDownAdapter drillDownAdapter;
@@ -75,7 +75,7 @@ public class MeclipseView extends ViewPart {
 		
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(),
-				"org.mongo.meclipse.views");
+				"org.mongodb.meclipse.views");
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();

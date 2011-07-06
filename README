@@ -1,9 +1,10 @@
 Meclipse is an eclipse plugin for mongodb
-Author: Flavio Percoco Premoli <flaper87@flaper87.org>, walknwind <joeymink@gmail.com>
+Author: Flavio Percoco Premoli <flaper87@flaper87.org>
+Contributors: Joey Mink <joeymink@gmail.com>
 
 How to install?
 
-If you just want to give it a test run, grab org.mongo.meclipse_<version>.jar from the Downloads link at the top right of the GitHub page.  For the time being, I'll try to keep updating the download.  I'll leave it up to you to find out how to install a loose plug-in jar for Eclipse.
+An update site is on the way - check back soon!
 
 What does Meclipse do???
 

@@ -1,11 +1,11 @@
-package org.mongo.meclipse.views.objects;
+package org.mongodb.meclipse.views.objects;
 
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
-import org.mongo.meclipse.MeclipsePlugin;
+import org.mongodb.meclipse.MeclipsePlugin;
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli

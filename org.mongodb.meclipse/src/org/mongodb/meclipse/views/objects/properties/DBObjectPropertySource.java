@@ -1,4 +1,4 @@
-package org.mongo.meclipse.views.objects.properties;
+package org.mongodb.meclipse.views.objects.properties;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
