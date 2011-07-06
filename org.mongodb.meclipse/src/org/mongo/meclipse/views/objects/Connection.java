@@ -56,7 +56,6 @@ public final class Connection extends TreeParent {
 		
 		delete.setText("Delete");
 		delete.setToolTipText("Delete Connection");
-
 	}
 	
 	public Connection(String name, String addr, int portN) {
@@ -115,9 +114,7 @@ public final class Connection extends TreeParent {
 		manager.add(connect);
 		manager.add(delete);
 		manager.add(new Separator());
-		//drillDownAdapter.addNavigationActions(manager);
-		// Other plug-ins can contribute there actions here
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		super.fillContextMenu(manager);
 	}
 
 	public DBObject getServerStatus()

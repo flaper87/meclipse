@@ -251,7 +251,7 @@ public class MeclipseView extends ViewPart {
 	}
 	
 	public void refresh(boolean notify) {
-		viewer.refresh();
+		viewer.refresh(notify);
 		
 		if (notify)
 			this.notifyChanged();

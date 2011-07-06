@@ -71,6 +71,7 @@ public final class Database extends TreeParent {
 		
 		Iterator<String> iterador = cols.iterator();
 
+		clearChildren();
 		while (iterador.hasNext()) {
 			Collection newChild = new Collection(iterador.next());
 			newChild.setViewer(view);
@@ -95,8 +96,6 @@ public final class Database extends TreeParent {
 		manager.add(setProfileLevel1);
 		manager.add(setProfileLevel2);
 		manager.add(new Separator());
-		//drillDownAdapter.addNavigationActions(manager);
-		// Other plug-ins can contribute there actions here
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		super.fillContextMenu(manager);
 	}
 }
