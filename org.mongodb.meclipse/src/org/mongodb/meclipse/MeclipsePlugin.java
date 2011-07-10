@@ -120,4 +120,8 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 		{
 			return connections.get(name);
 		}
+
+		public String [] getMongoNames() {
+			return connections.keySet().toArray(new String[connections.size()]);
+		}
 }

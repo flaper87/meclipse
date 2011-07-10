@@ -15,6 +15,8 @@ import org.mongodb.meclipse.*;
 import org.mongodb.meclipse.views.objects.*;
 import org.mongodb.meclipse.wizards.ConnectionWizard;
 
+import com.mongodb.Mongo;
+
 /**
  * @author Flavio [FlaPer87] Percoco Premoli
  */
@@ -130,11 +132,7 @@ public class MeclipseView extends ViewPart {
 				WizardDialog dialog = new WizardDialog(shell, wizard);
 				dialog.create();
 				dialog.open();
-				Connection conn = wizard.getNewConnection();
-				conn.setViewer(mView);
-				content.getRoot().addChild(conn);
-				viewer.refresh(true);
-				conn.doubleClickAction(); // hack to get the expansion arrow to show immediately in the tree view
+				/*viewer.*/refresh(true);
 			}
 		};
 
@@ -183,10 +181,33 @@ public class MeclipseView extends ViewPart {
 	}
 	
 	public void refresh(boolean notify) {
+		refresh_();
 		viewer.refresh(notify);
 		
 		if (notify)
 			this.notifyChanged();
+	}
+	
+	private void refresh_()
+	{
+		for (String mongoName : MeclipsePlugin.getDefault().getMongoNames())
+		{
+			for (TreeObject obj : this.content.getRoot().getChildren())
+			{
+				if (obj instanceof Connection)
+				{
+					String connName = ((Connection) obj).getName();
+					if (connName.equals(mongoName))
+						return; // already have this connection in the view
+				}
+			}
+			// if we get here, we did not find a tree entry for a mongo connection we have - create it.
+			Connection conn = new Connection(mongoName);
+			conn.setViewer(this);
+			content.getRoot().addChild(conn);
+			viewer.refresh(true);
+			conn.doubleClickAction(); // hack to get the expansion arrow to show immediately in the tree view				
+		}
 	}
 	
 	public TreeViewer getViewer() {

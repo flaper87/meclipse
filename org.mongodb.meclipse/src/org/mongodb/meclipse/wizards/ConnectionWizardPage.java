@@ -229,6 +229,7 @@ public class ConnectionWizardPage extends WizardPage {
 			// TODO: Validate somewhere that we aren't reusing a mongo name
 			MeclipsePlugin.getDefault().addMongo(name, mongo);
 			conn = new Connection(name);
+			updateStatus(null);
 		}
 		catch (UnknownHostException ex)
 		{
@@ -239,6 +240,9 @@ public class ConnectionWizardPage extends WizardPage {
 		}
 	}
 
+	/**
+	 * @param message should be null if page has been validated successfully.
+	 */
 	private void updateStatus(String message) {
 		setErrorMessage(message);
 		setPageComplete(message == null);
