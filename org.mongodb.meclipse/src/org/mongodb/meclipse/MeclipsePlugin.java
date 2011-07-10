@@ -1,7 +1,9 @@
 package org.mongodb.meclipse;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
@@ -9,8 +11,11 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.mongodb.meclipse.views.objects.Connection;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+
+import com.mongodb.Mongo;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -20,6 +25,8 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.mongodb.meclipse";
+	
+	private Map<String, Mongo> connections = new HashMap<String, Mongo>();
 
 	// The shared instance
 	private static MeclipsePlugin plugin;
@@ -103,5 +110,14 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 						FileLocator.find(bundle, new Path(img_id), null));
 				registry.put(img_id, myImage);
 			}
+		}
+
+		public void addMongo(String name, Mongo conn) {
+			this.connections.put(name, conn);
+		}
+		
+		public Mongo getMongo(String name)
+		{
+			return connections.get(name);
 		}
 }

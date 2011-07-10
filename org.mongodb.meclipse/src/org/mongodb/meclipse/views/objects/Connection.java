@@ -1,12 +1,11 @@
 package org.mongodb.meclipse.views.objects;
 
-import java.net.UnknownHostException;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jface.action.*;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.views.properties.IPropertySource;
+import org.mongodb.meclipse.MeclipsePlugin;
 import org.mongodb.meclipse.views.objects.properties.ConnectionPropertySource;
 
 import com.mongodb.*;
@@ -17,14 +16,11 @@ import com.mongodb.*;
 public final class Connection extends TreeParent {
 	private String host;
 	private int port;
-	private String username;
-	private String password;
-	private Mongo connection;
 	
 	private Action connect;
 	private Action delete;
 	
-	private Connection(String name) {
+	public Connection(String name) {
 		super(name);
 	}
 	
@@ -58,21 +54,8 @@ public final class Connection extends TreeParent {
 		delete.setToolTipText("Delete Connection");
 	}
 	
-	public Connection(String name, String addr, int portN) {
-		this(name);
-		
-		try {
-			host = addr;
-			port = portN;
-			connection = new Mongo(host, port);
-			makeActions();
-		} catch (UnknownHostException exc) {
-			System.out.println("Host not found");
-		}
-	}
-	
-	public Mongo getConnection() {
-		return connection;
+	public Mongo getMongo() {
+		return MeclipsePlugin.getDefault().getMongo(this.getName());
 	}
 	
 	public String getHost() {
@@ -82,6 +65,7 @@ public final class Connection extends TreeParent {
 		return port;
 	}
 	
+	/*
 	public boolean validate() {
 		try {
 			connection.getDatabaseNames();
@@ -90,9 +74,10 @@ public final class Connection extends TreeParent {
 			return false;
 		}
 	}
+	*/
 	
 	public void loadDatabases() {
-		List<String> dbs = connection.getDatabaseNames();
+		List<String> dbs = getMongo().getDatabaseNames();
 		Iterator<String> iterador = dbs.iterator();
 		while (iterador.hasNext()) {
 			Database newChild = new Database(iterador.next());
@@ -119,8 +104,8 @@ public final class Connection extends TreeParent {
 
 	public DBObject getServerStatus()
 	{
-		String firstDbName = connection.getDatabaseNames().get(0);
-		DBObject status = connection.getDB(firstDbName).command("serverStatus");
+		String firstDbName = getMongo().getDatabaseNames().get(0);
+		DBObject status = getMongo().getDB(firstDbName).command("serverStatus");
 		return status;
 	}
 	

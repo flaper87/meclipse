@@ -53,7 +53,7 @@ public final class Database extends TreeParent {
 	@Override
 	public void setParent(TreeParent parent) {
 		super.setParent(parent);
-		db = this.getParent().getConnection().getDB(this.getName());
+		db = this.getParent().getMongo().getDB(this.getName());
 	}
 	
 	@Override
