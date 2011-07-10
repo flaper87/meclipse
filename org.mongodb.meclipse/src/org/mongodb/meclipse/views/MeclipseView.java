@@ -1,17 +1,8 @@
 package org.mongodb.meclipse.views;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.part.*;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.action.*;
@@ -19,14 +10,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
-
-
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import org.mongodb.meclipse.*;
 import org.mongodb.meclipse.views.objects.*;
@@ -80,58 +63,7 @@ public class MeclipseView extends ViewPart {
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
-		loadPreferences();
 	}
-	
-	private void loadPreferences()
-    {
-		IPath libPath = MeclipsePlugin.getDefault().getStateLocation();
-		libPath = libPath.append("servers.xml"); //$NON-NLS-1$
-		File file = libPath.toFile();
-		if (file.exists()) {
-			try {
-				InputStream stream = new FileInputStream(file);
-				DocumentBuilder parser = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-				parser.setErrorHandler(new DefaultHandler());
-				Element root = parser.parse(new InputSource(stream)).getDocumentElement();
-				if(!root.getNodeName().equals("connectionsInfo")) { //$NON-NLS-1$
-					return;
-				}
-				
-				NodeList list = root.getChildNodes();
-				int length = list.getLength();
-				for (int i = 0; i < length; ++i) {
-					Node node = list.item(i);
-					short type = node.getNodeType();
-					if (type == Node.ELEMENT_NODE) {
-						Element element = (Element) node;
-						String nodeName = element.getNodeName();
-						if (nodeName.equalsIgnoreCase("connection")) { //$NON-NLS-1$
-							String name = element.getAttribute("name"); //$NON-NLS-1$
-							String host = element.getAttribute("host"); //$NON-NLS-1$
-							String port = element.getAttribute("port"); //$NON-NLS-1$
-//							String username = element.getAttribute("username"); //$NON-NLS-1$
-//							String password = element.getAttribute("password"); //$NON-NLS-1$
-							Connection conn = new Connection(name, host, Integer.valueOf(port));
-							conn.setViewer(this);
-							
-							content.getRoot().addChild(conn);
-							viewer.refresh(true);
-						}
-					}
-				}
-				
-			} catch (IOException e) {
-//				Log.error("Error is occured.", e);
-			} catch (ParserConfigurationException e) {
-//				Log.error("Error is occured.", e);
-			} catch (SAXException e) {
-//				Log.error("Error is occured.", e);
-			}
-		}
-
-    	MeclipsePlugin.getDefault().getStateLocation();
-    }
 
 	private void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");

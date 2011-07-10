@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,9 @@ import org.eclipse.jface.viewers.*;
 import org.mongodb.meclipse.MeclipsePlugin;
 import org.mongodb.meclipse.preferences.SavedServer;
 import org.mongodb.meclipse.views.objects.Connection;
+
+import com.mongodb.Mongo;
+import com.mongodb.MongoException;
 
 
 /**
@@ -220,15 +224,19 @@ public class ConnectionWizardPage extends WizardPage {
 		}
 		
 		try {
-			// TODO: add connection management - don't want more than one connection to the same svr
-			conn = new Connection(name, host, getPort());
-			if (conn.validate()) {
-				updateStatus(null);
-				return;
-			}
-		} catch (Exception exc) {
+			Mongo mongo = new Mongo(host, getPort());
+			
+			// TODO: Validate somewhere that we aren't reusing a mongo name
+			MeclipsePlugin.getDefault().addMongo(name, mongo);
+			conn = new Connection(name);
 		}
-		updateStatus("Unsuccessful Connection!!!");
+		catch (UnknownHostException ex)
+		{
+			updateStatus("Unsuccessful Connection - UnknownHostException!!!");
+		} catch (MongoException ex)
+		{
+			updateStatus("Unsuccessful Connection - MongoException!!!");	
+		}
 	}
 
 	private void updateStatus(String message) {
