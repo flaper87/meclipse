@@ -5,10 +5,10 @@
   <parent>
     <artifactId>mavenparent</artifactId>
     <groupId>org.mongodb.meclipse</groupId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
     <relativePath>../org.mongodb.meclipse.mavenparent</relativePath>
   </parent>
   <artifactId>meclipse-repository</artifactId>
-  <version>0.0.3-SNAPSHOT</version>
+  <version>0.0.4-SNAPSHOT</version>
   <packaging>eclipse-repository</packaging>
 </project>
