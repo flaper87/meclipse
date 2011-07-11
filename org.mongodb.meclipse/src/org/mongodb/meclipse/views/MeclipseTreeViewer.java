@@ -26,8 +26,6 @@ public class MeclipseTreeViewer extends TreeViewer {
 	@Override
 	public void refresh(boolean notify) {
 		super.refresh();
-		if (notify)
-			view.notifyChanged();
 	}
 	
 

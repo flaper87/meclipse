@@ -6,6 +6,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.mongodb.meclipse.MeclipsePlugin;
+import org.mongodb.meclipse.preferences.MongoInstance;
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli
@@ -13,7 +14,14 @@ import org.mongodb.meclipse.MeclipsePlugin;
 public class ViewLabelProvider extends LabelProvider {
 
 	public String getText(Object obj) {
-		return obj.toString();
+		if (obj instanceof Connection)
+		{
+			MongoInstance mongoInstance = 
+				MeclipsePlugin.getDefault().getMongoInstance(((Connection) obj).getName());
+			return mongoInstance.getName() +
+				" (" + mongoInstance.getHost() + ":" + mongoInstance.getPort() + ")"; 
+		}
+		else return obj.toString();
 	}
 
 	public Image getImage(Object obj) {

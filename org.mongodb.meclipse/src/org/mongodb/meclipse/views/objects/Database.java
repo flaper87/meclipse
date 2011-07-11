@@ -76,7 +76,7 @@ public final class Database extends TreeParent {
 			Collection newChild = new Collection(iterador.next());
 			newChild.setViewer(view);
 			this.addChild(newChild);
-			view.refresh(false);
+			view.refreshViewerIfNecessary();
 		}
 	}
 
