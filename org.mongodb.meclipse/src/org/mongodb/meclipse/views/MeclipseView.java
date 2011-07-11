@@ -1,5 +1,8 @@
 package org.mongodb.meclipse.views;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.part.*;
@@ -15,7 +18,6 @@ import org.mongodb.meclipse.*;
 import org.mongodb.meclipse.views.objects.*;
 import org.mongodb.meclipse.wizards.ConnectionWizard;
 
-import com.mongodb.Mongo;
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli
@@ -40,8 +42,7 @@ public class MeclipseView extends ViewPart {
 	/**
 	 * The constructor.
 	 */
-	public MeclipseView() {
-	}
+	public MeclipseView() {}
 
 	/**
 	 * This is a callback that will allow us to create the viewer and initialize
@@ -65,6 +66,20 @@ public class MeclipseView extends ViewPart {
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
+		loadInitialContent();
+	}
+
+	/**
+	 * Loads the initial contents of the view.
+	 */
+	private void loadInitialContent() {
+		for (String mongoName : MeclipsePlugin.getDefault().getMongoNames())
+		{
+			Connection conn = new Connection(mongoName);
+			conn.setViewer(this);
+			content.getRoot().addChild(conn);
+		}
+		viewer.refresh();
 	}
 
 	private void hookContextMenu() {
@@ -132,7 +147,7 @@ public class MeclipseView extends ViewPart {
 				WizardDialog dialog = new WizardDialog(shell, wizard);
 				dialog.create();
 				dialog.open();
-				/*viewer.*/refresh(true);
+				refreshViewerIfNecessary();
 			}
 		};
 
@@ -180,98 +195,58 @@ public class MeclipseView extends ViewPart {
 		viewer.getControl().setFocus();
 	}
 	
-	public void refresh(boolean notify) {
-		refresh_();
-		viewer.refresh(notify);
-		
-		if (notify)
-			this.notifyChanged();
-	}
-	
-	private void refresh_()
+	public void refreshViewerIfNecessary()
 	{
-		for (String mongoName : MeclipsePlugin.getDefault().getMongoNames())
+		Set<String> mongoNames = MeclipsePlugin.getDefault().getMongoNames();
+		Set<String> viewConnNames = getConnNames();
+		
+		for (String mongoName : mongoNames)
 		{
-			for (TreeObject obj : this.content.getRoot().getChildren())
+			Boolean isDeleted = MeclipsePlugin.getDefault().getMongoInstance(mongoName).isDeleted();
+			if (!viewConnNames.contains(mongoName)
+					&& !isDeleted)
 			{
-				if (obj instanceof Connection)
-				{
-					String connName = ((Connection) obj).getName();
-					if (connName.equals(mongoName))
-						return; // already have this connection in the view
-				}
+				// if we get here, we did not find a tree entry for a mongo connection we have - create it.
+				Connection conn = new Connection(mongoName);
+				conn.setViewer(this);
+				content.getRoot().addChild(conn);
+				viewer.refresh(true);
+				conn.doubleClickAction(); // hack to get the expansion arrow to show immediately in the tree view
 			}
-			// if we get here, we did not find a tree entry for a mongo connection we have - create it.
-			Connection conn = new Connection(mongoName);
-			conn.setViewer(this);
-			content.getRoot().addChild(conn);
-			viewer.refresh(true);
-			conn.doubleClickAction(); // hack to get the expansion arrow to show immediately in the tree view				
+			else if (isDeleted)
+			{
+				// Find the child and delete it:
+				for (TreeObject obj : this.content.getRoot().getChildren())
+				{
+					if (obj instanceof Connection)
+					{
+						String connName = ((Connection) obj).getName();
+						if (connName.equals(mongoName))
+						{
+							content.getRoot().removeChild(obj);
+							viewer.refresh(false);
+						}
+					}
+				}
+				MeclipsePlugin.getDefault().removeMongo(mongoName);
+			}
 		}
 	}
 	
+	private Set<String> getConnNames()
+	{
+		Set<String> returnVal = new HashSet<String>();
+		for (TreeObject obj : this.content.getRoot().getChildren())
+		{
+			if (obj instanceof Connection)
+			{
+				returnVal.add(((Connection) obj).getName());
+			}
+		}
+		return returnVal;
+	}
+
 	public TreeViewer getViewer() {
 		return this.viewer;
 	}
-
-	// Taken from EclipseTracPlugin
-	protected void notifyChanged() {
-		/*
-		try {
-			savePreferences();
-		} catch (ParserConfigurationException e) {
-		} catch (IOException e) {
-		} catch (TransformerException e) {
-		}
-		*/
-	}
-
-	// Taken from EclipseTracPlugin
-	/*private String getServerInfoAsXML() throws ParserConfigurationException,
-			IOException, TransformerException {
-		Document doc = getDocument();
-		Element config = doc.createElement("connectionsInfo"); //$NON-NLS-1$
-		doc.appendChild(config);
-		for (TreeObject obj : content.getRoot().getChildren()) {
-			Connection server = (Connection)obj;
-			Element serverElement = doc.createElement("connection"); //$NON-NLS-1$
-			serverElement.setAttribute("name", server.getName()); //$NON-NLS-1$
-			serverElement.setAttribute("host", server.getHost()); //$NON-NLS-1$
-			serverElement.setAttribute("port", Integer.toString(server.getPort())); //$NON-NLS-1$
-//			serverElement.setAttribute("username", server.getUsername()); //$NON-NLS-1$
-//			serverElement.setAttribute("password", server.getPassword()); //$NON-NLS-1$
-			config.appendChild(serverElement);
-		}
-		return serializeDocument(doc);
-	}
-	*/
-	
-	/*
-	// Taken from EclipseTracPlugin
-	private Document getDocument() throws ParserConfigurationException {
-		DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder docBuilder = dfactory.newDocumentBuilder();
-		Document doc = docBuilder.newDocument();
-		return doc;
-	}
-	*/
-
-	/*
-	// Taken from EclipseTracPlugin
-	private String serializeDocument(Document doc) throws IOException,
-			TransformerException {
-		ByteArrayOutputStream s = new ByteArrayOutputStream();
-
-		TransformerFactory factory = TransformerFactory.newInstance();
-		Transformer transformer = factory.newTransformer();
-		transformer.setOutputProperty(OutputKeys.METHOD, "xml"); //$NON-NLS-1$
-		transformer.setOutputProperty(OutputKeys.INDENT, "yes"); //$NON-NLS-1$
-
-		DOMSource source = new DOMSource(doc);
-		StreamResult outputTarget = new StreamResult(s);
-		transformer.transform(source, outputTarget);
-
-		return s.toString("UTF8"); //$NON-NLS-1$			
-	}
-	*/
 }

@@ -1,17 +1,17 @@
 package org.mongodb.meclipse.views.objects;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli
  * @author Joey Mink (walknwind@GitHub)
  */
 public class TreeParent extends TreeObject {
-	private ArrayList children;
+	private Map<String, TreeObject> children = new HashMap<String, TreeObject>();
 	
 	public TreeParent(String name) {
 		super(name);
-		children = new ArrayList();
 	}
 	
 	public void clearChildren()
@@ -20,15 +20,15 @@ public class TreeParent extends TreeObject {
 	}
 	
 	public void addChild(TreeObject child) {
-		children.add(child);
+		children.put(child.getName(), child);
 		child.setParent(this);
 	}
 	public void removeChild(TreeObject child) {
-		children.remove(child);
+		children.remove(child.getName());
 		child.setParent(null);
 	}
 	public TreeObject [] getChildren() {
-		return (TreeObject [])children.toArray(new TreeObject[children.size()]);
+		return (TreeObject [])children.values().toArray(new TreeObject[children.size()]);
 	}
 	public boolean hasChildren() {
 		return true;
