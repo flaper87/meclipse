@@ -75,7 +75,7 @@ IResourceChangeListener {
 		
 		GridData gd = /*new GridData(GridData..FILL_HORIZONTAL);*/
 			new GridData(SWT.FILL, SWT.FILL, true, true);
-		ExpandBar bar = new ExpandBar(composite, SWT.NONE);
+		ExpandBar bar = new ExpandBar(composite, SWT.V_SCROLL);
 		bar.setLayoutData(gd);
 		
 		for (DBObject o : col.getCollection().find().limit(10)) {
@@ -83,7 +83,6 @@ IResourceChangeListener {
             System.out.println(o);
         }
 		
-		//int index = addPage(sComposite);
 		int index = addPage(composite);
 		setPageText(index, "Properties");
 	}
