@@ -2,7 +2,7 @@
 <feature
       id="org.mongodb.meclipse.bundle"
       label="Meclipse bundle"
-      version="0.0.4.qualifier"
+      version="0.0.5.qualifier"
       provider-name="Flavio Percoco Premoli, Joey Mink">
 
    <description url="http://www.example.com/description">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.mongodb.meclipse.bundle_0.0.4.qualifier.jar" id="org.mongodb.meclipse.bundle" version="0.0.4.qualifier">
+   <feature url="features/org.mongodb.meclipse.bundle_0.0.5.qualifier.jar" id="org.mongodb.meclipse.bundle" version="0.0.5.qualifier">
       <category name="org.mongodb.meclipse.category"/>
    </feature>
    <category-def name="org.mongodb.meclipse.category" label="Meclipse"/>
