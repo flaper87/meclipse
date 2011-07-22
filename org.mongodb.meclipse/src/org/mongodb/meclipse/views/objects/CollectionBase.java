@@ -2,10 +2,16 @@ package org.mongodb.meclipse.views.objects;
 
 import java.util.Set;
 
+import org.eclipse.ui.views.properties.IPropertySource;
 import org.mongodb.meclipse.MeclipsePlugin;
 import org.mongodb.meclipse.views.FilterPlacement;
+import org.mongodb.meclipse.views.objects.properties.CollectionPropertySource;
 
-public class CollectionBase extends TreeParent {
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+
+public abstract class CollectionBase extends TreeParent {
 
 	public CollectionBase(String name) {
 		super(name);
@@ -29,4 +35,18 @@ public class CollectionBase extends TreeParent {
 		
 		return (TreeObject [])filters.toArray(new TreeObject[filters.size()]);
 	}
+	
+	public abstract DBObject getQuery();
+	
+	public abstract DBCollection getCollection();
+	
+    /**
+     * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
+     */
+    public Object getAdapter(Class adapter) {
+		 if (adapter == IPropertySource.class) {
+			return new CollectionPropertySource(this);
+		 }
+       return null;
+    }
 }

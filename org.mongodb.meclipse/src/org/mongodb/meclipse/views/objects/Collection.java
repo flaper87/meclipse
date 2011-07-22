@@ -26,6 +26,7 @@ implements IAdaptable {
 		col = ((Database)this.getParent()).getDB().getCollection(this.getName());
 	}
 	
+	@Override
 	public DBCollection getCollection() {
 		return col;
 	}
@@ -42,14 +43,9 @@ implements IAdaptable {
 //					"org.mongodb.meclipse.editors.handlers.CallEditor not found");
 		}
 	}
-	
-    /**
-     * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
-     */
-    public Object getAdapter(Class adapter) {
-		 if (adapter == IPropertySource.class) {
-			return new CollectionPropertySource(this);
-		 }
-       return null;
-    }
+
+	@Override
+	public DBObject getQuery() {
+		return new BasicDBObject();
+	}
 }

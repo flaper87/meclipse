@@ -6,6 +6,7 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.mongodb.meclipse.views.objects.Collection;
+import org.mongodb.meclipse.views.objects.CollectionBase;
 
 import com.mongodb.DBObject;
 
@@ -13,11 +14,11 @@ public class CollectionPropertySource implements IPropertySource {
 	private static final String NAME = "NAME";
 	private static final Object DOCUMENT_COUNT = "DOCUMENT_COUNT";
 	private static final Object INDEXES = "INDEXES";
-	private Collection coll;
+	private CollectionBase coll;
 	
-	public CollectionPropertySource(Collection coll)
+	public CollectionPropertySource(CollectionBase collectionBase)
 	{
-		this.coll = coll;
+		this.coll = collectionBase;
 	}
 	
 	@Override
@@ -41,7 +42,7 @@ public class CollectionPropertySource implements IPropertySource {
 		if (id.equals(NAME))
 			return coll.getName();
 		else if (id.equals(DOCUMENT_COUNT))
-			return coll.getCollection().getCount();
+			return coll.getCollection().find(coll.getQuery()).count();
 		else if(id.equals(INDEXES))
 			return new IndexesPropertySource(coll.getCollection().getIndexInfo());
 		else return null;

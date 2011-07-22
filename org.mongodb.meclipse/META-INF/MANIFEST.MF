@@ -18,4 +18,5 @@ Bundle-Vendor: Flavio Percoco Premoli, Joey Mink
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: libs/mongo.jar,
- .
+ .,
+ libs/json.jar

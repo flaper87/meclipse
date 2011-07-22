@@ -54,6 +54,7 @@ public class FilterWizard extends Wizard implements INewWizard {
 			throw new IllegalStateException(obj.getClass().getSimpleName() + "? Should not arrive here without a reference to a Collection or Filter");
 		
 		TreeParent parent = (TreeParent)obj;
+		filter.setParent(parent);
 		MeclipsePlugin.getDefault().addFilter(new FilterPlacement(parent), filter);
 	}
 
