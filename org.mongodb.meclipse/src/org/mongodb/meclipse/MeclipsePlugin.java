@@ -9,17 +9,26 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.mongodb.meclipse.preferences.MongoInstance;
+import org.mongodb.meclipse.views.FilterPlacement;
+import org.mongodb.meclipse.views.MeclipseView;
+import org.mongodb.meclipse.views.objects.Filter;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
@@ -33,6 +42,18 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 	public static final String PLUGIN_ID = "org.mongodb.meclipse";
 	
 	private HashMap<String, MongoInstance> mongoInstances = new HashMap<String, MongoInstance>();
+	private HashMap<FilterPlacement, Set<Filter>> filters = new HashMap<FilterPlacement, Set<Filter>>();
+	private MeclipseView mongoDbView;
+	
+	public void setMongoDbView(MeclipseView mongoDbView)
+	{
+		this.mongoDbView = mongoDbView;
+	}
+	
+	public MeclipseView getMongoDbView()
+	{
+		return mongoDbView;
+	}
 
 	// The shared instance
 	private static MeclipsePlugin plugin;
@@ -95,6 +116,7 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 	public static final String COLLECTION_IMG_ID =	"./icons/table.png";
 	public static final String CONNECTION_IMG_ID =	"./icons/leaf.png";
 	public static final String DATABASE_IMG_ID =	"./icons/database.png";
+	public static final String FILTER_IMG_ID =		"./icons/table_go.png";
 	
 	final List<String> IMG_ID_LIST =
 		new ArrayList<String> ()
@@ -108,6 +130,7 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 				add (COLLECTION_IMG_ID);
 				add (CONNECTION_IMG_ID);
 				add (DATABASE_IMG_ID);
+				add (FILTER_IMG_ID);
 			}
 		};
 		
@@ -135,6 +158,18 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 
 		public Set<String> getMongoNames() {
 			return mongoInstances.keySet();
+		}
+		
+		public void addFilter(FilterPlacement placement, Filter filter)
+		{
+			Set<Filter> filtersThere = filters.get(placement);
+
+			if (filtersThere == null)
+				filtersThere = new HashSet<Filter>();
+			filtersThere.add(filter);
+			
+			filters.put(placement, filtersThere);
+			getMongoDbView().refreshMe();
 		}
 		
 		private MongoInstance[] loadSavedServers() {
@@ -227,5 +262,41 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 	public void markMongoDeleted(String name)
 	{
 		mongoInstances.get(name).setIsDeleted(true);		
+	}
+	
+	/**
+	 * Stolen from http://torkildr.blogspot.com/2010/07/invoking-eclipse-wizard.html
+	 * @param id
+	 */
+	public void openWizard(String id) {
+		 // First see if this is a "new wizard".
+		 IWizardDescriptor descriptor = PlatformUI.getWorkbench()
+		   .getNewWizardRegistry().findWizard(id);
+		 // If not check if it is an "import wizard".
+		 if  (descriptor == null) {
+		   descriptor = PlatformUI.getWorkbench().getImportWizardRegistry()
+		   .findWizard(id);
+		 }
+		 // Or maybe an export wizard
+		 if  (descriptor == null) {
+		   descriptor = PlatformUI.getWorkbench().getExportWizardRegistry()
+		   .findWizard(id);
+		 }
+		 try  {
+		   // Then if we have a wizard, open it.
+		   if  (descriptor != null) {
+		     IWizard wizard = descriptor.createWizard();
+		     WizardDialog wd = new  WizardDialog(PlatformUI.getWorkbench().getDisplay()
+		       .getActiveShell(), wizard);
+		     wd.setTitle(wizard.getWindowTitle());
+		     wd.open();
+		   }
+		 } catch  (CoreException e) {
+		   e.printStackTrace();
+		 }
+		}
+
+	public Set<Filter> getFilters(FilterPlacement filterPlacement) {
+		return filters.get(filterPlacement);
 	}
 }

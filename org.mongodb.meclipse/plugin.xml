@@ -34,5 +34,51 @@
             defaultHandler="org.mongodb.meclipse.editors.handlers.MeclipseEditorCall"
             name="Meclipse Editor">
       </command>
+   <command
+         defaultHandler="org.mongodb.meclipse.commands.AddFilterHandler"
+         description="Launches the New Filter wizard"
+         id="org.mongodb.meclipse.commands.addFilterCommand"
+         name="Add Filter">
+   </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commandImages">
+      <image
+            commandId="org.mongodb.meclipse.commands.addFilterCommand"
+            icon="icons/table_go.png">
+      </image>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.mongodb.meclipse.views.MeclipseView">
+         <command
+               commandId="org.mongodb.meclipse.commands.addFilterCommand"
+               label="&amp;Add Filter"
+               style="push">
+            <visibleWhen>
+               <and>
+                  <count
+                        value="1">
+                  </count>
+                  <iterate
+                        ifEmpty="false">
+                     <instanceof
+                           value="org.mongodb.meclipse.views.objects.CollectionBase">
+                     </instanceof>
+                  </iterate></and>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            class="org.mongodb.meclipse.wizards.FilterWizard"
+            icon="icons/table_go.png"
+            id="org.mongodb.meclipse.wizards.newFilterWizard"
+            name="New Filter">
+      </wizard>
    </extension>
 </plugin>

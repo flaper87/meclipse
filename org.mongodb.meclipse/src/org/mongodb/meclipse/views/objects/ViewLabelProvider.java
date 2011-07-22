@@ -26,20 +26,22 @@ public class ViewLabelProvider extends LabelProvider {
 
 	public Image getImage(Object obj) {
 		String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
+		ImageRegistry imgReg = MeclipsePlugin.getDefault().getImageRegistry();
 		if (obj instanceof Connection)
 		{
-			ImageRegistry imgReg = MeclipsePlugin.getDefault().getImageRegistry();
 			return imgReg.get(MeclipsePlugin.CONNECTION_IMG_ID);			
 		}
 		if (obj instanceof Database)
 		{
-			ImageRegistry imgReg = MeclipsePlugin.getDefault().getImageRegistry();
 			return imgReg.get(MeclipsePlugin.DATABASE_IMG_ID);
 		}
 		if (obj instanceof Collection)
 		{
-			ImageRegistry imgReg = MeclipsePlugin.getDefault().getImageRegistry();
 			return imgReg.get(MeclipsePlugin.COLLECTION_IMG_ID);
+		}
+		if (obj instanceof Filter)
+		{
+			return imgReg.get(MeclipsePlugin.FILTER_IMG_ID);
 		}
 		if (obj instanceof TreeParent)
 			imageKey = ISharedImages.IMG_OBJ_FOLDER;
