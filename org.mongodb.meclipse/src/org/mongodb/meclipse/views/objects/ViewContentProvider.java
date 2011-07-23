@@ -4,8 +4,6 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import org.eclipse.ui.part.*;
-
 /**
  * @author Flavio [FlaPer87] Percoco Premoli
  */

@@ -66,6 +66,8 @@ public class MeclipseView extends ViewPart {
 		hookDoubleClickAction();
 		contributeToActionBars();
 		loadInitialContent();
+		
+		MeclipsePlugin.getDefault().setMongoDbView(this);
 	}
 
 	/**
@@ -184,6 +186,15 @@ public class MeclipseView extends ViewPart {
 		viewer.getControl().setFocus();
 	}
 	
+	public void refreshMe()
+	{
+		viewer.refresh(false);
+	}
+	
+	/**
+	 * Refreshes only if new connections were created or if connections were deleted. Note
+	 * that creation/deletion of filters will not cause this method to trigger a refresh.
+	 */
 	public void refreshViewerIfNecessary()
 	{
 		Set<String> mongoNames = MeclipsePlugin.getDefault().getMongoNames();
