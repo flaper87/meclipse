@@ -7,7 +7,6 @@ import org.mongodb.meclipse.MeclipsePlugin;
 import org.mongodb.meclipse.views.FilterPlacement;
 import org.mongodb.meclipse.views.objects.properties.CollectionPropertySource;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 

@@ -27,14 +27,13 @@ public class FilterWizard extends Wizard implements INewWizard {
 	}
 
 	public void addPages() {
-		page = new FilterWizardPage();
+		if (selection == null)
+			selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
+		page = new FilterWizardPage(selection);
 		addPage(page);
 	}
 
 	public boolean performFinish() {
-		if (selection == null)
-			// last-ditch effort to capture the current selection:
-			selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection(); 
 		// Add our new filter to the appropriate collection in the MongoDB View:
 		addFilter(selection, page.getFilter());
 		return true;
@@ -58,6 +57,9 @@ public class FilterWizard extends Wizard implements INewWizard {
 		MeclipsePlugin.getDefault().addFilter(new FilterPlacement(parent), filter);
 	}
 
+	/**
+	 * NOTE: I don't believe this is ever actually called...
+	 */
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
 	}
