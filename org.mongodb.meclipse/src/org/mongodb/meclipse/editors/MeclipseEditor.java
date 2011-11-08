@@ -113,7 +113,8 @@ IResourceChangeListener {
 			Label keyLabel = new Label(composite, SWT.NONE);
 			keyLabel.setText(key.toString());
 			Label valueLabel = new Label(composite, SWT.WRAP);
-			valueLabel.setText(o.get(key).toString());
+			Object value = o.get(key);
+			valueLabel.setText(String.valueOf(value));
 		}
 		
 		expandItem.setText(o.get("_id").toString());
