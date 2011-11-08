@@ -50,7 +50,7 @@ public class FilterWizardPage extends WizardPage {
 		container.setLayout(layout);
 		layout.numColumns = 2;
 		layout.verticalSpacing = 9;
-		GridData gd = new GridData(GridData.FILL);
+		GridData gd = new GridData(SWT.FILL);
 		gd.widthHint = 250;
 
 		Label label;
@@ -82,7 +82,7 @@ public class FilterWizardPage extends WizardPage {
 
 		label = new Label(container, SWT.NULL);
 		label.setText("Query (JSON)");
-		queryText = new Text(container, SWT.BORDER | SWT.MULTI | SWT.WRAP);
+		queryText = new Text(container, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.FILL);
 		queryText.setLayoutData(gd);
 		queryText.addModifyListener(new ModifyListener(){
 			@Override
