@@ -38,7 +38,7 @@ public class FilterWizard extends Wizard implements INewWizard {
 		addFilter(selection, page.getFilter());
 		return true;
 	}
-	
+
 	public void addFilter(ISelection selection, Filter filter)
 	{
 		if (selection == null)
@@ -46,12 +46,12 @@ public class FilterWizard extends Wizard implements INewWizard {
 
 		if (!(selection instanceof ITreeSelection))
 			throw new IllegalStateException(selection.getClass().getSimpleName() + "? Did not expect to be called with anything but an ITreeSelection object.");
-		
+
 		ITreeSelection treeSelection = (ITreeSelection)selection;
 		Object obj = treeSelection.getFirstElement();
 		if (!(obj instanceof Collection) && !(obj instanceof Filter))
 			throw new IllegalStateException(obj.getClass().getSimpleName() + "? Should not arrive here without a reference to a Collection or Filter");
-		
+
 		TreeParent parent = (TreeParent)obj;
 		filter.setParent(parent);
 		MeclipsePlugin.getDefault().addFilter(new FilterPlacement(parent), filter);

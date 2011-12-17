@@ -9,16 +9,16 @@ import java.util.Map;
  */
 public class TreeParent extends TreeObject {
 	private Map<String, TreeObject> children = new HashMap<String, TreeObject>();
-	
+
 	public TreeParent(String name) {
 		super(name);
 	}
-	
+
 	public void clearChildren()
 	{
 		children.clear();
 	}
-	
+
 	public void addChild(TreeObject child) {
 		children.put(child.getName(), child);
 		child.setParent(this);

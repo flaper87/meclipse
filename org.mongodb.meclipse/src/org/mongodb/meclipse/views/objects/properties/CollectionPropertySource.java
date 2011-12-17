@@ -15,12 +15,12 @@ public class CollectionPropertySource implements IPropertySource {
 	private static final Object DOCUMENT_COUNT = "DOCUMENT_COUNT";
 	private static final Object INDEXES = "INDEXES";
 	private CollectionBase coll;
-	
+
 	public CollectionPropertySource(CollectionBase collectionBase)
 	{
 		this.coll = collectionBase;
 	}
-	
+
 	@Override
 	public Object getEditableValue() {
 		// TODO Auto-generated method stub
@@ -54,7 +54,7 @@ public class CollectionPropertySource implements IPropertySource {
 		private List<DBObject> indexInfo;
 
 		public IndexesPropertySource(List<DBObject> indexInfo) { this.indexInfo = indexInfo; }
-		
+
 		@Override
 		public Object getEditableValue() { return null; }
 
@@ -76,11 +76,11 @@ public class CollectionPropertySource implements IPropertySource {
 		public Object getPropertyValue(Object id) {
 			if (id == null)
 				return null;
-			
+
 			for (DBObject obj : indexInfo)
 				if (obj == id)
 					return obj.get("key");
-			
+
 			// didn't find the given index DBObject
 			return null;
 		}

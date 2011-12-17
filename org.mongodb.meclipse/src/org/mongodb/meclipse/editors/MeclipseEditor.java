@@ -32,7 +32,7 @@ IResourceChangeListener {
 	public static final String ID = "org.mongodb.meclipse.editors.meclipseEditor";
 
 	private Collection col;
-	
+
 	public MeclipseEditor() {
 	}
 
@@ -68,21 +68,21 @@ IResourceChangeListener {
 	@Override
 	protected void createPages() {
 		Composite composite = new Composite(getContainer(), SWT.FILL);
-		
+
 		GridLayout layout = new GridLayout();
 		composite.setLayout(layout);
 		layout.numColumns = 1;
-		
+
 		GridData gd = /*new GridData(GridData..FILL_HORIZONTAL);*/
 			new GridData(SWT.FILL, SWT.FILL, true, true);
 		ExpandBar bar = new ExpandBar(composite, SWT.V_SCROLL);
 		bar.setLayoutData(gd);
-		
+
 		for (DBObject o : col.getCollection().find().limit(10)) {
 			createExpander(bar, o.toMap());
             System.out.println(o);
         }
-		
+
 		int index = addPage(composite);
 		setPageText(index, "Properties");
 	}
@@ -90,13 +90,13 @@ IResourceChangeListener {
 	@Override
 	public void setFocus() {
 	}
-	
+
 	@Override
 	public void resourceChanged(IResourceChangeEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public void createExpander(final ExpandBar bar, Map o) {
 		// First item
 		final Composite composite = new Composite (bar, SWT.FILL);
@@ -104,9 +104,9 @@ IResourceChangeListener {
 		layout.numColumns = 2;
 		layout.marginLeft = layout.marginTop = layout.marginRight = layout.marginBottom = 10;
 		composite.setLayout(layout);
-		
+
 		final ExpandItem expandItem = new ExpandItem (bar, SWT.NONE, 0);
-		
+
 		for (Object key : o.keySet()) {
 			if (key == "_id" || key == "_ns")
 				continue;
@@ -116,7 +116,7 @@ IResourceChangeListener {
 			Object value = o.get(key);
 			valueLabel.setText(String.valueOf(value));
 		}
-		
+
 		expandItem.setText(o.get("_id").toString());
 		expandItem.setHeight(500);
 		expandItem.setControl(composite);

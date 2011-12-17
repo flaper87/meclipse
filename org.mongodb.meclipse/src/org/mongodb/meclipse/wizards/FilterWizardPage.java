@@ -33,12 +33,12 @@ public class FilterWizardPage extends WizardPage {
 		super("Filter details");
 		setTitle("New Filter Wizard");
 		setDescription("Enter filter details here");
-		
+
 		ITreeSelection treeSelection = (ITreeSelection)selection;
 		Object obj = treeSelection.getFirstElement();
 		if (!(obj instanceof Collection) && !(obj instanceof Filter))
 			throw new IllegalStateException(obj.getClass().getSimpleName() + "? Should not arrive here without a reference to a Collection or Filter");
-		
+
 		TreeParent parent = (TreeParent)obj;
 		existingFilters = MeclipsePlugin.getDefault().getFilters(new FilterPlacement(parent));
 	}
@@ -54,7 +54,7 @@ public class FilterWizardPage extends WizardPage {
 		gd.widthHint = 250;
 
 		Label label;
-		
+
 		label = new Label(container, SWT.NULL);
 		label.setText("&Name:");
 		nameText = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -103,7 +103,7 @@ public class FilterWizardPage extends WizardPage {
 				}
 			}
 			});
-		
+
 		setControl(container);
 	}
 

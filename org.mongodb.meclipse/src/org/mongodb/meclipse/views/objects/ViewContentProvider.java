@@ -17,7 +17,7 @@ public class ViewContentProvider implements IStructuredContentProvider,
 	public void dispose() {
 	}
 
-	
+
 	public Object[] getElements(Object parent) {
 //		if (parent.equals(viewSite)) {
 //			if (invisibleRoot == null)
@@ -74,7 +74,7 @@ public class ViewContentProvider implements IStructuredContentProvider,
 		invisibleRoot = new TreeParent("");
 //		invisibleRoot.addChild(root);
 	}
-	
+
 	public TreeParent getRoot() {
 		return invisibleRoot;
 	}

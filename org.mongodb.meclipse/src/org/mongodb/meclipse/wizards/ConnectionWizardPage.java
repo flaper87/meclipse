@@ -57,32 +57,32 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 		gd.widthHint = 250;
 
 		Label label;
-		
+
 		label = new Label(container, SWT.NULL);
 		label.setText("&Name:");
 		connName = new Text(container, SWT.BORDER | SWT.SINGLE);
 		connName.setLayoutData(gd);
 		connName.addListener(SWT.CHANGED, this);
-		
+
 		label = new Label(container, SWT.NULL);
 		label.setText("&Host:");
 		host = new Text(container, SWT.BORDER | SWT.SINGLE);
 		host.setLayoutData(gd);
 		host.addListener(SWT.CHANGED, this);
-		
+
 		label = new Label(container, SWT.NULL);
 		label.setText("&Port:");
 		port = new Text(container, SWT.BORDER | SWT.SINGLE);
 		port.setLayoutData(gd);
 		port.addListener(SWT.CHANGED, this);
-		
+
 		/*
 		label = new Label(container, SWT.NULL);
 		label.setText("&Username:");
 		username= new Text(container, SWT.BORDER | SWT.SINGLE);
 		username.setLayoutData(gd);
 		*/
-		
+
 		/*
 		label = new Label(container, SWT.NULL);
 		label.setText("Passwo&rd:");
@@ -91,7 +91,7 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 		*/
 		label = new Label(container, SWT.NULL);
 		label.setText("Auth not supported yet...");
-		
+
 		initialize();
 		setControl(container);
 		setPageComplete(false);
@@ -101,7 +101,7 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 	 * Tests if the current workbench selection is a suitable
 	 * container to use.
 	 */
-	
+
 	private void initialize() {
 		if (selection!=null && selection.isEmpty()==false && selection instanceof IStructuredSelection) {
 			IStructuredSelection ssel = (IStructuredSelection)selection;
@@ -124,38 +124,38 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 		setErrorMessage(message);
 		setPageComplete(message == null);
 	}
-	
+
 	public String getConnName() {
 		return connName.getText();
 	}
-	
+
 	public Connection getConnection() {
 		return conn;
 	}
-	
+
 	public String getHost() {
 		return host.getText();
 	}
-	
+
 	public int getPort() {
 		try {
 			String portT = port.getText();
 			if ( portT == null)
 				return -2;
 		    return Integer.parseInt(portT);
-		  } catch(NumberFormatException e) { 
+		  } catch(NumberFormatException e) {
 			  return -1;
 		  }
 	}
-	
+
 	public String getUsername() {
 		return username.getText();
 	}
-	
+
 	public String getPassword() {
 		return password.getText();
 	}
-	
+
 	public Boolean isSaveConnection() {
 		return saveCheckBox.getSelection();
 	}

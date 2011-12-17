@@ -3,7 +3,7 @@ package org.mongodb.meclipse.preferences;
 import com.mongodb.Mongo;
 
 /**
- * 
+ *
  * @author Joey Mink, ExoAnalyticSolutions
  *
  */
@@ -18,7 +18,7 @@ public class MongoInstance {
 	{
 		this.name = name;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -51,5 +51,5 @@ public class MongoInstance {
 	public void setIsDeleted(boolean b) {
 		isDeleted = b;
 	}
-	
+
 }

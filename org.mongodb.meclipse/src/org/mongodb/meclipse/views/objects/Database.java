@@ -21,12 +21,12 @@ public final class Database extends TreeParent {
 	private IAction setProfileLevel0;
 	private IAction setProfileLevel1;
 	private IAction setProfileLevel2;
-	
+
 	public Database(String name) {
 		super(name);
 		makeActions();
 	}
-	
+
 	private void makeActions() {
 		setProfileLevel0 = new Action() {
 			public void run() {
@@ -34,14 +34,14 @@ public final class Database extends TreeParent {
 			}
 		};
 		setProfileLevel0.setText("Set Profile Level : 0");
-		
+
 		setProfileLevel1 = new Action() {
 			public void run() {
 				db.command( new BasicDBObject( "profile" , 1 ));
 			}
 		};
 		setProfileLevel1.setText("Set Profile Level : 1");
-		
+
 		setProfileLevel2 = new Action() {
 			public void run() {
 				db.command( new BasicDBObject( "profile" , 2 ));
@@ -49,26 +49,26 @@ public final class Database extends TreeParent {
 		};
 		setProfileLevel2.setText("Set Profile Level : 2");
 	}
-	
+
 	@Override
 	public void setParent(TreeParent parent) {
 		super.setParent(parent);
 		db = this.getParent().getMongo().getDB(this.getName());
 	}
-	
+
 	@Override
 	public Connection getParent() {
 		return (Connection)super.getParent();
 	}
-	
+
 	public DB getDB() {
 		return db;
 	}
-	
+
 	@Override
 	public void doubleClickAction() {
 		Set<String> cols = db.getCollectionNames();
-		
+
 		Iterator<String> iterador = cols.iterator();
 
 		clearChildren();
@@ -89,7 +89,7 @@ public final class Database extends TreeParent {
 		 }
        return null;
     }
-    
+
 	@Override
 	public void fillContextMenu(IMenuManager manager) {
 		manager.add(setProfileLevel0);

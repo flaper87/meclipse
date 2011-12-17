@@ -7,7 +7,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.PlatformUI;
 
 public enum Images {
-    
+
     Error("error.gif"), Modified("modified.png"),
 
     ServerConnected("server.png"), ServerDisconnected("server_disconnected.png"),
@@ -20,26 +20,26 @@ public enum Images {
     Step("step.gif"),
 
     Trac16("trac_16.png"),
-    
+
     Trac48("trac_48.png");
-    
+
     // //////////////////////////////////////////////////
-    
+
     private final String path;
-    
+
     private Images( String filename )
     {
         this.path = "icons/" + filename;
     }
-    
+
     public String getPath()
     {
         return path;
     }
-    
+
     /**
-     * 
-     * 
+     *
+     *
      * @param img
      *            The image enumeration reference
      * @return The image instance
@@ -56,7 +56,7 @@ public enum Images {
         }
         return image;
     }
-    
+
     public static ImageDescriptor getDescriptor( Images img )
     {
         ImageRegistry registry = MeclipsePlugin.getDefault().getImageRegistry();
@@ -68,12 +68,12 @@ public enum Images {
         }
         return descriptor;
     }
-    
-    
-    
+
+
+
     public static ImageDescriptor getShared( String img )
     {
         return PlatformUI.getWorkbench().getSharedImages().getImageDescriptor( img );
     }
-    
+
 }

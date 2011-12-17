@@ -23,7 +23,7 @@ public class TreeObject implements IAdaptable {
 		this.name = name;
 		makeActions();
 	}
-	
+
 	private void makeActions() {
 		showPropertiesView = new Action() {
 			public void run() {
@@ -57,17 +57,17 @@ public class TreeObject implements IAdaptable {
 	public Object getAdapter(Class key) {
 		return null;
 	}
-	
+
 	public void doubleClickAction() {
 	}
-	
+
 	public void fillContextMenu(IMenuManager manager) {
 		manager.add(showPropertiesView);
 		manager.add(new Separator());
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
-	
+
 	public void setViewer(MeclipseView view) {
 		this.view = view;
 	}
