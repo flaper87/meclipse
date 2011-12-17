@@ -28,7 +28,7 @@ public class MeclipseEditorCall extends AbstractHandler implements IHandler {
 		MeclipseView view = (MeclipseView) page.findView(MeclipseView.ID);
 		// Get the selection
 		IStructuredSelection selection = (IStructuredSelection) view.getViewer().getSelection();
-		
+
 		if (selection != null && selection instanceof IStructuredSelection) {
 			Collection obj = (Collection)selection.getFirstElement();
 			// If we had a selection lets open the editor

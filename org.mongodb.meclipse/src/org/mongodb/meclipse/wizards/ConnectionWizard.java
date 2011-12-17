@@ -26,7 +26,7 @@ public class ConnectionWizard extends Wizard implements INewWizard {
 		super();
 		setNeedsProgressMonitor(true);
 	}
-	
+
 	/**
 	 * Adding the page to the wizard.
 	 */
@@ -50,7 +50,7 @@ public class ConnectionWizard extends Wizard implements INewWizard {
 
 		return true;
 	}
-	
+
 	public Connection getNewConnection() {
 		return page.getConnection();
 	}

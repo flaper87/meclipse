@@ -14,18 +14,18 @@ public final class Collection extends CollectionBase
 implements IAdaptable {
 
 	private DBCollection col;
-	
+
 	public Collection(String name) {
 		super(name);
 		// TODO Auto-generated method stub
 	}
-	
+
 	@Override
 	public void setParent(TreeParent parent) {
 		super.setParent(parent);
 		col = ((Database)this.getParent()).getDB().getCollection(this.getName());
 	}
-	
+
 	@Override
 	public DBCollection getCollection() {
 		return col;

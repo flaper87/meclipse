@@ -16,7 +16,7 @@ public final class FilterPlacement {
 			treeObj = treeObj.getParent();
 		} while (treeObj != null);
 	}
-	
+
 	public boolean equals(Object obj)
 	{
 		if (obj == null)
@@ -24,10 +24,10 @@ public final class FilterPlacement {
 
 		if (!(obj instanceof FilterPlacement))
 			return false;
-		
+
 		return placementStr.equals(((FilterPlacement)obj).placementStr);
 	}
-	
+
 	public int hashCode()
 	{
 		int hash = placementStr.hashCode();

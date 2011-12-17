@@ -57,7 +57,7 @@ public class MeclipseView extends ViewPart {
 
 		// Hook viewer up to the Eclipse selection provider:
 		getSite().setSelectionProvider(viewer);
-		
+
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(),
 				"org.mongodb.meclipse.views");
@@ -66,7 +66,7 @@ public class MeclipseView extends ViewPart {
 		hookDoubleClickAction();
 		contributeToActionBars();
 		loadInitialContent();
-		
+
 		MeclipsePlugin.getDefault().setMongoDbView(this);
 	}
 
@@ -88,19 +88,19 @@ public class MeclipseView extends ViewPart {
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 			public void menuAboutToShow(IMenuManager manager) {
-				
+
 				IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-        
+
 		        if ( selection.isEmpty() )
 		        {
 		        	MeclipseView.this.fillContextMenu(manager);
 		        	return;
 		        }
 		        TreeObject obj = (TreeObject)selection.getFirstElement();
-		        
+
 		        manager.add( new Separator() );
 		        obj.fillContextMenu(manager);
-		        
+
 			}
 		});
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
@@ -185,12 +185,12 @@ public class MeclipseView extends ViewPart {
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
-	
+
 	public void refreshMe()
 	{
 		viewer.refresh(false);
 	}
-	
+
 	/**
 	 * Refreshes only if new connections were created or if connections were deleted. Note
 	 * that creation/deletion of filters will not cause this method to trigger a refresh.
@@ -199,7 +199,7 @@ public class MeclipseView extends ViewPart {
 	{
 		Set<String> mongoNames = MeclipsePlugin.getDefault().getMongoNames();
 		Set<String> viewConnNames = getConnNames();
-		
+
 		for (String mongoName : mongoNames)
 		{
 			Boolean isDeleted = MeclipsePlugin.getDefault().getMongoInstance(mongoName).isDeleted();
@@ -232,7 +232,7 @@ public class MeclipseView extends ViewPart {
 			}
 		}
 	}
-	
+
 	private Set<String> getConnNames()
 	{
 		Set<String> returnVal = new HashSet<String>();

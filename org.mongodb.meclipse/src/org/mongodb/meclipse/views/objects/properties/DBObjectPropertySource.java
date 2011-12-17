@@ -14,7 +14,7 @@ public class DBObjectPropertySource implements IPropertySource {
 	{
 		this.dbObj = dbObj;
 	}
-	
+
 	@Override
 	public Object getEditableValue() {
 		// TODO Auto-generated method stub
@@ -40,7 +40,7 @@ public class DBObjectPropertySource implements IPropertySource {
 		Object value = dbObj.get((String)id);
 		if (value instanceof DBObject)
 			return new DBObjectPropertySource((DBObject)value);
-		
+
 		return value;
 	}
 
@@ -53,14 +53,14 @@ public class DBObjectPropertySource implements IPropertySource {
 	@Override
 	public void resetPropertyValue(Object id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setPropertyValue(Object id, Object value) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	
+
 }

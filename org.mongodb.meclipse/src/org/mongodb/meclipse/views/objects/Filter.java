@@ -24,7 +24,7 @@ public class Filter extends CollectionBase {
 		TreeParent treeObj = getParent();
 		while (!(treeObj instanceof Collection))
 			treeObj = treeObj.getParent();
-			
+
 		Collection coll = (Collection)treeObj;
 		return coll.getCollection();
 	}
@@ -40,10 +40,10 @@ public class Filter extends CollectionBase {
 				dbObj.put(jsonKey, mergeJson((JSONObject)jsonValue, new BasicDBObject()));
 			dbObj.put(jsonKey, jsonValue);
 		}
-		
+
 		return dbObj;
 	}
-	
+
 	@Override
 	public DBObject getQuery() {
 		DBObject dbObj = ((CollectionBase)getParent()).getQuery();

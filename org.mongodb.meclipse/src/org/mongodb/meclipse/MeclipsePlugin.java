@@ -40,16 +40,16 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.mongodb.meclipse";
-	
+
 	private HashMap<String, MongoInstance> mongoInstances = new HashMap<String, MongoInstance>();
 	private HashMap<FilterPlacement, Set<Filter>> filters = new HashMap<FilterPlacement, Set<Filter>>();
 	private MeclipseView mongoDbView;
-	
+
 	public void setMongoDbView(MeclipseView mongoDbView)
 	{
 		this.mongoDbView = mongoDbView;
 	}
-	
+
 	public MeclipseView getMongoDbView()
 	{
 		return mongoDbView;
@@ -57,7 +57,7 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 
 	// The shared instance
 	private static MeclipsePlugin plugin;
-	
+
 	/**
 	 * The constructor
 	 */
@@ -96,13 +96,13 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 	public static MeclipsePlugin getDefault() {
 		return plugin;
 	}
-	
+
 	/**
 	 * Taken from EclipseTracPlugin
-	 * 
+	 *
      * Returns an image descriptor for the image file at the given plug-in
      * relative path
-     * 
+     *
      * @param path
      *            the path
      * @return the image descriptor
@@ -111,13 +111,13 @@ public class MeclipsePlugin extends AbstractUIPlugin {
     {
         return imageDescriptorFromPlugin( PLUGIN_ID, path );
     }
-    
+
 	// IMAGE HANDLING
 	public static final String COLLECTION_IMG_ID =	"./icons/table.png";
 	public static final String CONNECTION_IMG_ID =	"./icons/leaf.png";
 	public static final String DATABASE_IMG_ID =	"./icons/database.png";
 	public static final String FILTER_IMG_ID =		"./icons/table_go.png";
-	
+
 	final List<String> IMG_ID_LIST =
 		new ArrayList<String> ()
 		{
@@ -133,7 +133,7 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 				add (FILTER_IMG_ID);
 			}
 		};
-		
+
 		@Override
 		protected void initializeImageRegistry(ImageRegistry registry)
 		{
@@ -150,7 +150,7 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 		public void addMongo(String name, MongoInstance conn) {
 			this.mongoInstances.put(name, conn);
 		}
-		
+
 		public MongoInstance getMongoInstance(String name)
 		{
 			return mongoInstances.get(name);
@@ -159,7 +159,7 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 		public Set<String> getMongoNames() {
 			return mongoInstances.keySet();
 		}
-		
+
 		public void addFilter(FilterPlacement placement, Filter filter)
 		{
 			Set<Filter> filtersThere = filters.get(placement);
@@ -167,11 +167,11 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 			if (filtersThere == null)
 				filtersThere = new HashSet<Filter>();
 			filtersThere.add(filter);
-			
+
 			filters.put(placement, filtersThere);
 			getMongoDbView().refreshMe();
 		}
-		
+
 		private MongoInstance[] loadSavedServers() {
 			FileInputStream inputStream = null;
 			try {
@@ -180,11 +180,11 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 				File file = libPath.toFile();
 				if (!file.exists())
 					return new MongoInstance[0];
-				
+
 				inputStream = new FileInputStream(file);
 				DataInputStream dataInputStream = new DataInputStream(inputStream);
 				BufferedReader bReader = new BufferedReader(new InputStreamReader(dataInputStream));
-				
+
 				java.util.List<MongoInstance> savedServersList = new ArrayList<MongoInstance>();
 				String line;
 				while ((line = bReader.readLine()) != null)
@@ -211,7 +211,7 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 			}
 			return new MongoInstance[0];
 		}
-		
+
 	private void saveServers()
 	{
 		// save server preferences here
@@ -227,7 +227,7 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 			{
 				writer.write(server.getName() + "," + server.getHost() + "," + server.getPort() + "\n");
 			}
-		
+
 		}
 		/*
 		catch (MalformedURLException e) {
@@ -258,12 +258,12 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 	public void removeMongo(String name) {
 		mongoInstances.remove(name);
 	}
-	
+
 	public void markMongoDeleted(String name)
 	{
-		mongoInstances.get(name).setIsDeleted(true);		
+		mongoInstances.get(name).setIsDeleted(true);
 	}
-	
+
 	/**
 	 * Stolen from http://torkildr.blogspot.com/2010/07/invoking-eclipse-wizard.html
 	 * @param id

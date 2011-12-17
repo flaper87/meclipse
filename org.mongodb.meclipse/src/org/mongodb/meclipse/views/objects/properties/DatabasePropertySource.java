@@ -17,7 +17,7 @@ public class DatabasePropertySource implements IPropertySource {
 	{
 		this.database = database;
 	}
-	
+
 	@Override
 	public Object getEditableValue() {
 		// TODO Auto-generated method stub
