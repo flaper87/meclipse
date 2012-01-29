@@ -17,7 +17,6 @@ implements IAdaptable {
 	
 	public Collection(String name) {
 		super(name);
-		// TODO Auto-generated method stub
 	}
 	
 	@Override
