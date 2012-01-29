@@ -28,26 +28,9 @@ public final class Database extends TreeParent {
 	}
 	
 	private void makeActions() {
-		setProfileLevel0 = new Action() {
-			public void run() {
-				db.command( new BasicDBObject( "profile" , 0 ));
-			}
-		};
-		setProfileLevel0.setText("Set Profile Level : 0");
-		
-		setProfileLevel1 = new Action() {
-			public void run() {
-				db.command( new BasicDBObject( "profile" , 1 ));
-			}
-		};
-		setProfileLevel1.setText("Set Profile Level : 1");
-		
-		setProfileLevel2 = new Action() {
-			public void run() {
-				db.command( new BasicDBObject( "profile" , 2 ));
-			}
-		};
-		setProfileLevel2.setText("Set Profile Level : 2");
+		setProfileLevel0 = new SetProfileLevelAction(0);
+		setProfileLevel1 = new SetProfileLevelAction(1);
+		setProfileLevel2 = new SetProfileLevelAction(2);
 	}
 	
 	@Override
@@ -94,10 +77,25 @@ public final class Database extends TreeParent {
     
 	@Override
 	public void fillContextMenu(IMenuManager manager) {
+		manager.add(new Separator());
 		manager.add(setProfileLevel0);
 		manager.add(setProfileLevel1);
 		manager.add(setProfileLevel2);
 		manager.add(new Separator());
 		super.fillContextMenu(manager);
+	}
+	
+	private class SetProfileLevelAction extends Action {
+		
+		private int level;
+		
+		public SetProfileLevelAction(int level){
+			super("Set Profile Level : " + level);
+			this.level = level;
+		}
+		
+		public void run() {
+			db.command( new BasicDBObject( "profile" , level ));
+		}
 	}
 }
