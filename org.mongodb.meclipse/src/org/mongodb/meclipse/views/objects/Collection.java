@@ -5,6 +5,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.handlers.IHandlerService;
 
 import com.mongodb.BasicDBObject;
@@ -28,8 +29,11 @@ implements IAdaptable {
 		delete = new Action("Delete Collection"){
 			@Override
 			public void run() {
-				col.drop();
-				view.getViewer().refresh(getParent());
+				if(MessageDialog.openConfirm(view.getSite().getShell(), "Confirm", 
+						String.format("Are you sure you want to delete collection '%s'", col.getName()))){
+					col.drop();
+					view.getViewer().refresh(getParent());
+				}
 			}
 		};
 	}
