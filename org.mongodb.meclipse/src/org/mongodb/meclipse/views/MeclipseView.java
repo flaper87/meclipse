@@ -1,8 +1,5 @@
 package org.mongodb.meclipse.views;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -25,7 +22,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.mongodb.meclipse.Images;
 import org.mongodb.meclipse.MeclipsePlugin;
-import org.mongodb.meclipse.views.objects.Connection;
+import org.mongodb.meclipse.views.objects.Root;
 import org.mongodb.meclipse.views.objects.TreeObject;
 import org.mongodb.meclipse.views.objects.ViewContentProvider;
 import org.mongodb.meclipse.views.objects.ViewLabelProvider;
@@ -66,7 +63,7 @@ public class MeclipseView extends ViewPart {
 		viewer.setContentProvider(content);
 		viewer.setLabelProvider(new ViewLabelProvider());
 		viewer.setSorter(new NameSorter());
-		viewer.setInput(getViewSite());
+		viewer.setInput(new Root(this));
 
 		// Hook viewer up to the Eclipse selection provider:
 		getSite().setSelectionProvider(viewer);
@@ -78,22 +75,8 @@ public class MeclipseView extends ViewPart {
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
-		loadInitialContent();
 		
 		MeclipsePlugin.getDefault().setMongoDbView(this);
-	}
-
-	/**
-	 * Loads the initial contents of the view.
-	 */
-	private void loadInitialContent() {
-		for (String mongoName : MeclipsePlugin.getDefault().getMongoNames())
-		{
-			Connection conn = new Connection(mongoName);
-			conn.setViewer(this);
-			content.getRoot().addChild(conn);
-		}
-		viewer.refresh();
 	}
 
 	private void hookContextMenu() {
@@ -160,7 +143,7 @@ public class MeclipseView extends ViewPart {
 				WizardDialog dialog = new WizardDialog(shell, wizard);
 				dialog.create();
 				dialog.open();
-				refreshViewerIfNecessary();
+//				refreshViewerIfNecessary();
 			}
 		};
 
@@ -182,7 +165,6 @@ public class MeclipseView extends ViewPart {
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
 				doubleClickAction.run();
-				viewer.refresh();
 			}
 		});
 	}
@@ -202,61 +184,6 @@ public class MeclipseView extends ViewPart {
 	public void refreshMe()
 	{
 		viewer.refresh(false);
-	}
-	
-	/**
-	 * Refreshes only if new connections were created or if connections were deleted. Note
-	 * that creation/deletion of filters will not cause this method to trigger a refresh.
-	 */
-	public void refreshViewerIfNecessary()
-	{
-		Set<String> mongoNames = MeclipsePlugin.getDefault().getMongoNames();
-		Set<String> viewConnNames = getConnNames();
-		
-		for (String mongoName : mongoNames)
-		{
-			Boolean isDeleted = MeclipsePlugin.getDefault().getMongoInstance(mongoName).isDeleted();
-			if (!viewConnNames.contains(mongoName)
-					&& !isDeleted)
-			{
-				// if we get here, we did not find a tree entry for a mongo connection we have - create it.
-				Connection conn = new Connection(mongoName);
-				conn.setViewer(this);
-				content.getRoot().addChild(conn);
-				viewer.refresh(true);
-				conn.doubleClickAction(); // hack to get the expansion arrow to show immediately in the tree view
-			}
-			else if (isDeleted)
-			{
-				// Find the child and delete it:
-				for (TreeObject obj : this.content.getRoot().getChildren())
-				{
-					if (obj instanceof Connection)
-					{
-						String connName = ((Connection) obj).getName();
-						if (connName.equals(mongoName))
-						{
-							content.getRoot().removeChild(obj);
-							viewer.refresh(false);
-						}
-					}
-				}
-				MeclipsePlugin.getDefault().removeMongo(mongoName);
-			}
-		}
-	}
-	
-	private Set<String> getConnNames()
-	{
-		Set<String> returnVal = new HashSet<String>();
-		for (TreeObject obj : this.content.getRoot().getChildren())
-		{
-			if (obj instanceof Connection)
-			{
-				returnVal.add(((Connection) obj).getName());
-			}
-		}
-		return returnVal;
 	}
 
 	public TreeViewer getViewer() {

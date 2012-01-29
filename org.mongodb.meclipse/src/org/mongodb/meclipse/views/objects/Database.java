@@ -1,7 +1,7 @@
 package org.mongodb.meclipse.views.objects;
 
-import java.util.Iterator;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -54,20 +54,20 @@ public final class Database extends TreeParent {
 		return db;
 	}
 	
-	@Override
-	public void doubleClickAction() {
-		Set<String> cols = db.getCollectionNames();
-		
-		Iterator<String> iterador = cols.iterator();
-
-		clearChildren();
-		while (iterador.hasNext()) {
-			Collection newChild = new Collection(iterador.next());
-			newChild.setViewer(view);
-			this.addChild(newChild);
-			view.refreshViewerIfNecessary();
-		}
-	}
+//	@Override
+//	public void doubleClickAction() {
+//		Set<String> cols = db.getCollectionNames();
+//		
+//		Iterator<String> iterador = cols.iterator();
+//
+//		clearChildren();
+//		while (iterador.hasNext()) {
+//			Collection newChild = new Collection(iterador.next());
+//			newChild.setViewer(view);
+//			this.addChild(newChild);
+//			view.refreshViewerIfNecessary();
+//		}
+//	}
 
     /**
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
@@ -121,9 +121,22 @@ public final class Database extends TreeParent {
 				} catch(MongoException ex){
 					UIUtils.openErrorDialog(ex.toString());
 				}
+				view.getViewer().refresh(Database.this);
 			}
 		}
 		
+	}
+
+	@Override
+	public TreeObject[] getChildren() {
+		List<Collection> children = new ArrayList<Collection>();
+		for(String name: db.getCollectionNames()){
+			Collection collection = new Collection(name);
+			collection.setParent(this);
+			collection.setViewer(view);
+			children.add(collection);
+		}
+		return children.toArray(new TreeObject[children.size()]);
 	}
 	
 }

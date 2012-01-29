@@ -14,9 +14,11 @@ import org.mongodb.meclipse.views.MeclipseView;
  * @author Flavio [FlaPer87] Percoco Premoli
  */
 public class TreeObject implements IAdaptable {
+	
 	private String name;
 	public MeclipseView view;
 	private TreeParent parent;
+	private IAction reflesh;
 	private IAction showPropertiesView;
 
 	public TreeObject(String name) {
@@ -25,7 +27,15 @@ public class TreeObject implements IAdaptable {
 	}
 	
 	private void makeActions() {
-		showPropertiesView = new Action() {
+		reflesh = new Action("Refresh"){
+			@Override
+			public void run() {
+				view.getViewer().refresh(TreeObject.this, false);
+			}
+		};
+		
+		showPropertiesView = new Action("Properties") {
+			@Override
 			public void run() {
 				try {
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.ui.views.PropertySheet");
@@ -35,7 +45,6 @@ public class TreeObject implements IAdaptable {
 				}
 			}
 		};
-		showPropertiesView.setText("Properties");
 	}
 
 	public String getName() {
@@ -65,6 +74,7 @@ public class TreeObject implements IAdaptable {
 	}
 	
 	public void fillContextMenu(IMenuManager manager) {
+		manager.add(reflesh);
 		manager.add(showPropertiesView);
 		manager.add(new Separator());
 		// Other plug-ins can contribute there actions here
