@@ -5,12 +5,16 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.handlers.IHandlerService;
+import org.mongodb.meclipse.util.RequiredInputValidator;
+import org.mongodb.meclipse.util.UIUtils;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import com.mongodb.MongoException;
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli
@@ -18,6 +22,7 @@ import com.mongodb.DBObject;
 public final class Collection extends CollectionBase
 implements IAdaptable {
 	private DBCollection col;
+	private IAction rename;
 	private IAction delete;
 	
 	public Collection(String name) {
@@ -26,11 +31,28 @@ implements IAdaptable {
 	}
 	
 	private void makeActions() {
+		rename = new Action("Rename Collection"){
+			@Override
+			public void run() {
+				InputDialog dialog = new InputDialog(view.getSite().getShell(), 
+						"Rename Collection", "Collection Name:", col.getName(), 
+						new RequiredInputValidator("Please input the collection name."));
+				if(dialog.open() == InputDialog.OK){
+					try {
+						col.rename(dialog.getValue());
+					} catch(MongoException ex){
+						UIUtils.openErrorDialog(view.getSite().getShell(), ex.toString());
+					}
+					view.getViewer().refresh(getParent());
+				}
+			}
+		};
+		
 		delete = new Action("Delete Collection"){
 			@Override
 			public void run() {
 				if(MessageDialog.openConfirm(view.getSite().getShell(), "Confirm", 
-						String.format("Are you sure you want to delete collection '%s'", col.getName()))){
+						String.format("Are you sure you want to delete collection '%s'?", col.getName()))){
 					col.drop();
 					view.getViewer().refresh(getParent());
 				}
@@ -40,6 +62,7 @@ implements IAdaptable {
 	
 	@Override
 	public void fillContextMenu(IMenuManager manager) {
+		manager.add(rename);
 		manager.add(delete);
 		manager.add(new Separator());
 		super.fillContextMenu(manager);
