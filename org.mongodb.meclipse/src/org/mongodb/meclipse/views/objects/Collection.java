@@ -1,11 +1,11 @@
 package org.mongodb.meclipse.views.objects;
 
-import com.mongodb.*;
-
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.ui.handlers.IHandlerService;
-import org.eclipse.ui.views.properties.IPropertySource;
-import org.mongodb.meclipse.views.objects.properties.CollectionPropertySource;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli

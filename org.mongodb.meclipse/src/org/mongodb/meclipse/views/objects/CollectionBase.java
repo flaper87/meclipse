@@ -42,6 +42,8 @@ public abstract class CollectionBase extends TreeParent {
     /**
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
      */
+	@Override
+	@SuppressWarnings("rawtypes")
     public Object getAdapter(Class adapter) {
 		 if (adapter == IPropertySource.class) {
 			return new CollectionPropertySource(this);

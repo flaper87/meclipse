@@ -79,7 +79,9 @@ IResourceChangeListener {
 		bar.setLayoutData(gd);
 		
 		for (DBObject o : col.getCollection().find().limit(10)) {
-			createExpander(bar, o.toMap());
+			@SuppressWarnings("unchecked")
+			Map<String, Object> map = (Map<String, Object>) o.toMap();
+			createExpander(bar, map);
             System.out.println(o);
         }
 		
@@ -97,7 +99,7 @@ IResourceChangeListener {
 		
 	}
 	
-	public void createExpander(final ExpandBar bar, Map o) {
+	public void createExpander(final ExpandBar bar, Map<String, Object> o) {
 		// First item
 		final Composite composite = new Composite (bar, SWT.FILL);
 		GridLayout layout = new GridLayout ();

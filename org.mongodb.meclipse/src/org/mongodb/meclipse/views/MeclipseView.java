@@ -3,19 +3,32 @@ package org.mongodb.meclipse.views;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.part.*;
-import org.eclipse.jface.viewers.*;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.jface.action.*;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.*;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
-
-import org.mongodb.meclipse.*;
-import org.mongodb.meclipse.views.objects.*;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ViewPart;
+import org.mongodb.meclipse.Images;
+import org.mongodb.meclipse.MeclipsePlugin;
+import org.mongodb.meclipse.views.objects.Connection;
+import org.mongodb.meclipse.views.objects.TreeObject;
+import org.mongodb.meclipse.views.objects.ViewContentProvider;
+import org.mongodb.meclipse.views.objects.ViewLabelProvider;
 import org.mongodb.meclipse.wizards.ConnectionWizard;
 
 
@@ -30,7 +43,7 @@ public class MeclipseView extends ViewPart {
 	public static final String ID = "org.mongodb.meclipse.views.MeclipseView";
 
 	private TreeViewer viewer;
-	private DrillDownAdapter drillDownAdapter;
+//	private DrillDownAdapter drillDownAdapter;
 	private Action connection;
 	private Action doubleClickAction;
 	private ViewContentProvider content = new ViewContentProvider();
@@ -49,7 +62,7 @@ public class MeclipseView extends ViewPart {
 	 */
 	public void createPartControl(Composite parent) {
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		drillDownAdapter = new DrillDownAdapter(viewer);
+//		drillDownAdapter = new DrillDownAdapter(viewer);
 		viewer.setContentProvider(content);
 		viewer.setLabelProvider(new ViewLabelProvider());
 		viewer.setSorter(new NameSorter());
@@ -135,7 +148,7 @@ public class MeclipseView extends ViewPart {
 	}
 
 	private void makeActions() {
-		final MeclipseView mView = this;
+//		final MeclipseView mView = this;
 		connection = new Action() {
 
 			public void run() {
@@ -174,10 +187,10 @@ public class MeclipseView extends ViewPart {
 		});
 	}
 
-	private void showMessage(String message) {
-		MessageDialog.openInformation(viewer.getControl().getShell(),
-				"Meclipse View", message);
-	}
+//	private void showMessage(String message) {
+//		MessageDialog.openInformation(viewer.getControl().getShell(),
+//				"Meclipse View", message);
+//	}
 
 	/**
 	 * Passing the focus request to the viewer's control.

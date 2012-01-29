@@ -50,10 +50,13 @@ public class TreeObject implements IAdaptable {
 		return parent;
 	}
 
+	@Override
 	public String toString() {
 		return getName();
 	}
 
+	@Override
+	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Class key) {
 		return null;
 	}

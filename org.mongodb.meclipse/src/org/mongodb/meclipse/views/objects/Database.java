@@ -7,11 +7,11 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.mongodb.meclipse.views.objects.properties.DatabasePropertySource;
 
-import com.mongodb.*;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli
@@ -83,6 +83,8 @@ public final class Database extends TreeParent {
     /**
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
      */
+	@Override
+	@SuppressWarnings("rawtypes")
     public Object getAdapter(Class adapter) {
 		 if (adapter == IPropertySource.class) {
 			return new DatabasePropertySource(this);

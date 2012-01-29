@@ -3,12 +3,18 @@ package org.mongodb.meclipse.wizards;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.jface.dialogs.IDialogPage;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.swt.widgets.*;
-import org.eclipse.swt.layout.*;
 import org.eclipse.swt.SWT;
-import org.eclipse.core.resources.*;
-import org.eclipse.jface.viewers.*;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Text;
 import org.mongodb.meclipse.preferences.MongoInstance;
 import org.mongodb.meclipse.views.objects.Connection;
 
@@ -23,7 +29,7 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 	private Text username;
 	private Text password;
 	private Connection conn;
-	private ISelection selection;
+//	private ISelection selection;
 	private Button saveCheckBox;
 	//private Combo savedServersSelect;
 	/** the servers that were saved at the time this wizard page was loaded **/
@@ -41,7 +47,7 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 		super("wizardPage");
 		setTitle("New Connection Wizard");
 		//setDescription("");
-		this.selection = selection;
+//		this.selection = selection;
 	}
 
 	/**
@@ -103,27 +109,27 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 	 */
 	
 	private void initialize() {
-		if (selection!=null && selection.isEmpty()==false && selection instanceof IStructuredSelection) {
-			IStructuredSelection ssel = (IStructuredSelection)selection;
-			if (ssel.size()>1) return;
-			Object obj = ssel.getFirstElement();
-			if (obj instanceof IResource) {
-				IContainer container;
-				if (obj instanceof IContainer)
-					container = (IContainer)obj;
-				else
-					container = ((IResource)obj).getParent();
-			}
-		}
+//		if (selection!=null && selection.isEmpty()==false && selection instanceof IStructuredSelection) {
+//			IStructuredSelection ssel = (IStructuredSelection)selection;
+//			if (ssel.size()>1) return;
+//			Object obj = ssel.getFirstElement();
+//			if (obj instanceof IResource) {
+//				IContainer container;
+//				if (obj instanceof IContainer)
+//					container = (IContainer)obj;
+//				else
+//					container = ((IResource)obj).getParent();
+//			}
+//		}
 	}
 
-	/**
-	 * @param message should be null if page has been validated successfully.
-	 */
-	private void updateStatus(String message) {
-		setErrorMessage(message);
-		setPageComplete(message == null);
-	}
+//	/**
+//	 * @param message should be null if page has been validated successfully.
+//	 */
+//	private void updateStatus(String message) {
+//		setErrorMessage(message);
+//		setPageComplete(message == null);
+//	}
 	
 	public String getConnName() {
 		return connName.getText();
