@@ -1,6 +1,7 @@
 package org.mongodb.meclipse.util;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * 
@@ -8,8 +9,8 @@ import org.eclipse.jface.dialogs.MessageDialog;
  */
 public class UIUtils {
 
-	public static void openErrorDialog(String message){
-		MessageDialog.openError(null, "Error", message);		
+	public static void openErrorDialog(Shell shell, String message){
+		MessageDialog.openError(shell, "Error", message);		
 	}
 	
 //	public static MeclipseView getMeclipseView(){

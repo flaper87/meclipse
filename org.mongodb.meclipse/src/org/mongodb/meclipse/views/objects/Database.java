@@ -113,13 +113,14 @@ public final class Database extends TreeParent {
 		}
 		
 		public void run(){
-			InputDialog dialog = new InputDialog(null, "Create Collection", "Collection Name:", "", 
+			InputDialog dialog = new InputDialog(view.getSite().getShell(), 
+					"Create Collection", "Collection Name:", "", 
 					new RequiredInputValidator("Please input the collection name."));
 			if(dialog.open() == InputDialog.OK){
 				try {
 					db.createCollection(dialog.getValue(), new BasicDBObject());
 				} catch(MongoException ex){
-					UIUtils.openErrorDialog(ex.toString());
+					UIUtils.openErrorDialog(view.getSite().getShell(), ex.toString());
 				}
 				view.getViewer().refresh(Database.this);
 			}
