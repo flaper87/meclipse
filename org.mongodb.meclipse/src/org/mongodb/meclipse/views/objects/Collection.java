@@ -1,5 +1,7 @@
 package org.mongodb.meclipse.views.objects;
 
+import java.io.File;
+
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -7,7 +9,12 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.handlers.IHandlerService;
+import org.json.JSONObject;
+import org.mongodb.meclipse.util.IOUtils;
+import org.mongodb.meclipse.util.JSONUtils;
 import org.mongodb.meclipse.util.RequiredInputValidator;
 import org.mongodb.meclipse.util.UIUtils;
 
@@ -24,6 +31,7 @@ implements IAdaptable {
 	private DBCollection col;
 	private IAction rename;
 	private IAction delete;
+	private IAction insert;
 	
 	public Collection(String name) {
 		super(name);
@@ -31,6 +39,24 @@ implements IAdaptable {
 	}
 	
 	private void makeActions() {
+		insert = new Action("Insert Document"){
+			@Override
+			public void run(){
+				FileDialog dialog = new FileDialog(view.getSite().getShell(), SWT.OPEN);
+				dialog.setFilterExtensions(new String[]{"*.json"});
+				String result = dialog.open();
+				if(result != null){
+					try {
+						String jsonText = IOUtils.readFile(new File(result));
+						JSONObject jsonObj = new JSONObject(jsonText);
+						col.insert(JSONUtils.toDBObject(jsonObj));
+					} catch(Exception ex){
+						UIUtils.openErrorDialog(view.getSite().getShell(), ex.toString());
+					}
+				}
+			}
+		};
+		
 		rename = new Action("Rename Collection"){
 			@Override
 			public void run() {
@@ -62,6 +88,7 @@ implements IAdaptable {
 	
 	@Override
 	public void fillContextMenu(IMenuManager manager) {
+		manager.add(insert);
 		manager.add(rename);
 		manager.add(delete);
 		manager.add(new Separator());
