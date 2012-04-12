@@ -3,21 +3,20 @@ package org.mongodb.meclipse.editors;
 
 import java.util.Map;
 
-import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.PartInitException;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.layout.GridData;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.MultiPageEditorPart;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.runtime.IProgressMonitor;
-
 import org.mongodb.meclipse.views.objects.Collection;
 
 import com.mongodb.DBObject;
@@ -119,7 +118,8 @@ IResourceChangeListener {
 			valueLabel.setText(String.valueOf(value));
 		}
 		
-		expandItem.setText(o.get("_id").toString());
+		Object value = o.get( "_id" );
+		expandItem.setText(String.valueOf( value ));
 		expandItem.setHeight(500);
 		expandItem.setControl(composite);
 	}
