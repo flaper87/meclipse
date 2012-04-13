@@ -131,7 +131,7 @@ public class MeclipseView extends ViewPart {
 	}
 
 	private void makeActions() {
-//		final MeclipseView mView = this;
+		final MeclipseView mView = this;
 		connection = new Action() {
 
 			public void run() {
@@ -143,7 +143,7 @@ public class MeclipseView extends ViewPart {
 				WizardDialog dialog = new WizardDialog(shell, wizard);
 				dialog.create();
 				dialog.open();
-//				refreshViewerIfNecessary();
+				mView.refreshMe();
 			}
 		};
 
