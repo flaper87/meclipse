@@ -115,6 +115,7 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 	// IMAGE HANDLING
 	public static final String COLLECTION_IMG_ID =	"./icons/table.png";
 	public static final String CONNECTION_IMG_ID =	"./icons/leaf.png";
+	public static final String CONNECTION_ERROR_IMG_ID = "./icons/leaf_error.png";
 	public static final String DATABASE_IMG_ID =	"./icons/database.png";
 	public static final String FILTER_IMG_ID =		"./icons/table_go.png";
 	
@@ -129,6 +130,7 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 			{
 				add (COLLECTION_IMG_ID);
 				add (CONNECTION_IMG_ID);
+				add (CONNECTION_ERROR_IMG_ID);
 				add (DATABASE_IMG_ID);
 				add (FILTER_IMG_ID);
 			}

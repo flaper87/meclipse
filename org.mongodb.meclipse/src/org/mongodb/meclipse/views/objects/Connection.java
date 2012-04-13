@@ -22,6 +22,7 @@ import com.mongodb.MongoException;
  */
 public final class Connection extends TreeParent {
 	private Action delete;
+	private boolean isDown = false;
 	
 	public Connection(String name) {
 		super(name);
@@ -65,7 +66,10 @@ public final class Connection extends TreeParent {
 				mongoInstance.setMongo(mongo); // add the active Mongo instance to the plug-in's state
 				return mongo;
 			} catch (UnknownHostException e) {
-				this.showMessage(e.getMessage());
+			    if (!isDown) {
+			        this.showMessage("Could not establish Connection " + this.getName() + "\nUnknown Host: " + mongoInstance.getHost());
+			        isDown = true;
+			    }
 			} catch (MongoException e) {
 				this.showMessage(e.getMessage());				
 			}
@@ -77,11 +81,14 @@ public final class Connection extends TreeParent {
 	@Override
 	public TreeObject[] getChildren(){
 		List<Database> children = new ArrayList<Database>();
-		for(String name: getMongo().getDatabaseNames()){
-			Database database = new Database(name);
-			database.setParent(this);
-			database.setViewer(view);
-			children.add(database);
+		Mongo mongo = getMongo();
+		if (mongo != null) {
+    		for(String name: mongo.getDatabaseNames()){
+    			Database database = new Database(name);
+    			database.setParent(this);
+    			database.setViewer(view);
+    			children.add(database);
+    		}
 		}
 		return children.toArray(new TreeObject[children.size()]);
 	}

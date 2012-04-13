@@ -81,7 +81,6 @@ IResourceChangeListener {
 			@SuppressWarnings("unchecked")
 			Map<String, Object> map = (Map<String, Object>) o.toMap();
 			createExpander(bar, map);
-            System.out.println(o);
         }
 		
 		int index = addPage(composite);

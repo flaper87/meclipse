@@ -29,7 +29,11 @@ public class ViewLabelProvider extends LabelProvider {
 		ImageRegistry imgReg = MeclipsePlugin.getDefault().getImageRegistry();
 		if (obj instanceof Connection)
 		{
-			return imgReg.get(MeclipsePlugin.CONNECTION_IMG_ID);			
+		    if (((Connection) obj).getMongo() != null) {
+		        return imgReg.get(MeclipsePlugin.CONNECTION_IMG_ID);
+		    } else {
+		        return imgReg.get(MeclipsePlugin.CONNECTION_ERROR_IMG_ID);
+		    }
 		}
 		if (obj instanceof Database)
 		{
