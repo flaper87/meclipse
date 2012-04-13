@@ -225,7 +225,9 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 			writer = new FileWriter(file, false); // overwrite all servers
 			for (MongoInstance server : mongoInstances.values())
 			{
-				writer.write(server.getName() + "," + server.getHost() + "," + server.getPort() + "\n");
+			    if (!server.isDeleted()) {
+			        writer.write(server.getName() + "," + server.getHost() + "," + server.getPort() + "\n");
+			    }
 			}
 		
 		}

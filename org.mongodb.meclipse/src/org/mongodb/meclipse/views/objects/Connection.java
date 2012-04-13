@@ -34,7 +34,8 @@ public final class Connection extends TreeParent {
 			public void run() {
 				if (view != null) {
 					MeclipsePlugin.getDefault().markMongoDeleted(conn.getName());
-//					view.refreshViewerIfNecessary();
+					MeclipsePlugin.getDefault().removeMongo( conn.getName() );
+					view.refreshMe();
 				}
 			}
 		};
