@@ -1,17 +1,21 @@
 package org.mongodb.meclipse.views.objects;
 
 import java.net.UnknownHostException;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.action.*;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.mongodb.meclipse.MeclipsePlugin;
 import org.mongodb.meclipse.preferences.MongoInstance;
 import org.mongodb.meclipse.views.objects.properties.ConnectionPropertySource;
 
-import com.mongodb.*;
+import com.mongodb.DBObject;
+import com.mongodb.Mongo;
+import com.mongodb.MongoException;
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli
@@ -30,7 +34,7 @@ public final class Connection extends TreeParent {
 			public void run() {
 				if (view != null) {
 					MeclipsePlugin.getDefault().markMongoDeleted(conn.getName());
-					view.refreshViewerIfNecessary();
+//					view.refreshViewerIfNecessary();
 				}
 			}
 		};
@@ -39,10 +43,10 @@ public final class Connection extends TreeParent {
 		delete.setToolTipText("Delete Connection");
 	}
 	
-	public TreeObject [] getChildren() {
-		loadDatabases();
-		return super.getChildren();
-	}
+//	public TreeObject [] getChildren() {
+//		loadDatabases();
+//		return super.getChildren();
+//	}
 	
 	/**
 	 * In the style of lazy-loading, this is where we actually initiate the connection
@@ -69,15 +73,16 @@ public final class Connection extends TreeParent {
 		else return mongoInstance.getMongo();
 	}
 	
-	public void loadDatabases() {
-		List<String> dbs = getMongo().getDatabaseNames();
-		Iterator<String> iterador = dbs.iterator();
-		while (iterador.hasNext()) {
-			Database newChild = new Database(iterador.next());
-			newChild.setViewer(view);
-			addChild(newChild);
-			newChild.doubleClickAction(); // show us the expansion arrow immediately if the db has collections
+	@Override
+	public TreeObject[] getChildren(){
+		List<Database> children = new ArrayList<Database>();
+		for(String name: getMongo().getDatabaseNames()){
+			Database database = new Database(name);
+			database.setParent(this);
+			database.setViewer(view);
+			children.add(database);
 		}
+		return children.toArray(new TreeObject[children.size()]);
 	}
 	
 	/*
@@ -106,6 +111,8 @@ public final class Connection extends TreeParent {
     /**
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
      */
+	@Override
+	@SuppressWarnings("rawtypes")
     public Object getAdapter(Class adapter) {
 		 if (adapter == IPropertySource.class) {
 			return new ConnectionPropertySource(this);

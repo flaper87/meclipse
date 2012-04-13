@@ -4,7 +4,6 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.mongodb.meclipse.views.objects.Database;
-import org.mongodb.meclipse.views.objects.properties.CollectionPropertySource.IndexesPropertySource;
 
 import com.mongodb.DBObject;
 

@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class MeclipseTreeViewer extends TreeViewer {
 
-	private MeclipseView view;
+//	private MeclipseView view;
 	
 	public MeclipseTreeViewer(Composite parent) {
 		super(parent);
@@ -20,13 +20,12 @@ public class MeclipseTreeViewer extends TreeViewer {
 	
 	public MeclipseTreeViewer(Composite parent, MeclipseView view, int flags) {
 		this(parent, flags);
-		this.view = view;
+//		this.view = view;
 	}
 	
 	@Override
 	public void refresh(boolean notify) {
 		super.refresh();
 	}
-	
 
 }

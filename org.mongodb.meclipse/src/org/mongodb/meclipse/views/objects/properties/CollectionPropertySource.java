@@ -5,7 +5,6 @@ import java.util.List;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
-import org.mongodb.meclipse.views.objects.Collection;
 import org.mongodb.meclipse.views.objects.CollectionBase;
 
 import com.mongodb.DBObject;
@@ -50,7 +49,7 @@ public class CollectionPropertySource implements IPropertySource {
 
 	class IndexesPropertySource implements IPropertySource
 	{
-		private static final String INDEX = "INDEX";
+//		private static final String INDEX = "INDEX";
 		private List<DBObject> indexInfo;
 
 		public IndexesPropertySource(List<DBObject> indexInfo) { this.indexInfo = indexInfo; }

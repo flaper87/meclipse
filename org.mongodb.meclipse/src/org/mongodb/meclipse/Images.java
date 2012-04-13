@@ -13,7 +13,7 @@ public enum Images {
     ServerConnected("server.png"), ServerDisconnected("server_disconnected.png"),
     NewServer("newServer.png"),
 
-    PageCommit("page-commit.gif"), Macro("macro.gif"), Word("word.png"),
+    PageCommit("new_connection.png"), Macro("macro.gif"), Word("word.png"),
     Template("template.gif"),
     CreatePage("create_page.png"),
 
