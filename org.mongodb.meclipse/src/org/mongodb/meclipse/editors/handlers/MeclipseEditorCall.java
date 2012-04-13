@@ -4,16 +4,15 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.handlers.HandlerUtil;
-
-import org.mongodb.meclipse.editors.*;
-import org.mongodb.meclipse.views.*;
-import org.mongodb.meclipse.views.objects.*;
+import org.mongodb.meclipse.editors.CollectionEditorInput;
+import org.mongodb.meclipse.editors.MeclipseEditor;
+import org.mongodb.meclipse.views.MeclipseView;
+import org.mongodb.meclipse.views.objects.Collection;
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli

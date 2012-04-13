@@ -31,10 +31,11 @@ public class Filter extends CollectionBase {
 
 	private DBObject mergeJson(JSONObject json, DBObject dbObj) throws JSONException
 	{
-		Iterator jsonKeyIter = json.keys();
+		@SuppressWarnings("unchecked")
+		Iterator<String> jsonKeyIter = json.keys();
 		while (jsonKeyIter.hasNext())
 		{
-			String jsonKey = (String)jsonKeyIter.next();
+			String jsonKey = jsonKeyIter.next();
 			Object jsonValue = json.get(jsonKey);
 			if (jsonValue instanceof JSONObject)
 				dbObj.put(jsonKey, mergeJson((JSONObject)jsonValue, new BasicDBObject()));
