@@ -32,7 +32,14 @@ implements IAdaptable {
 	private IAction rename;
 	private IAction delete;
 	private IAction insert;
+	private CollectionType type=null;
 	
+	
+    public enum CollectionType {
+        SYSINDEX,
+        COLLECTION
+    }
+    
 	public Collection(String name) {
 		super(name);
 		makeActions();
@@ -106,6 +113,17 @@ implements IAdaptable {
 	@Override
 	public DBCollection getCollection() {
 		return col;
+	}
+	
+	public CollectionType getType() {
+	    if (type == null) {
+	        if (col.getName().equalsIgnoreCase( "system.indexes" ) ) {
+	            type = CollectionType.SYSINDEX;
+	        } else  {
+	            type = CollectionType.COLLECTION;
+	        }
+	    }
+	    return type;
 	}
 
 	@Override

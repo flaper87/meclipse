@@ -18,6 +18,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.mongodb.meclipse.views.objects.Collection;
+import org.mongodb.meclipse.views.objects.Collection.CollectionType;
 
 import com.mongodb.DBObject;
 
@@ -26,7 +27,6 @@ import com.mongodb.DBObject;
  */
 public class MeclipseEditor extends MultiPageEditorPart implements
 IResourceChangeListener {
-
 
 	public static final String ID = "org.mongodb.meclipse.editors.meclipseEditor";
 
@@ -80,7 +80,7 @@ IResourceChangeListener {
 		for (DBObject o : col.getCollection().find().limit(10)) {
 			@SuppressWarnings("unchecked")
 			Map<String, Object> map = (Map<String, Object>) o.toMap();
-			createExpander(bar, map);
+			createExpander(bar, map, col.getType());
         }
 		
 		int index = addPage(composite);
@@ -97,7 +97,7 @@ IResourceChangeListener {
 		
 	}
 	
-	public void createExpander(final ExpandBar bar, Map<String, Object> o) {
+	public void createExpander(final ExpandBar bar, Map<String, Object> o, CollectionType collType) {
 		// First item
 		final Composite composite = new Composite (bar, SWT.FILL);
 		GridLayout layout = new GridLayout ();
@@ -116,8 +116,15 @@ IResourceChangeListener {
 			Object value = o.get(key);
 			valueLabel.setText(String.valueOf(value));
 		}
-		
-		Object value = o.get( "_id" );
+		Object value;
+		switch(collType) {
+		    case SYSINDEX:
+		        value = o.get( "ns" ).toString() + "." + o.get( "name" ).toString();
+		        break;
+		    default:
+		        value = o.get( "_id" );
+		        break;
+		}
 		expandItem.setText(String.valueOf( value ));
 		expandItem.setHeight(500);
 		expandItem.setControl(composite);
