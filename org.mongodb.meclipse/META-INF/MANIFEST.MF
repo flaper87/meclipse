@@ -19,4 +19,5 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: libs/mongo.jar,
  .,
- libs/json.jar
+ libs/json.jar,
+ libs/miglayout-4.0-swt.jar

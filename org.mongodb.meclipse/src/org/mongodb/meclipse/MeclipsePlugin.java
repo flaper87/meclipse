@@ -118,6 +118,9 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 	public static final String CONNECTION_ERROR_IMG_ID = "./icons/leaf_error.png";
 	public static final String DATABASE_IMG_ID =	"./icons/database.png";
 	public static final String FILTER_IMG_ID =		"./icons/table_go.png";
+	public static final String GET_ALL_IMG_ID = "./icons/getall.gif";
+    public static final String GET_NEXT_IMG_ID = "./icons/next.gif";
+    public static final String FIND_IMG_ID = "./icons/find.gif";
 	
 	final List<String> IMG_ID_LIST =
 		new ArrayList<String> ()
@@ -133,6 +136,9 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 				add (CONNECTION_ERROR_IMG_ID);
 				add (DATABASE_IMG_ID);
 				add (FILTER_IMG_ID);
+				add (GET_NEXT_IMG_ID);
+				add (GET_ALL_IMG_ID);
+				add (FIND_IMG_ID);
 			}
 		};
 		

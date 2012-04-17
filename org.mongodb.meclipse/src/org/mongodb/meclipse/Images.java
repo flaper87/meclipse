@@ -10,13 +10,15 @@ public enum Images {
     
     Error("error.gif"), Modified("modified.png"),
 
-    ServerConnected("server.png"), ServerDisconnected("server_disconnected.png"),
+//    ServerConnected("server.png"), ServerDisconnected("server_disconnected.png"),
     NewServer("newServer.png"),
 
     PageCommit("new_connection.png"), Macro("macro.gif"), Word("word.png"),
     Template("template.gif"),
     CreatePage("create_page.png"),
-
+    GetNext("next.gif"),
+    GetAll("getAll.gif"),
+    Find("find.gif"),
     Step("step.gif"),
 
     Trac16("trac_16.png"),
