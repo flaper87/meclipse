@@ -45,6 +45,8 @@ public class MeclipseEditor
     private Button search;
 
     private Button more;
+    
+    private Button all;
 
     private Text query;
 
@@ -54,9 +56,43 @@ public class MeclipseEditor
 
     private Collection col;
     private ExpandBar bar;
-private static final int maxElements = 20;
+    private static final int maxElements = 20;
     private Iterator<DBObject> cursor;
+    
+    private Listener runQuery = new Listener()
+    {
+        @Override
+        public void handleEvent( Event arg0 )
+        {
+            int skip = 0;
+            int limit = 0;
+            try {
+            skip = Integer.valueOf(skipV.getText() );
+            } catch (NumberFormatException e) {
+                //TODO just ignore it?
+            }
+            try{
+                limit = Integer.valueOf(limitV.getText());
+            } catch (NumberFormatException e) {
+                //TODO just ignore it?
+            }
 
+            for (ExpandItem item : bar.getItems()) {
+                item.dispose();
+            }
+            bar.setData(null);
+            bar.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true ) );
+            try {
+            cursor = col.getCollection().find((DBObject)JSON.parse( query.getText() )).limit(limit).skip(skip).iterator();
+            loadEntries(false);
+            
+            } catch (JSONParseException e) {
+                //TODO display Error message
+                System.out.println(e);
+            }
+        }
+    };
+    
     public MeclipseEditor()
     {
     }
@@ -101,7 +137,7 @@ private static final int maxElements = 20;
         final Composite composite = new Composite( getContainer(), SWT.FILL );
         ImageRegistry reg = MeclipsePlugin.getDefault().getImageRegistry();
 
-        composite.setLayout( new MigLayout( "wrap 8", "[][][][][][][][]", "[30px!][100%-30px!]") );
+        composite.setLayout( new MigLayout( "wrap 9", "[][][][40px!][][40px!][][][]", "[30px!][100%-30px!]") );
         Label find = new Label( composite, SWT.FILL );
         find.setLayoutData( "w 30!" );
         find.setText( "Find:" );
@@ -115,56 +151,21 @@ private static final int maxElements = 20;
 
         skipV = new Text( composite, SWT.FILL );
         skipV.setText( "0" );
+        skipV.setLayoutData( "w 40px!" );
+        skipV.addListener(SWT.DefaultSelection, runQuery);
 
         Label limit = new Label( composite, SWT.FILL );
         limit.setText( "Limit:" );
 
         limitV = new Text( composite, SWT.FILL );
         limitV.setText( "10" );
+        limitV.setLayoutData( "w 40px!" );
+        limitV.addListener(SWT.DefaultSelection, runQuery);
 
         search = new Button( composite, SWT.PUSH );
         search.setToolTipText( "Go!" );
         search.setImage( reg.get( MeclipsePlugin.FIND_IMG_ID ) );
-        search.addListener( SWT.Selection, new Listener()
-        {
-            @SuppressWarnings( "unchecked" )
-            @Override
-            public void handleEvent( Event arg0 )
-            {
-                int skip = 0;
-                int limit = 0;
-                try {
-                skip = Integer.valueOf(skipV.getText() );
-                } catch (NumberFormatException e) {
-                    //TODO just ignore it?
-                }
-                try{
-                    limit = Integer.valueOf(limitV.getText());
-                } catch (NumberFormatException e) {
-                    //TODO just ignore it?
-                }
-
-                for (ExpandItem item : bar.getItems()) {
-                    item.dispose();
-                }
-                bar.setData(null);
-                bar.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true ) );
-                try {
-                cursor = col.getCollection().find((DBObject)JSON.parse( query.getText() )).limit(limit).skip(skip).iterator();
-                int count = 0;
-                while (cursor.hasNext()) {
-                    createExpander(bar, (Map<String, Object>) cursor.next().toMap(), col.getType());
-                    if (count++ == maxElements) {
-                        break;
-                    }
-                }
-                more.setEnabled( cursor.hasNext() );
-                } catch (JSONParseException e) {
-                    //TODO display Error message
-                    System.out.println(e);
-                }
-            }
-        } );
+        search.addListener( SWT.Selection, runQuery);
 
         more = new Button( composite, SWT.PUSH );
         more.setToolTipText( "Get next 20 results" );
@@ -172,22 +173,24 @@ private static final int maxElements = 20;
         more.setEnabled( false );
         more.addListener( SWT.Selection, new Listener() {
 
-            @SuppressWarnings( "unchecked" )
             @Override
             public void handleEvent( Event arg0 )
             {
-                if (cursor != null) {
-                    int count = 0;
-                    while(cursor.hasNext()) {
-                        createExpander(bar,(Map<String, Object>) cursor.next().toMap(), col.getType());
-                        if (count++ == maxElements) {
-                            break;
-                        }
-                    }
-                    more.setEnabled( cursor.hasNext() );
-                }
+               loadEntries(false);
             }
             
+        });
+        
+        all = new Button(composite, SWT.PUSH);
+        all.setToolTipText("Get all results");
+        all.setImage(reg.get(MeclipsePlugin.GET_ALL_IMG_ID));
+        all.setEnabled(false);
+        all.addListener(SWT.Selection, new Listener() {
+
+        	@Override
+        	public void handleEvent(Event arg0) {
+        		loadEntries(true);
+        	}
         });
 
 
@@ -195,12 +198,8 @@ private static final int maxElements = 20;
         bar.setLayoutData( "span, w 100% !" );
 //        bar.setLayoutData(  new GridData( SWT.FILL, SWT.FILL, true, true ) );
 
-        for ( DBObject o : col.getCollection().find().limit( maxElements ) )
-        {
-            @SuppressWarnings( "unchecked" )
-            Map<String, Object> map = (Map<String, Object>) o.toMap();
-            createExpander( bar, map, col.getType() );
-        }
+        cursor = col.getCollection().find().limit(maxElements);
+        loadEntries(false);
 
         int index = addPage( composite );
         setPageText( index, "Properties" );
@@ -253,5 +252,20 @@ private static final int maxElements = 20;
         expandItem.setText( String.valueOf( value ) );
         expandItem.setHeight( 500 );
         expandItem.setControl( composite );
+    }
+    
+    @SuppressWarnings("unchecked")
+	public void loadEntries(boolean ignoreLimit) {
+    	 if (cursor != null) {
+             int count = 0;
+             while(cursor.hasNext()) {
+                 createExpander(bar,(Map<String, Object>) cursor.next().toMap(), col.getType());
+                 if (count++ == maxElements && !ignoreLimit) {
+                     break;
+                 }
+             }
+             more.setEnabled(cursor.hasNext());
+             all.setEnabled(cursor.hasNext());
+         }
     }
 }
