@@ -10,6 +10,7 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -137,7 +138,7 @@ public class MeclipseEditor
         final Composite composite = new Composite( getContainer(), SWT.FILL );
         ImageRegistry reg = MeclipsePlugin.getDefault().getImageRegistry();
 
-        composite.setLayout( new MigLayout( "wrap 9", "[][][][40px!][][40px!][][][]", "[30px!][100%-30px!]") );
+        composite.setLayout( new MigLayout( "wrap 9", "[][][][40px!][][40px!][][][]", "[30px!][]") );
         Label find = new Label( composite, SWT.FILL );
         find.setLayoutData( "w 30!" );
         find.setText( "Find:" );
@@ -195,8 +196,7 @@ public class MeclipseEditor
 
 
         bar = new ExpandBar( composite, SWT.V_SCROLL );
-        bar.setLayoutData( "span, w 100% !" );
-//        bar.setLayoutData(  new GridData( SWT.FILL, SWT.FILL, true, true ) );
+        bar.setLayoutData( "span, w 100%-20px !,h 100%-50px !" );
 
         cursor = col.getCollection().find().limit(maxElements);
         loadEntries(false);
@@ -228,9 +228,14 @@ public class MeclipseEditor
         composite.setLayout( layout );
 
         final ExpandItem expandItem = new ExpandItem( bar, SWT.NONE, 0 );
+        GC gc = new GC(bar);
+        int h =  gc.textExtent( "T" ,SWT.DRAW_DELIMITER).y;
+        int c = 2;
+        gc.dispose();
 
         for ( Object key : o.keySet() )
         {
+            c++;
             if ( key == "_id" || key == "_ns" )
                 continue;
             Label keyLabel = new Label( composite, SWT.NONE );
@@ -239,6 +244,7 @@ public class MeclipseEditor
             Object value = o.get( key );
             valueLabel.setText( String.valueOf( value ) );
         }
+        System.out.println(c);
         Object value;
         switch ( collType )
         {
@@ -250,7 +256,7 @@ public class MeclipseEditor
                 break;
         }
         expandItem.setText( String.valueOf( value ) );
-        expandItem.setHeight( 500 );
+        expandItem.setHeight( h * c );
         expandItem.setControl( composite );
     }
     
