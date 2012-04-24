@@ -119,8 +119,8 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 	public static final String DATABASE_IMG_ID =	"./icons/database.png";
 	public static final String FILTER_IMG_ID =	"./icons/table_go.png";
 	public static final String GET_ALL_IMG_ID = "./icons/getAll.gif";
-        public static final String GET_NEXT_IMG_ID = "./icons/next.gif";
-        public static final String FIND_IMG_ID = "./icons/find.gif";
+    public static final String GET_NEXT_IMG_ID = "./icons/next.gif";
+    public static final String FIND_IMG_ID = "./icons/find.gif";
 	
 	final List<String> IMG_ID_LIST =
 		new ArrayList<String> ()

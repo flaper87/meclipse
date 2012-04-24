@@ -36,7 +36,7 @@ import com.mongodb.util.JSONParseException;
 /**
  * @author Flavio [FlaPer87] Percoco Premoli
  */
-public class MeclipseEditor
+public class CollectionEditor
     extends MultiPageEditorPart
     implements IResourceChangeListener
 {
@@ -94,7 +94,7 @@ public class MeclipseEditor
         }
     };
     
-    public MeclipseEditor()
+    public CollectionEditor()
     {
     }
 

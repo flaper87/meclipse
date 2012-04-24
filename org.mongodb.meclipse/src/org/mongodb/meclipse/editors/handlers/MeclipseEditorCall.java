@@ -10,7 +10,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.mongodb.meclipse.editors.CollectionEditorInput;
-import org.mongodb.meclipse.editors.MeclipseEditor;
+import org.mongodb.meclipse.editors.CollectionEditor;
 import org.mongodb.meclipse.views.MeclipseView;
 import org.mongodb.meclipse.views.objects.Collection;
 
@@ -34,7 +34,7 @@ public class MeclipseEditorCall extends AbstractHandler implements IHandler {
 			if (obj != null) {
 				CollectionEditorInput input = new CollectionEditorInput(obj);
 				try {
-					page.openEditor(input, MeclipseEditor.ID);
+					page.openEditor(input, CollectionEditor.ID);
 
 				} catch (PartInitException e) {
 					System.out.println(e.getStackTrace());
