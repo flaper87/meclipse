@@ -1,5 +1,7 @@
 package org.mongodb.meclipse.views;
 
+import static org.mongodb.meclipse.MeclipsePlugin.getCaption;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -27,7 +29,6 @@ import org.mongodb.meclipse.views.objects.TreeObject;
 import org.mongodb.meclipse.views.objects.ViewContentProvider;
 import org.mongodb.meclipse.views.objects.ViewLabelProvider;
 import org.mongodb.meclipse.wizards.ConnectionWizard;
-
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli
@@ -147,8 +148,8 @@ public class MeclipseView extends ViewPart {
 			}
 		};
 
-		connection.setText("New Connection");
-		connection.setToolTipText("New Connection");
+		connection.setText(getCaption("connection.new"));
+		connection.setToolTipText(getCaption("connection.new"));
 		connection.setImageDescriptor(Images.getDescriptor(Images.PageCommit));
 
 		doubleClickAction = new Action() {

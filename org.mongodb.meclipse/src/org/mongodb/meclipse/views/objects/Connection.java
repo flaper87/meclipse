@@ -1,5 +1,7 @@
 package org.mongodb.meclipse.views.objects;
 
+import static org.mongodb.meclipse.MeclipsePlugin.getCaption;
+
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ import org.mongodb.meclipse.views.objects.properties.ConnectionPropertySource;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
+
 
 /**
  * @author Flavio [FlaPer87] Percoco Premoli
@@ -41,8 +44,8 @@ public final class Connection extends TreeParent {
 			}
 		};
 		
-		delete.setText("Delete");
-		delete.setToolTipText("Delete Connection");
+		delete.setText(getCaption("connection.delete"));
+		delete.setToolTipText(getCaption("connection.tooltip.delete"));
 	}
 	
 //	public TreeObject [] getChildren() {
@@ -67,7 +70,7 @@ public final class Connection extends TreeParent {
 				return mongo;
 			} catch (UnknownHostException e) {
 			    if (!isDown) {
-			        this.showMessage("Could not establish Connection " + this.getName() + "\nUnknown Host: " + mongoInstance.getHost());
+			        this.showMessage(String.format( getCaption("connection.connectionError"), this.getName(), mongoInstance.getHost()));
 			        isDown = true;
 			    }
 			} catch (MongoException e) {
@@ -130,6 +133,6 @@ public final class Connection extends TreeParent {
     
 	private void showMessage(String message) {
 		MessageDialog.openInformation(this.view.getViewer().getControl().getShell(),
-				"Meclipse View", message);
+				getCaption("connection.title.view"), message);
 	}
 }

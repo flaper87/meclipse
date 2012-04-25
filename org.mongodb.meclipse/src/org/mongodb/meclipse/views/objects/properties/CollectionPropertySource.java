@@ -1,5 +1,7 @@
 package org.mongodb.meclipse.views.objects.properties;
 
+import static org.mongodb.meclipse.MeclipsePlugin.getCaption;
+
 import java.util.List;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -30,9 +32,9 @@ public class CollectionPropertySource implements IPropertySource {
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		return new IPropertyDescriptor[]
 		{
-		new PropertyDescriptor(NAME, "Name"),
-		new PropertyDescriptor(DOCUMENT_COUNT, "Documents"),
-		new PropertyDescriptor(INDEXES, "Indexes"),
+		new PropertyDescriptor(NAME, getCaption("collectionPS.name")),
+		new PropertyDescriptor(DOCUMENT_COUNT, getCaption("collectionPS.documents")),
+		new PropertyDescriptor(INDEXES, getCaption("collectionPS.indexes")),
 		};
 	}
 

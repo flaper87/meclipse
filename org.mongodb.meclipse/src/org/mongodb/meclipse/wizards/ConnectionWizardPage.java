@@ -1,5 +1,7 @@
 package org.mongodb.meclipse.wizards;
 
+import static org.mongodb.meclipse.MeclipsePlugin.getCaption;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,7 +47,7 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 	 */
 	public ConnectionWizardPage(ISelection selection) {
 		super("wizardPage");
-		setTitle("New Connection Wizard");
+		setTitle(getCaption("connectionWizard.title"));
 		//setDescription("");
 //		this.selection = selection;
 	}
@@ -65,19 +67,19 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 		Label label;
 		
 		label = new Label(container, SWT.NULL);
-		label.setText("&Name:");
+		label.setText(getCaption("connectionWizard.label.name"));
 		connName = new Text(container, SWT.BORDER | SWT.SINGLE);
 		connName.setLayoutData(gd);
 		connName.addListener(SWT.CHANGED, this);
 		
 		label = new Label(container, SWT.NULL);
-		label.setText("&Host:");
+		label.setText(getCaption("connectionWizard.label.host"));
 		host = new Text(container, SWT.BORDER | SWT.SINGLE);
 		host.setLayoutData(gd);
 		host.addListener(SWT.CHANGED, this);
 		
 		label = new Label(container, SWT.NULL);
-		label.setText("&Port:");
+		label.setText(getCaption("connectionWizard.label.port"));
 		port = new Text(container, SWT.BORDER | SWT.SINGLE);
 		port.setLayoutData(gd);
 		port.addListener(SWT.CHANGED, this);

@@ -1,5 +1,7 @@
 package org.mongodb.meclipse.views.objects;
 
+import static org.mongodb.meclipse.MeclipsePlugin.getCaption;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,7 +99,7 @@ public final class Database extends TreeParent {
 		private int level;
 		
 		public SetProfileLevelAction(int level){
-			super("Set Profile Level : " + level);
+			super(getCaption("database.profileLevel") + level);
 			this.level = level;
 		}
 		
@@ -114,8 +116,8 @@ public final class Database extends TreeParent {
 		
 		public void run(){
 			InputDialog dialog = new InputDialog(view.getSite().getShell(), 
-					"Create Collection", "Collection Name:", "", 
-					new RequiredInputValidator("Please input the collection name."));
+					getCaption("database.newCollection.title"), getCaption("database.newCollection.msg"), "", 
+					new RequiredInputValidator(getCaption("database.newCollection.errorMsg")));
 			if(dialog.open() == InputDialog.OK){
 				try {
 					db.createCollection(dialog.getValue(), new BasicDBObject());

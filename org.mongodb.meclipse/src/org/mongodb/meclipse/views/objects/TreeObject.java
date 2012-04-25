@@ -1,5 +1,7 @@
 package org.mongodb.meclipse.views.objects;
 
+import static org.mongodb.meclipse.MeclipsePlugin.getCaption;
+
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -27,14 +29,14 @@ public class TreeObject implements IAdaptable {
 	}
 	
 	private void makeActions() {
-		reflesh = new Action("Refresh"){
+		reflesh = new Action(getCaption("treeObject.refresh")){
 			@Override
 			public void run() {
 				view.getViewer().refresh(TreeObject.this, false);
 			}
 		};
 		
-		showPropertiesView = new Action("Properties") {
+		showPropertiesView = new Action(getCaption("treeObject.properties")) {
 			@Override
 			public void run() {
 				try {

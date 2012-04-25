@@ -1,5 +1,7 @@
 package org.mongodb.meclipse.editors;
 
+import static org.mongodb.meclipse.MeclipsePlugin.getCaption;
+
 import java.util.Iterator;
 import java.util.Map;
 
@@ -41,7 +43,7 @@ public class CollectionEditor
     implements IResourceChangeListener
 {
 
-    public static final String ID = "org.mongodb.meclipse.editors.meclipseEditor";
+    public static final String ID = "org.mongodb.meclipse.editors.CollectionEditor";
 
     private Button search;
 
@@ -141,14 +143,14 @@ public class CollectionEditor
         composite.setLayout( new MigLayout( "wrap 9", "[][][][40px!][][40px!][][][]", "[30px!][]") );
         Label find = new Label( composite, SWT.FILL );
         find.setLayoutData( "w 30!" );
-        find.setText( "Find:" );
+        find.setText( getCaption("collectionEditor.find") );
 
         query = new Text( composite, SWT.FILL );
         query.setLayoutData( "w 100: 500: 600" );
         query.setText( "{}" );
 
         Label skip = new Label( composite, SWT.FILL );
-        skip.setText( "Skip:" );
+        skip.setText( getCaption("collectionEditor.skip") );
 
         skipV = new Text( composite, SWT.FILL );
         skipV.setText( "0" );
@@ -156,7 +158,7 @@ public class CollectionEditor
         skipV.addListener(SWT.DefaultSelection, runQuery);
 
         Label limit = new Label( composite, SWT.FILL );
-        limit.setText( "Limit:" );
+        limit.setText( getCaption("collectionEditor.limit") );
 
         limitV = new Text( composite, SWT.FILL );
         limitV.setText( "10" );
@@ -164,12 +166,12 @@ public class CollectionEditor
         limitV.addListener(SWT.DefaultSelection, runQuery);
 
         search = new Button( composite, SWT.PUSH );
-        search.setToolTipText( "Go!" );
+        search.setToolTipText( getCaption("collectionEditor.tooltip.search") );
         search.setImage( reg.get( MeclipsePlugin.FIND_IMG_ID ) );
         search.addListener( SWT.Selection, runQuery);
 
         more = new Button( composite, SWT.PUSH );
-        more.setToolTipText( "Get next 20 results" );
+        more.setToolTipText( getCaption("collectionEditor.tooltip.next") );
         more.setImage( reg.get( MeclipsePlugin.GET_NEXT_IMG_ID ) );
         more.setEnabled( false );
         more.addListener( SWT.Selection, new Listener() {
@@ -183,7 +185,7 @@ public class CollectionEditor
         });
         
         all = new Button(composite, SWT.PUSH);
-        all.setToolTipText("Get all results");
+        all.setToolTipText(String.format( getCaption("collectionEditor.tooltip.getAll"),maxElements));
         all.setImage(reg.get(MeclipsePlugin.GET_ALL_IMG_ID));
         all.setEnabled(false);
         all.addListener(SWT.Selection, new Listener() {
@@ -202,7 +204,7 @@ public class CollectionEditor
         loadEntries(false);
 
         int index = addPage( composite );
-        setPageText( index, "Properties" );
+        setPageText( index, getCaption( "collectionEditor.tab.properties" ) );
     }
 
     @Override

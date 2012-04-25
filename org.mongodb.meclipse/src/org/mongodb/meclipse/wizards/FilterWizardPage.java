@@ -1,5 +1,7 @@
 package org.mongodb.meclipse.wizards;
 
+import static org.mongodb.meclipse.MeclipsePlugin.getCaption;
+
 import java.util.Set;
 
 import org.eclipse.jface.viewers.ISelection;
@@ -31,13 +33,13 @@ public class FilterWizardPage extends WizardPage {
 
 	public FilterWizardPage(ISelection selection) {
 		super("Filter details");
-		setTitle("New Filter Wizard");
-		setDescription("Enter filter details here");
+		setTitle(getCaption("filterWizard.title"));
+		setDescription(getCaption("filterWizard.detail"));
 		
 		ITreeSelection treeSelection = (ITreeSelection)selection;
 		Object obj = treeSelection.getFirstElement();
 		if (!(obj instanceof Collection) && !(obj instanceof Filter))
-			throw new IllegalStateException(obj.getClass().getSimpleName() + "? Should not arrive here without a reference to a Collection or Filter");
+			throw new IllegalStateException(obj.getClass().getSimpleName() + getCaption("filterWizard.error.noCollection"));
 		
 		TreeParent parent = (TreeParent)obj;
 		existingFilters = MeclipsePlugin.getDefault().getFilters(new FilterPlacement(parent));
@@ -56,7 +58,7 @@ public class FilterWizardPage extends WizardPage {
 		Label label;
 		
 		label = new Label(container, SWT.NULL);
-		label.setText("&Name:");
+		label.setText(getCaption("filterWizard.label.name"));
 		nameText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		nameText.setLayoutData(gd);
 		nameText.addModifyListener(new ModifyListener(){
@@ -70,7 +72,7 @@ public class FilterWizardPage extends WizardPage {
 						if (text.equals(filter.getName()))
 						{
 							nameValid = false;
-							setErrorMessage("A filter already exists with that name.");
+							setErrorMessage(getCaption("filterWizard.error.nameAlreadyUsed"));
 							setPageComplete(false);
 							break;
 					}
@@ -81,7 +83,7 @@ public class FilterWizardPage extends WizardPage {
 			});
 
 		label = new Label(container, SWT.NULL);
-		label.setText("Query (JSON)");
+		label.setText(getCaption("filterWizard.label.query"));
 		queryText = new Text(container, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.FILL);
 		queryText.setLayoutData(gd);
 		queryText.addModifyListener(new ModifyListener(){
@@ -98,7 +100,7 @@ public class FilterWizardPage extends WizardPage {
 					}
 				} catch (JSONException e1) {
 					jsonValid = false;
-					setErrorMessage("The JSON entered is not valid.");
+					setErrorMessage(getCaption("filterWizard.error.noValidJSON"));
 					setPageComplete(false);
 				}
 			}

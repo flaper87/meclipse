@@ -1,5 +1,7 @@
 package org.mongodb.meclipse.views.objects;
 
+import static org.mongodb.meclipse.MeclipsePlugin.getCaption;
+
 import java.io.File;
 
 import org.eclipse.core.runtime.IAdaptable;
@@ -46,7 +48,7 @@ implements IAdaptable {
 	}
 	
 	private void makeActions() {
-		insert = new Action("Insert Document"){
+		insert = new Action(getCaption( "collection.insertDoc" )){
 			@Override
 			public void run(){
 				FileDialog dialog = new FileDialog(view.getSite().getShell(), SWT.OPEN);
@@ -64,12 +66,12 @@ implements IAdaptable {
 			}
 		};
 		
-		rename = new Action("Rename Collection"){
+		rename = new Action(getCaption("collection.renameColl")){
 			@Override
 			public void run() {
 				InputDialog dialog = new InputDialog(view.getSite().getShell(), 
-						"Rename Collection", "Collection Name:", col.getName(), 
-						new RequiredInputValidator("Please input the collection name."));
+						getCaption("collection.renameColl"), getCaption("collection.msg.newCollName"), col.getName(), 
+						new RequiredInputValidator(getCaption("collection.msg.inputCollName")));
 				if(dialog.open() == InputDialog.OK){
 					try {
 						col.rename(dialog.getValue());
@@ -81,11 +83,11 @@ implements IAdaptable {
 			}
 		};
 		
-		delete = new Action("Delete Collection"){
+		delete = new Action(getCaption("collection.deleteColl")){
 			@Override
 			public void run() {
-				if(MessageDialog.openConfirm(view.getSite().getShell(), "Confirm", 
-						String.format("Are you sure you want to delete collection '%s'?", col.getName()))){
+				if(MessageDialog.openConfirm(view.getSite().getShell(), getCaption("confirm"), 
+						String.format(getCaption("collection.msg.reallyDeleteColl"), col.getName()))){
 					col.drop();
 					view.getViewer().refresh(getParent());
 				}

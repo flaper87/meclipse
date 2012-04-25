@@ -9,7 +9,7 @@
             contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
             default="true"
             icon="icons/template.gif"
-            id="org.mongodb.meclipse.editors.collectionEditor"
+            id="org.mongodb.meclipse.editors.CollectionEditor"
             name="CollectionEditor">
       </editor>
    </extension>

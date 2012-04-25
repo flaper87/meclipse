@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
@@ -44,6 +45,11 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 	private HashMap<String, MongoInstance> mongoInstances = new HashMap<String, MongoInstance>();
 	private HashMap<FilterPlacement, Set<Filter>> filters = new HashMap<FilterPlacement, Set<Filter>>();
 	private MeclipseView mongoDbView;
+	private static final ResourceBundle bundle = ResourceBundle.getBundle( "messages" );
+	
+	public static String getCaption(String key) {
+	    return bundle.getString( key );
+	}
 	
 	public void setMongoDbView(MeclipseView mongoDbView)
 	{

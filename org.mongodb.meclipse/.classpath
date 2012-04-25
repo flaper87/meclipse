@@ -4,6 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry exported="true" kind="lib" path="libs/mongo.jar"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="resources"/>
 	<classpathentry exported="true" kind="lib" path="libs/json.jar"/>
 	<classpathentry kind="lib" path="libs/miglayout-4.0-swt.jar"/>
 	<classpathentry kind="output" path="target/classes"/>

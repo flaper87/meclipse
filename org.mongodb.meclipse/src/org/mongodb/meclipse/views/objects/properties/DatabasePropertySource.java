@@ -1,5 +1,7 @@
 package org.mongodb.meclipse.views.objects.properties;
 
+import static org.mongodb.meclipse.MeclipsePlugin.getCaption;
+
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
@@ -27,8 +29,8 @@ public class DatabasePropertySource implements IPropertySource {
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		return new IPropertyDescriptor[]
        		{
-	       		new PropertyDescriptor(NAME, "Name"),
-	       		new PropertyDescriptor(PROFILING_LEVEL, "Profile Level"),
+	       		new PropertyDescriptor(NAME, getCaption("databasePS.name")),
+	       		new PropertyDescriptor(PROFILING_LEVEL, getCaption("databasePS.profileLevel")),
        		};
 	}
 
