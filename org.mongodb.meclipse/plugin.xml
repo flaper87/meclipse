@@ -31,7 +31,7 @@
    <command
             description="Calls the Meclipse Editor"
             id="org.mongodb.meclipse.editors.handlers.CallEditor"
-            defaultHandler="org.mongodb.meclipse.editors.handlers.MeclipseEditorCall"
+            defaultHandler="org.mongodb.meclipse.editors.handlers.ConnectionEditorCall"
             name="Meclipse Editor">
       </command>
    <command

@@ -17,7 +17,7 @@ import org.mongodb.meclipse.views.objects.Collection;
 /**
  * @author Flavio [FlaPer87] Percoco Premoli
  */
-public class MeclipseEditorCall extends AbstractHandler implements IHandler {
+public class ConnectionEditorCall extends AbstractHandler implements IHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
