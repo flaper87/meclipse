@@ -127,6 +127,7 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 	public static final String GET_ALL_IMG_ID = "./icons/getAll.gif";
     public static final String GET_NEXT_IMG_ID = "./icons/next.gif";
     public static final String FIND_IMG_ID = "./icons/find.gif";
+    public static final String HELP_IMG_ID = "./icons/help.gif";
 	
 	final List<String> IMG_ID_LIST =
 		new ArrayList<String> ()
@@ -145,6 +146,7 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 				add (GET_NEXT_IMG_ID);
 				add (GET_ALL_IMG_ID);
 				add (FIND_IMG_ID);
+				add(HELP_IMG_ID);
 			}
 		};
 		

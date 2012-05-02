@@ -9,6 +9,7 @@ import org.eclipse.jface.dialogs.IDialogPage;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -17,6 +18,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import org.mongodb.meclipse.MeclipsePlugin;
 import org.mongodb.meclipse.preferences.MongoInstance;
 import org.mongodb.meclipse.views.objects.Connection;
 
@@ -59,7 +61,7 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 		Composite container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
 		container.setLayout(layout);
-		layout.numColumns = 2;
+		layout.numColumns = 3;
 		layout.verticalSpacing = 9;
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.widthHint = 250;
@@ -71,19 +73,29 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 		connName = new Text(container, SWT.BORDER | SWT.SINGLE);
 		connName.setLayoutData(gd);
 		connName.addListener(SWT.CHANGED, this);
-		
+		label = new Label(container, SWT.NULL);
+        label.setImage(new Image(container.getDisplay(),MeclipsePlugin.class.getClassLoader().getResourceAsStream( MeclipsePlugin.HELP_IMG_ID )));
+        label.setToolTipText( getCaption( "connectionWizard.tooltip.name" ) );
+        
 		label = new Label(container, SWT.NULL);
 		label.setText(getCaption("connectionWizard.label.host"));
 		host = new Text(container, SWT.BORDER | SWT.SINGLE);
 		host.setLayoutData(gd);
 		host.addListener(SWT.CHANGED, this);
-		
+		label = new Label(container, SWT.NULL);
+        label.setImage(new Image(container.getDisplay(),MeclipsePlugin.class.getClassLoader().getResourceAsStream( MeclipsePlugin.HELP_IMG_ID )));
+        label.setToolTipText( getCaption( "connectionWizard.tooltip.host" ) );
+        
 		label = new Label(container, SWT.NULL);
 		label.setText(getCaption("connectionWizard.label.port"));
 		port = new Text(container, SWT.BORDER | SWT.SINGLE);
 		port.setLayoutData(gd);
 		port.addListener(SWT.CHANGED, this);
-		
+		port.setText( "27017" );
+		label = new Label(container, SWT.NULL);
+        label.setImage(new Image(container.getDisplay(),MeclipsePlugin.class.getClassLoader().getResourceAsStream( MeclipsePlugin.HELP_IMG_ID )));
+        label.setToolTipText( getCaption( "connectionWizard.tooltip.port" ) );
+        
 		/*
 		label = new Label(container, SWT.NULL);
 		label.setText("&Username:");

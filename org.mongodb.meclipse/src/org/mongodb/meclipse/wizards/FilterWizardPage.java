@@ -10,6 +10,7 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -50,7 +51,7 @@ public class FilterWizardPage extends WizardPage {
 		Composite container = new Composite(parent, SWT.FILL);
 		GridLayout layout = new GridLayout();
 		container.setLayout(layout);
-		layout.numColumns = 2;
+		layout.numColumns = 3;
 		layout.verticalSpacing = 9;
 		GridData gd = new GridData(SWT.FILL);
 		gd.widthHint = 250;
@@ -58,7 +59,7 @@ public class FilterWizardPage extends WizardPage {
 		Label label;
 		
 		label = new Label(container, SWT.NULL);
-		label.setText(getCaption("filterWizard.label.name"));
+		label.setText("\\&NAme");//"filterWizard.label.name"));
 		nameText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		nameText.setLayoutData(gd);
 		nameText.addModifyListener(new ModifyListener(){
@@ -81,7 +82,10 @@ public class FilterWizardPage extends WizardPage {
 					setPageComplete(true);
 			}
 			});
-
+        label = new Label(container, SWT.NULL);
+        label.setImage(new Image(container.getDisplay(),MeclipsePlugin.class.getClassLoader().getResourceAsStream( MeclipsePlugin.HELP_IMG_ID )));
+        label.setToolTipText( getCaption( "filterWizard.tooltip.name" ) );
+        
 		label = new Label(container, SWT.NULL);
 		label.setText(getCaption("filterWizard.label.query"));
 		queryText = new Text(container, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.FILL);
@@ -105,7 +109,9 @@ public class FilterWizardPage extends WizardPage {
 				}
 			}
 			});
-		
+		label = new Label(container, SWT.NULL);
+		label.setToolTipText( getCaption( "filterWizard.tooltip.query" ) );
+		label.setImage(new Image(container.getDisplay(),MeclipsePlugin.class.getClassLoader().getResourceAsStream( MeclipsePlugin.HELP_IMG_ID )));
 		setControl(container);
 	}
 

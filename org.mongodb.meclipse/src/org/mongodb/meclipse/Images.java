@@ -20,6 +20,7 @@ public enum Images {
     GetAll("getAll.gif"),
     Find("find.gif"),
     Step("step.gif"),
+    Help("help.gif"),
 
     Trac16("trac_16.png"),
     
