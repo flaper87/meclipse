@@ -59,7 +59,7 @@ public class FilterWizardPage extends WizardPage {
 		Label label;
 		
 		label = new Label(container, SWT.NULL);
-		label.setText("\\&NAme");//"filterWizard.label.name"));
+		label.setText(getCaption("filterWizard.label.name"));
 		nameText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		nameText.setLayoutData(gd);
 		nameText.addModifyListener(new ModifyListener(){
