@@ -221,7 +221,6 @@ public class CollectionEditor
 
     public void createExpander( final ExpandBar bar, Map<String, Object> o, CollectionType collType )
     {
-        System.out.println(o);
         // First item
         final Composite composite = new Composite( bar, SWT.FILL );
         GridLayout layout = new GridLayout();
@@ -240,13 +239,12 @@ public class CollectionEditor
             c++;
             if ( key == "_id" || key == "_ns" )
                 continue;
-            Label keyLabel = new Label( composite, SWT.NONE );
+            Label keyLabel = new Label( composite, SWT.FILL );
             keyLabel.setText( key.toString() );
             Label valueLabel = new Label( composite, SWT.WRAP );
             Object value = o.get( key );
             valueLabel.setText( String.valueOf( value ) );
         }
-        System.out.println(c);
         Object value;
         switch ( collType )
         {
