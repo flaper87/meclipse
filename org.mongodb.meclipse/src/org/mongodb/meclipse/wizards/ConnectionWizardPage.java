@@ -191,8 +191,14 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 			{
 				try
 				{
-					Integer.valueOf(port.getText());
-					setPageComplete(true);
+				    int value = Integer.valueOf(port.getText());
+					if (value < 0 || value > 65535) {
+					    setErrorMessage( getCaption( "connectionWizard.error.port" ) );
+					    setPageComplete( false );
+					} else {
+					    setErrorMessage( null );
+					    setPageComplete(true);
+					}
 				}
 				catch (NumberFormatException ex)
 				{
