@@ -16,14 +16,13 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.mongodb.meclipse.MeclipsePlugin;
 import org.mongodb.meclipse.views.FilterPlacement;
 import org.mongodb.meclipse.views.objects.Collection;
 import org.mongodb.meclipse.views.objects.Filter;
 import org.mongodb.meclipse.views.objects.TreeParent;
+
+import com.mongodb.util.JSON;
 
 public class FilterWizardPage extends WizardPage {
 	private Set<Filter> existingFilters;
@@ -79,6 +78,7 @@ public class FilterWizardPage extends WizardPage {
 					}
 				}
 				if (nameValid && jsonValid)
+				    setErrorMessage( null );
 					setPageComplete(true);
 			}
 			});
@@ -93,16 +93,15 @@ public class FilterWizardPage extends WizardPage {
 		queryText.addModifyListener(new ModifyListener(){
 			@Override
 			public void modifyText(ModifyEvent e) {
-				jsonValid = true;
-				String text = ((Text)e.widget).getText();
 				try {
-					new JSONObject(new JSONTokener(text));
-					if (jsonValid && nameValid)
+					JSON.parse( ((Text)e.widget).getText() );
+					jsonValid = true;
+					if (nameValid)
 					{
 						setErrorMessage(null);
 						setPageComplete(true);
 					}
-				} catch (JSONException e1) {
+				} catch (Exception e1) {
 					jsonValid = false;
 					setErrorMessage(getCaption("filterWizard.error.noValidJSON"));
 					setPageComplete(false);
