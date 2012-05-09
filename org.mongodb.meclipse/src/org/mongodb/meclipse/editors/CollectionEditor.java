@@ -12,7 +12,6 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -219,13 +218,8 @@ public class CollectionEditor extends MultiPageEditorPart
 		composite.setLayout(layout);
 
 		final ExpandItem expandItem = new ExpandItem(bar, SWT.NONE, 0);
-		GC gc = new GC(bar);
-		int h = gc.textExtent("T", SWT.DRAW_DELIMITER).y;
-		int c = 2;
-		gc.dispose();
 
 		for (Object key : o.keySet()) {
-			c++;
 			if (key == "_id" || key == "_ns")
 				continue;
 			Label keyLabel = new Label(composite, SWT.FILL);
@@ -244,10 +238,9 @@ public class CollectionEditor extends MultiPageEditorPart
 				break;
 		}
 		expandItem.setText(String.valueOf(value));
-		expandItem.setHeight(h * c);
 		expandItem.setControl(composite);
+		expandItem.setHeight(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 	}
-
 	@SuppressWarnings("unchecked")
 	public void loadEntries(boolean ignoreLimit) {
 		if (cursor != null) {
