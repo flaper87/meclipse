@@ -5,6 +5,15 @@ import static org.mongodb.meclipse.MeclipsePlugin.getCaption;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.UpdateValueStrategy;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.databinding.observable.value.WritableValue;
+import org.eclipse.core.databinding.validation.IValidator;
+import org.eclipse.core.databinding.validation.ValidationStatus;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.wizard.WizardPageSupport;
 import org.eclipse.jface.dialogs.IDialogPage;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.WizardPage;
@@ -14,9 +23,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.mongodb.meclipse.MeclipsePlugin;
 import org.mongodb.meclipse.preferences.MongoInstance;
@@ -26,7 +33,7 @@ import org.mongodb.meclipse.views.objects.Connection;
  * @author Flavio [FlaPer87] Percoco Premoli
  * @author Joey Mink, ExoAnalytic Solutions
  */
-public class ConnectionWizardPage extends WizardPage implements Listener{
+public class ConnectionWizardPage extends WizardPage /*implements Listener*/{
 	private Text connName;
 	private Text host;
 	private Text port;
@@ -38,6 +45,42 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 	//private Combo savedServersSelect;
 	/** the servers that were saved at the time this wizard page was loaded **/
 	private Map<String, MongoInstance> savedServers = new HashMap<String, MongoInstance>();
+
+    private IObservableValue hostValue = new WritableValue( "", String.class );
+    private IObservableValue portValue = new WritableValue( "", String.class );
+    
+	private final class HostNameValidator
+    implements IValidator
+{
+    public IStatus validate( Object value )
+    {
+        if (null != value && ((String)value).trim().isEmpty()) {
+            return ValidationStatus.error( getCaption("connectionWizard.error.empty.host") );
+        }
+        return ValidationStatus.ok();
+    }
+}
+
+private final class PortValidator implements IValidator {
+
+    @Override
+    public IStatus validate( Object value )
+    {
+        if (null != value && ((String)value).trim().isEmpty()) {
+            return ValidationStatus.error( getCaption("connectionWizard.error.port") );
+        }
+        try {
+         int val = Integer.parseInt( (String )value);
+         if (val < 0 || val > 65535) {
+             return ValidationStatus.error( getCaption("connectionWizard.error.port"));
+         }
+        } catch (NumberFormatException e) {
+            return ValidationStatus.error(getCaption("connectionWizard.error.port"));
+        }
+        return ValidationStatus.ok();
+    }
+    
+}
 
 	public Map<String, MongoInstance> getSavedServers() {
 		return savedServers;
@@ -72,7 +115,6 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 		label.setText(getCaption("connectionWizard.label.name"));
 		connName = new Text(container, SWT.BORDER | SWT.SINGLE);
 		connName.setLayoutData(gd);
-		connName.addListener(SWT.CHANGED, this);
 		label = new Label(container, SWT.NULL);
         label.setImage(new Image(container.getDisplay(),MeclipsePlugin.class.getClassLoader().getResourceAsStream( MeclipsePlugin.HELP_IMG_ID )));
         label.setToolTipText( getCaption( "connectionWizard.tooltip.name" ) );
@@ -81,7 +123,6 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 		label.setText(getCaption("connectionWizard.label.host"));
 		host = new Text(container, SWT.BORDER | SWT.SINGLE);
 		host.setLayoutData(gd);
-		host.addListener(SWT.CHANGED, this);
 		label = new Label(container, SWT.NULL);
         label.setImage(new Image(container.getDisplay(),MeclipsePlugin.class.getClassLoader().getResourceAsStream( MeclipsePlugin.HELP_IMG_ID )));
         label.setToolTipText( getCaption( "connectionWizard.tooltip.host" ) );
@@ -90,11 +131,11 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 		label.setText(getCaption("connectionWizard.label.port"));
 		port = new Text(container, SWT.BORDER | SWT.SINGLE);
 		port.setLayoutData(gd);
-		port.addListener(SWT.CHANGED, this);
 		port.setText( "27017" );
 		label = new Label(container, SWT.NULL);
         label.setImage(new Image(container.getDisplay(),MeclipsePlugin.class.getClassLoader().getResourceAsStream( MeclipsePlugin.HELP_IMG_ID )));
         label.setToolTipText( getCaption( "connectionWizard.tooltip.port" ) );
+        
         
 		/*
 		label = new Label(container, SWT.NULL);
@@ -112,8 +153,15 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 		label = new Label(container, SWT.NULL);
 		label.setText("Auth not supported yet...");
 		
+		//add WizardPage validators
+		DataBindingContext dbc = new DataBindingContext();
+		WizardPageSupport.create( this, dbc );
+		dbc.bindValue( SWTObservables.observeText( host, SWT.Modify ), hostValue, new UpdateValueStrategy().setBeforeSetValidator( new HostNameValidator() ), null );
+		dbc.bindValue( SWTObservables.observeText( port, SWT.Modify ), portValue, new UpdateValueStrategy().setBeforeSetValidator(  new PortValidator() ), null );
+
 		initialize();
 		setControl(container);
+		//disable Save until everything matches
 		setPageComplete(false);
 	}
 
@@ -137,14 +185,6 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 //		}
 	}
 
-//	/**
-//	 * @param message should be null if page has been validated successfully.
-//	 */
-//	private void updateStatus(String message) {
-//		setErrorMessage(message);
-//		setPageComplete(message == null);
-//	}
-	
 	public String getConnName() {
 		return connName.getText();
 	}
@@ -178,33 +218,5 @@ public class ConnectionWizardPage extends WizardPage implements Listener{
 	
 	public Boolean isSaveConnection() {
 		return saveCheckBox.getSelection();
-	}
-
-	@Override
-	public void handleEvent(Event event) {
-		switch (event.type)
-		{
-		case SWT.CHANGED:
-			if (this.connName.getText() != null && !connName.getText().equals("") &&
-					this.host.getText() != null && !host.getText().equals("") &&
-					this.port.getText() != null)
-			{
-				try
-				{
-				    int value = Integer.valueOf(port.getText());
-					if (value < 0 || value > 65535) {
-					    setErrorMessage( getCaption( "connectionWizard.error.port" ) );
-					    setPageComplete( false );
-					} else {
-					    setErrorMessage( null );
-					    setPageComplete(true);
-					}
-				}
-				catch (NumberFormatException ex)
-				{
-					setPageComplete(false);
-				}
-			}
-		}
 	}
 }
