@@ -5,7 +5,7 @@ import com.mongodb.Mongo;
 /**
  * 
  * @author Joey Mink, ExoAnalyticSolutions
- *
+ * 
  */
 public class MongoInstance {
 	private String name;
@@ -14,11 +14,10 @@ public class MongoInstance {
 	private Mongo mongo;
 	private boolean isDeleted = false;
 
-	public MongoInstance(String name)
-	{
+	public MongoInstance(String name) {
 		this.name = name;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -45,11 +44,11 @@ public class MongoInstance {
 	}
 
 	public boolean isDeleted() {
-		return isDeleted ;
+		return isDeleted;
 	}
 
 	public void setIsDeleted(boolean b) {
 		isDeleted = b;
 	}
-	
+
 }

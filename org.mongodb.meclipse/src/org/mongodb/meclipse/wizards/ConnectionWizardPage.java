@@ -33,54 +33,54 @@ import org.mongodb.meclipse.views.objects.Connection;
  * @author Flavio [FlaPer87] Percoco Premoli
  * @author Joey Mink, ExoAnalytic Solutions
  */
-public class ConnectionWizardPage extends WizardPage /*implements Listener*/{
+public class ConnectionWizardPage extends WizardPage /* implements Listener */{
 	private Text connName;
 	private Text host;
 	private Text port;
 	private Text username;
 	private Text password;
 	private Connection conn;
-//	private ISelection selection;
+	// private ISelection selection;
 	private Button saveCheckBox;
-	//private Combo savedServersSelect;
+	// private Combo savedServersSelect;
 	/** the servers that were saved at the time this wizard page was loaded **/
 	private Map<String, MongoInstance> savedServers = new HashMap<String, MongoInstance>();
 
-    private IObservableValue hostValue = new WritableValue( "", String.class );
-    private IObservableValue portValue = new WritableValue( "", String.class );
-    
-	private final class HostNameValidator
-    implements IValidator
-{
-    public IStatus validate( Object value )
-    {
-        if (null != value && ((String)value).trim().isEmpty()) {
-            return ValidationStatus.error( getCaption("connectionWizard.error.empty.host") );
-        }
-        return ValidationStatus.ok();
-    }
-}
+	private IObservableValue hostValue = new WritableValue("", String.class);
+	private IObservableValue portValue = new WritableValue("", String.class);
 
-private final class PortValidator implements IValidator {
+	private final class HostNameValidator implements IValidator {
+		public IStatus validate(Object value) {
+			if (null != value && ((String) value).trim().isEmpty()) {
+				return ValidationStatus
+						.error(getCaption("connectionWizard.error.empty.host"));
+			}
+			return ValidationStatus.ok();
+		}
+	}
 
-    @Override
-    public IStatus validate( Object value )
-    {
-        if (null != value && ((String)value).trim().isEmpty()) {
-            return ValidationStatus.error( getCaption("connectionWizard.error.port") );
-        }
-        try {
-         int val = Integer.parseInt( (String )value);
-         if (val < 0 || val > 65535) {
-             return ValidationStatus.error( getCaption("connectionWizard.error.port"));
-         }
-        } catch (NumberFormatException e) {
-            return ValidationStatus.error(getCaption("connectionWizard.error.port"));
-        }
-        return ValidationStatus.ok();
-    }
-    
-}
+	private final class PortValidator implements IValidator {
+
+		@Override
+		public IStatus validate(Object value) {
+			if (null != value && ((String) value).trim().isEmpty()) {
+				return ValidationStatus
+						.error(getCaption("connectionWizard.error.port"));
+			}
+			try {
+				int val = Integer.parseInt((String) value);
+				if (val < 0 || val > 65535) {
+					return ValidationStatus
+							.error(getCaption("connectionWizard.error.port"));
+				}
+			} catch (NumberFormatException e) {
+				return ValidationStatus
+						.error(getCaption("connectionWizard.error.port"));
+			}
+			return ValidationStatus.ok();
+		}
+
+	}
 
 	public Map<String, MongoInstance> getSavedServers() {
 		return savedServers;
@@ -88,13 +88,14 @@ private final class PortValidator implements IValidator {
 
 	/**
 	 * Constructor for SampleNewWizardPage.
+	 * 
 	 * @param pageName
 	 */
 	public ConnectionWizardPage(ISelection selection) {
 		super("wizardPage");
 		setTitle(getCaption("connectionWizard.title"));
-		//setDescription("");
-//		this.selection = selection;
+		// setDescription("");
+		// this.selection = selection;
 	}
 
 	/**
@@ -110,112 +111,119 @@ private final class PortValidator implements IValidator {
 		gd.widthHint = 250;
 
 		Label label;
-		
+
 		label = new Label(container, SWT.NULL);
 		label.setText(getCaption("connectionWizard.label.name"));
 		connName = new Text(container, SWT.BORDER | SWT.SINGLE);
 		connName.setLayoutData(gd);
 		label = new Label(container, SWT.NULL);
-        label.setImage(new Image(container.getDisplay(),MeclipsePlugin.class.getClassLoader().getResourceAsStream( MeclipsePlugin.HELP_IMG_ID )));
-        label.setToolTipText( getCaption( "connectionWizard.tooltip.name" ) );
-        
+		label.setImage(new Image(container.getDisplay(), MeclipsePlugin.class
+				.getClassLoader().getResourceAsStream(
+						MeclipsePlugin.HELP_IMG_ID)));
+		label.setToolTipText(getCaption("connectionWizard.tooltip.name"));
+
 		label = new Label(container, SWT.NULL);
 		label.setText(getCaption("connectionWizard.label.host"));
 		host = new Text(container, SWT.BORDER | SWT.SINGLE);
 		host.setLayoutData(gd);
 		label = new Label(container, SWT.NULL);
-        label.setImage(new Image(container.getDisplay(),MeclipsePlugin.class.getClassLoader().getResourceAsStream( MeclipsePlugin.HELP_IMG_ID )));
-        label.setToolTipText( getCaption( "connectionWizard.tooltip.host" ) );
-        
+		label.setImage(new Image(container.getDisplay(), MeclipsePlugin.class
+				.getClassLoader().getResourceAsStream(
+						MeclipsePlugin.HELP_IMG_ID)));
+		label.setToolTipText(getCaption("connectionWizard.tooltip.host"));
+
 		label = new Label(container, SWT.NULL);
 		label.setText(getCaption("connectionWizard.label.port"));
 		port = new Text(container, SWT.BORDER | SWT.SINGLE);
 		port.setLayoutData(gd);
-		port.setText( "27017" );
+		port.setText("27017");
 		label = new Label(container, SWT.NULL);
-        label.setImage(new Image(container.getDisplay(),MeclipsePlugin.class.getClassLoader().getResourceAsStream( MeclipsePlugin.HELP_IMG_ID )));
-        label.setToolTipText( getCaption( "connectionWizard.tooltip.port" ) );
-        
-        
+		label.setImage(new Image(container.getDisplay(), MeclipsePlugin.class
+				.getClassLoader().getResourceAsStream(
+						MeclipsePlugin.HELP_IMG_ID)));
+		label.setToolTipText(getCaption("connectionWizard.tooltip.port"));
+
 		/*
-		label = new Label(container, SWT.NULL);
-		label.setText("&Username:");
-		username= new Text(container, SWT.BORDER | SWT.SINGLE);
-		username.setLayoutData(gd);
-		*/
-		
+		 * label = new Label(container, SWT.NULL); label.setText("&Username:");
+		 * username= new Text(container, SWT.BORDER | SWT.SINGLE);
+		 * username.setLayoutData(gd);
+		 */
+
 		/*
-		label = new Label(container, SWT.NULL);
-		label.setText("Passwo&rd:");
-		password = new Text(container, SWT.BORDER | SWT.SINGLE);
-		password.setLayoutData(gd);
-		*/
+		 * label = new Label(container, SWT.NULL); label.setText("Passwo&rd:");
+		 * password = new Text(container, SWT.BORDER | SWT.SINGLE);
+		 * password.setLayoutData(gd);
+		 */
 		label = new Label(container, SWT.NULL);
 		label.setText("Auth not supported yet...");
-		
-		//add WizardPage validators
+
+		// add WizardPage validators
 		DataBindingContext dbc = new DataBindingContext();
-		WizardPageSupport.create( this, dbc );
-		dbc.bindValue( SWTObservables.observeText( host, SWT.Modify ), hostValue, new UpdateValueStrategy().setBeforeSetValidator( new HostNameValidator() ), null );
-		dbc.bindValue( SWTObservables.observeText( port, SWT.Modify ), portValue, new UpdateValueStrategy().setBeforeSetValidator(  new PortValidator() ), null );
+		WizardPageSupport.create(this, dbc);
+		dbc.bindValue(SWTObservables.observeText(host, SWT.Modify), hostValue,
+				new UpdateValueStrategy()
+						.setBeforeSetValidator(new HostNameValidator()), null);
+		dbc.bindValue(SWTObservables.observeText(port, SWT.Modify), portValue,
+				new UpdateValueStrategy()
+						.setBeforeSetValidator(new PortValidator()), null);
 
 		initialize();
 		setControl(container);
-		//disable Save until everything matches
+		// disable Save until everything matches
 		setPageComplete(false);
 	}
 
 	/**
-	 * Tests if the current workbench selection is a suitable
-	 * container to use.
+	 * Tests if the current workbench selection is a suitable container to use.
 	 */
-	
+
 	private void initialize() {
-//		if (selection!=null && selection.isEmpty()==false && selection instanceof IStructuredSelection) {
-//			IStructuredSelection ssel = (IStructuredSelection)selection;
-//			if (ssel.size()>1) return;
-//			Object obj = ssel.getFirstElement();
-//			if (obj instanceof IResource) {
-//				IContainer container;
-//				if (obj instanceof IContainer)
-//					container = (IContainer)obj;
-//				else
-//					container = ((IResource)obj).getParent();
-//			}
-//		}
+		// if (selection!=null && selection.isEmpty()==false && selection
+		// instanceof IStructuredSelection) {
+		// IStructuredSelection ssel = (IStructuredSelection)selection;
+		// if (ssel.size()>1) return;
+		// Object obj = ssel.getFirstElement();
+		// if (obj instanceof IResource) {
+		// IContainer container;
+		// if (obj instanceof IContainer)
+		// container = (IContainer)obj;
+		// else
+		// container = ((IResource)obj).getParent();
+		// }
+		// }
 	}
 
 	public String getConnName() {
 		return connName.getText();
 	}
-	
+
 	public Connection getConnection() {
 		return conn;
 	}
-	
+
 	public String getHost() {
 		return host.getText();
 	}
-	
+
 	public int getPort() {
 		try {
 			String portT = port.getText();
-			if ( portT == null)
+			if (portT == null)
 				return -2;
-		    return Integer.parseInt(portT);
-		  } catch(NumberFormatException e) { 
-			  return -1;
-		  }
+			return Integer.parseInt(portT);
+		} catch (NumberFormatException e) {
+			return -1;
+		}
 	}
-	
+
 	public String getUsername() {
 		return username.getText();
 	}
-	
+
 	public String getPassword() {
 		return password.getText();
 	}
-	
+
 	public Boolean isSaveConnection() {
 		return saveCheckBox.getSelection();
 	}

@@ -41,7 +41,7 @@ public class MeclipseView extends ViewPart {
 	public static final String ID = "org.mongodb.meclipse.views.MeclipseView";
 
 	private TreeViewer viewer;
-//	private DrillDownAdapter drillDownAdapter;
+	// private DrillDownAdapter drillDownAdapter;
 	private Action connection;
 	private Action doubleClickAction;
 	private ViewContentProvider content = new ViewContentProvider();
@@ -52,7 +52,8 @@ public class MeclipseView extends ViewPart {
 	/**
 	 * The constructor.
 	 */
-	public MeclipseView() {}
+	public MeclipseView() {
+	}
 
 	/**
 	 * This is a callback that will allow us to create the viewer and initialize
@@ -60,7 +61,7 @@ public class MeclipseView extends ViewPart {
 	 */
 	public void createPartControl(Composite parent) {
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-//		drillDownAdapter = new DrillDownAdapter(viewer);
+		// drillDownAdapter = new DrillDownAdapter(viewer);
 		viewer.setContentProvider(content);
 		viewer.setLabelProvider(new ViewLabelProvider());
 		viewer.setSorter(new NameSorter());
@@ -68,15 +69,15 @@ public class MeclipseView extends ViewPart {
 
 		// Hook viewer up to the Eclipse selection provider:
 		getSite().setSelectionProvider(viewer);
-		
+
 		// Create the help context id for the viewer's control
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(),
-				"org.mongodb.meclipse.views");
+		PlatformUI.getWorkbench().getHelpSystem()
+				.setHelp(viewer.getControl(), "org.mongodb.meclipse.views");
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
-		
+
 		MeclipsePlugin.getDefault().setMongoDbView(this);
 	}
 
@@ -85,19 +86,19 @@ public class MeclipseView extends ViewPart {
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 			public void menuAboutToShow(IMenuManager manager) {
-				
-				IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-        
-		        if ( selection.isEmpty() )
-		        {
-		        	MeclipseView.this.fillContextMenu(manager);
-		        	return;
-		        }
-		        TreeObject obj = (TreeObject)selection.getFirstElement();
-		        
-		        manager.add( new Separator() );
-		        obj.fillContextMenu(manager);
-		        
+
+				IStructuredSelection selection = (IStructuredSelection) viewer
+						.getSelection();
+
+				if (selection.isEmpty()) {
+					MeclipseView.this.fillContextMenu(manager);
+					return;
+				}
+				TreeObject obj = (TreeObject) selection.getFirstElement();
+
+				manager.add(new Separator());
+				obj.fillContextMenu(manager);
+
 			}
 		});
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
@@ -119,9 +120,9 @@ public class MeclipseView extends ViewPart {
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(connection);
 		manager.add(new Separator());
-//		drillDownAdapter.addNavigationActions(manager);
+		// drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
-//		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		// manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
@@ -170,10 +171,10 @@ public class MeclipseView extends ViewPart {
 		});
 	}
 
-//	private void showMessage(String message) {
-//		MessageDialog.openInformation(viewer.getControl().getShell(),
-//				"Meclipse View", message);
-//	}
+	// private void showMessage(String message) {
+	// MessageDialog.openInformation(viewer.getControl().getShell(),
+	// "Meclipse View", message);
+	// }
 
 	/**
 	 * Passing the focus request to the viewer's control.
@@ -181,9 +182,8 @@ public class MeclipseView extends ViewPart {
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
-	
-	public void refreshMe()
-	{
+
+	public void refreshMe() {
 		viewer.refresh(false);
 	}
 

@@ -17,27 +17,28 @@ public abstract class CollectionBase extends TreeParent {
 	}
 
 	@Override
-	public TreeObject [] getChildren() {
-		Set<Filter> filters = MeclipsePlugin.getDefault().getFilters(new FilterPlacement(this));
-		if(filters == null){
+	public TreeObject[] getChildren() {
+		Set<Filter> filters = MeclipsePlugin.getDefault().getFilters(
+				new FilterPlacement(this));
+		if (filters == null) {
 			return new TreeObject[0];
 		}
-		return (TreeObject [])filters.toArray(new TreeObject[filters.size()]);
+		return (TreeObject[]) filters.toArray(new TreeObject[filters.size()]);
 	}
-	
+
 	public abstract DBObject getQuery();
-	
+
 	public abstract DBCollection getCollection();
-	
-    /**
-     * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
-     */
+
+	/**
+	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
+	 */
 	@Override
 	@SuppressWarnings("rawtypes")
-    public Object getAdapter(Class adapter) {
-		 if (adapter == IPropertySource.class) {
+	public Object getAdapter(Class adapter) {
+		if (adapter == IPropertySource.class) {
 			return new CollectionPropertySource(this);
-		 }
-       return null;
-    }
+		}
+		return null;
+	}
 }

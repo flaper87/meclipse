@@ -24,30 +24,30 @@ public class Filter extends CollectionBase {
 		TreeParent treeObj = getParent();
 		while (!(treeObj instanceof Collection))
 			treeObj = treeObj.getParent();
-			
-		Collection coll = (Collection)treeObj;
+
+		Collection coll = (Collection) treeObj;
 		return coll.getCollection();
 	}
 
-	private DBObject mergeJson(JSONObject json, DBObject dbObj) throws JSONException
-	{
+	private DBObject mergeJson(JSONObject json, DBObject dbObj)
+			throws JSONException {
 		@SuppressWarnings("unchecked")
 		Iterator<String> jsonKeyIter = json.keys();
-		while (jsonKeyIter.hasNext())
-		{
+		while (jsonKeyIter.hasNext()) {
 			String jsonKey = jsonKeyIter.next();
 			Object jsonValue = json.get(jsonKey);
 			if (jsonValue instanceof JSONObject)
-				dbObj.put(jsonKey, mergeJson((JSONObject)jsonValue, new BasicDBObject()));
+				dbObj.put(jsonKey,
+						mergeJson((JSONObject) jsonValue, new BasicDBObject()));
 			dbObj.put(jsonKey, jsonValue);
 		}
-		
+
 		return dbObj;
 	}
-	
+
 	@Override
 	public DBObject getQuery() {
-		DBObject dbObj = ((CollectionBase)getParent()).getQuery();
+		DBObject dbObj = ((CollectionBase) getParent()).getQuery();
 
 		try {
 			dbObj = mergeJson(new JSONObject(new JSONTokener(queryStr)), dbObj);

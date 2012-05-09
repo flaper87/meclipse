@@ -31,115 +31,118 @@ import org.mongodb.meclipse.views.objects.TreeParent;
 
 import com.mongodb.util.JSON;
 
-public class FilterWizardPage
-    extends WizardPage
-{
-    private Set<Filter> existingFilters;
+public class FilterWizardPage extends WizardPage {
+	private Set<Filter> existingFilters;
 
-    private Text nameText;
+	private Text nameText;
 
-    private Text queryText;
-    private IObservableValue nameValue = new WritableValue( "", String.class );
-    private IObservableValue queryValue = new WritableValue( "", String.class );
-    
-    private final class FilterNameValidator
-        implements IValidator
-    {
-        public IStatus validate( Object value )
-        {
-            if ( existingFilters != null )
-            {
-                for ( Filter filter : existingFilters )
-                    if ( filter.getName().equals( value ) )
-                    {
-                        return ValidationStatus.error( getCaption( "filterWizard.error.nameAlreadyUsed" ) );
-                    }
-            }
-            if (null == value || ((String) value).trim().isEmpty()) {
-                return ValidationStatus.error(getCaption( "filterWizard.error.empty.name" ));
-            }
-            return ValidationStatus.ok();
-        }
-    }
-    
-    private final class JSONValidator implements IValidator {
+	private Text queryText;
+	private IObservableValue nameValue = new WritableValue("", String.class);
+	private IObservableValue queryValue = new WritableValue("", String.class);
 
-        @Override
-        public IStatus validate( Object value )
-        {
-            if (null == value || ((String) value).trim().isEmpty()) {
-                return ValidationStatus.error( getCaption("filterWizard.error.empty.json" ));
-            }
-            try{
-            JSON.parse( (String )value);
-            return ValidationStatus.ok();
-            } catch (Exception e) {
-                return ValidationStatus.error(getCaption( "filterWizard.error.noValidJSON" ) );
-            }
-        }
-        
-    }
+	private final class FilterNameValidator implements IValidator {
+		public IStatus validate(Object value) {
+			if (existingFilters != null) {
+				for (Filter filter : existingFilters)
+					if (filter.getName().equals(value)) {
+						return ValidationStatus
+								.error(getCaption("filterWizard.error.nameAlreadyUsed"));
+					}
+			}
+			if (null == value || ((String) value).trim().isEmpty()) {
+				return ValidationStatus
+						.error(getCaption("filterWizard.error.empty.name"));
+			}
+			return ValidationStatus.ok();
+		}
+	}
 
-    public FilterWizardPage( ISelection selection )
-    {
-        super( "Filter details" );
-        setTitle( getCaption( "filterWizard.title" ) );
-        setDescription( getCaption( "filterWizard.detail" ) );
+	private final class JSONValidator implements IValidator {
 
-        ITreeSelection treeSelection = (ITreeSelection) selection;
-        Object obj = treeSelection.getFirstElement();
-        if ( !( obj instanceof Collection ) && !( obj instanceof Filter ) )
-            throw new IllegalStateException( obj.getClass().getSimpleName()
-                + getCaption( "filterWizard.error.noCollection" ) );
+		@Override
+		public IStatus validate(Object value) {
+			if (null == value || ((String) value).trim().isEmpty()) {
+				return ValidationStatus
+						.error(getCaption("filterWizard.error.empty.json"));
+			}
+			try {
+				JSON.parse((String) value);
+				return ValidationStatus.ok();
+			} catch (Exception e) {
+				return ValidationStatus
+						.error(getCaption("filterWizard.error.noValidJSON"));
+			}
+		}
 
-        TreeParent parent = (TreeParent) obj;
-        existingFilters = MeclipsePlugin.getDefault().getFilters( new FilterPlacement( parent ) );
-    }
+	}
 
-    @Override
-    public void createControl( Composite parent )
-    {
-        Composite container = new Composite( parent, SWT.FILL );
-        GridLayout layout = new GridLayout();
-        container.setLayout( layout );
-        layout.numColumns = 3;
-        layout.verticalSpacing = 9;
-        GridData gd = new GridData( SWT.FILL );
-        gd.widthHint = 250;
+	public FilterWizardPage(ISelection selection) {
+		super("Filter details");
+		setTitle(getCaption("filterWizard.title"));
+		setDescription(getCaption("filterWizard.detail"));
 
-        Label label;
+		ITreeSelection treeSelection = (ITreeSelection) selection;
+		Object obj = treeSelection.getFirstElement();
+		if (!(obj instanceof Collection) && !(obj instanceof Filter))
+			throw new IllegalStateException(obj.getClass().getSimpleName()
+					+ getCaption("filterWizard.error.noCollection"));
 
-        label = new Label( container, SWT.NULL );
-        label.setText( getCaption( "filterWizard.label.name" ) );
-        nameText = new Text( container, SWT.BORDER | SWT.SINGLE );
-        nameText.setLayoutData( gd );
+		TreeParent parent = (TreeParent) obj;
+		existingFilters = MeclipsePlugin.getDefault().getFilters(
+				new FilterPlacement(parent));
+	}
 
-        label = new Label( container, SWT.NULL );
-        label.setImage( new Image( container.getDisplay(), MeclipsePlugin.class.getClassLoader().getResourceAsStream( MeclipsePlugin.HELP_IMG_ID ) ) );
-        label.setToolTipText( getCaption( "filterWizard.tooltip.name" ) );
+	@Override
+	public void createControl(Composite parent) {
+		Composite container = new Composite(parent, SWT.FILL);
+		GridLayout layout = new GridLayout();
+		container.setLayout(layout);
+		layout.numColumns = 3;
+		layout.verticalSpacing = 9;
+		GridData gd = new GridData(SWT.FILL);
+		gd.widthHint = 250;
 
-        label = new Label( container, SWT.NULL );
-        label.setText( getCaption( "filterWizard.label.query" ) );
-        queryText = new Text( container, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.FILL );
-        queryText.setLayoutData( gd );
+		Label label;
 
-        label = new Label( container, SWT.NULL );
-        label.setToolTipText( getCaption( "filterWizard.tooltip.query" ) );
-        label.setImage( new Image( container.getDisplay(), MeclipsePlugin.class.getClassLoader().getResourceAsStream( MeclipsePlugin.HELP_IMG_ID ) ) );
+		label = new Label(container, SWT.NULL);
+		label.setText(getCaption("filterWizard.label.name"));
+		nameText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		nameText.setLayoutData(gd);
 
-        //add WizardPage validators
-        DataBindingContext dbc = new DataBindingContext();
-        WizardPageSupport.create( this, dbc );
-        dbc.bindValue( SWTObservables.observeText( nameText, SWT.Modify ), nameValue, new UpdateValueStrategy().setBeforeSetValidator( new FilterNameValidator() ), null );
-        dbc.bindValue( SWTObservables.observeText( queryText, SWT.Modify ), queryValue, new UpdateValueStrategy().setBeforeSetValidator(  new JSONValidator() ), null );
-        
-        setControl( container );
-        //disable save until everything matches
-        setPageComplete( false );
-    }
+		label = new Label(container, SWT.NULL);
+		label.setImage(new Image(container.getDisplay(), MeclipsePlugin.class
+				.getClassLoader().getResourceAsStream(
+						MeclipsePlugin.HELP_IMG_ID)));
+		label.setToolTipText(getCaption("filterWizard.tooltip.name"));
 
-    public Filter getFilter()
-    {
-        return new Filter( nameText.getText(), queryText.getText() );
-    }
+		label = new Label(container, SWT.NULL);
+		label.setText(getCaption("filterWizard.label.query"));
+		queryText = new Text(container, SWT.BORDER | SWT.MULTI | SWT.WRAP
+				| SWT.FILL);
+		queryText.setLayoutData(gd);
+
+		label = new Label(container, SWT.NULL);
+		label.setToolTipText(getCaption("filterWizard.tooltip.query"));
+		label.setImage(new Image(container.getDisplay(), MeclipsePlugin.class
+				.getClassLoader().getResourceAsStream(
+						MeclipsePlugin.HELP_IMG_ID)));
+
+		// add WizardPage validators
+		DataBindingContext dbc = new DataBindingContext();
+		WizardPageSupport.create(this, dbc);
+		dbc.bindValue(SWTObservables.observeText(nameText, SWT.Modify),
+				nameValue, new UpdateValueStrategy()
+						.setBeforeSetValidator(new FilterNameValidator()), null);
+		dbc.bindValue(SWTObservables.observeText(queryText, SWT.Modify),
+				queryValue, new UpdateValueStrategy()
+						.setBeforeSetValidator(new JSONValidator()), null);
+
+		setControl(container);
+		// disable save until everything matches
+		setPageComplete(false);
+	}
+
+	public Filter getFilter() {
+		return new Filter(nameText.getText(), queryText.getText());
+	}
 }

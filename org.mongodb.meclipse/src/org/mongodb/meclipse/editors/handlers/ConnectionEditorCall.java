@@ -9,8 +9,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.mongodb.meclipse.editors.CollectionEditorInput;
 import org.mongodb.meclipse.editors.CollectionEditor;
+import org.mongodb.meclipse.editors.CollectionEditorInput;
 import org.mongodb.meclipse.views.MeclipseView;
 import org.mongodb.meclipse.views.objects.Collection;
 
@@ -26,10 +26,11 @@ public class ConnectionEditorCall extends AbstractHandler implements IHandler {
 		IWorkbenchPage page = window.getActivePage();
 		MeclipseView view = (MeclipseView) page.findView(MeclipseView.ID);
 		// Get the selection
-		IStructuredSelection selection = (IStructuredSelection) view.getViewer().getSelection();
-		
+		IStructuredSelection selection = (IStructuredSelection) view
+				.getViewer().getSelection();
+
 		if (selection != null && selection instanceof IStructuredSelection) {
-			Collection obj = (Collection)selection.getFirstElement();
+			Collection obj = (Collection) selection.getFirstElement();
 			// If we had a selection lets open the editor
 			if (obj != null) {
 				CollectionEditorInput input = new CollectionEditorInput(obj);

@@ -10,11 +10,10 @@ public class DBObjectPropertySource implements IPropertySource {
 
 	private DBObject dbObj;
 
-	DBObjectPropertySource (DBObject dbObj)
-	{
+	DBObjectPropertySource(DBObject dbObj) {
 		this.dbObj = dbObj;
 	}
-	
+
 	@Override
 	public Object getEditableValue() {
 		// TODO Auto-generated method stub
@@ -22,10 +21,10 @@ public class DBObjectPropertySource implements IPropertySource {
 	}
 
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		IPropertyDescriptor[] returnVal = new IPropertyDescriptor[dbObj.keySet().size()];
+		IPropertyDescriptor[] returnVal = new IPropertyDescriptor[dbObj
+				.keySet().size()];
 		int counter = 0;
-		for (String propKey : dbObj.keySet())
-		{
+		for (String propKey : dbObj.keySet()) {
 			returnVal[counter] = new PropertyDescriptor(propKey, propKey);
 			counter++;
 		}
@@ -37,10 +36,10 @@ public class DBObjectPropertySource implements IPropertySource {
 		if (!(id instanceof String))
 			return null;
 
-		Object value = dbObj.get((String)id);
+		Object value = dbObj.get((String) id);
 		if (value instanceof DBObject)
-			return new DBObjectPropertySource((DBObject)value);
-		
+			return new DBObjectPropertySource((DBObject) value);
+
 		return value;
 	}
 
@@ -53,14 +52,13 @@ public class DBObjectPropertySource implements IPropertySource {
 	@Override
 	public void resetPropertyValue(Object id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setPropertyValue(Object id, Object value) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	
 }
