@@ -63,27 +63,33 @@ public final class Connection extends TreeParent {
 	public Mongo getMongo() {
 		MongoInstance mongoInstance = MeclipsePlugin.getDefault()
 				.getMongoInstance(this.getName());
+		Exception ex;
 		if (mongoInstance.getMongo() == null) {
 			Mongo mongo;
 			try {
 				mongo = new Mongo(mongoInstance.getHost(),
 						mongoInstance.getPort());
+				mongo.getDatabaseNames();
 				mongoInstance.setMongo(mongo); // add the active Mongo instance
 												// to the plug-in's state
+				isDown = false;
 				return mongo;
-			} catch (UnknownHostException e) {
-				if (!isDown) {
-					this.showMessage(String.format(
-							getCaption("connection.connectionError"),
-							this.getName(), mongoInstance.getHost()));
-					isDown = true;
-				}
+				/* catch some possible exceptions */
 			} catch (MongoException e) {
-				this.showMessage(e.getMessage());
+				ex = e;
+			} catch (UnknownHostException e) {
+				ex = e;
+			}
+			if (!isDown) {
+				this.showMessage(String.format(
+						getCaption("connection.connectionError"),
+						this.getName(), mongoInstance.getHost(), ex));
+				isDown = true;
 			}
 			return null;
-		} else
+		} else {
 			return mongoInstance.getMongo();
+		}
 	}
 
 	@Override
@@ -91,11 +97,17 @@ public final class Connection extends TreeParent {
 		List<Database> children = new ArrayList<Database>();
 		Mongo mongo = getMongo();
 		if (mongo != null) {
-			for (String name : mongo.getDatabaseNames()) {
-				Database database = new Database(name);
-				database.setParent(this);
-				database.setViewer(view);
-				children.add(database);
+			try {
+				for (String name : mongo.getDatabaseNames()) {
+					Database database = new Database(name);
+					database.setParent(this);
+					database.setViewer(view);
+					children.add(database);
+				}
+			} catch (Exception e) {
+				MeclipsePlugin.getDefault().getMongoInstance(this.getName())
+						.setMongo(null);
+				e.printStackTrace();
 			}
 		}
 		return children.toArray(new TreeObject[children.size()]);

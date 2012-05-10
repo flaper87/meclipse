@@ -32,7 +32,7 @@ public class TreeObject implements IAdaptable {
 		reflesh = new Action(getCaption("treeObject.refresh")) {
 			@Override
 			public void run() {
-				view.getViewer().refresh(TreeObject.this, false);
+				view.getViewer().refresh(TreeObject.this, true);
 			}
 		};
 

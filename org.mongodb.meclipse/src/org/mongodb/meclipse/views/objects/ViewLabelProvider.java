@@ -19,8 +19,9 @@ public class ViewLabelProvider extends LabelProvider {
 					.getMongoInstance(((Connection) obj).getName());
 			return mongoInstance.getName() + " (" + mongoInstance.getHost()
 					+ ":" + mongoInstance.getPort() + ")";
-		} else
+		} else {
 			return obj.toString();
+		}
 	}
 
 	public Image getImage(Object obj) {
