@@ -12,7 +12,6 @@ public class MongoInstance {
 	private String host;
 	private Integer port;
 	private Mongo mongo;
-	private boolean isDeleted = false;
 
 	public MongoInstance(String name) {
 		this.name = name;
@@ -42,13 +41,4 @@ public class MongoInstance {
 	public void setMongo(Mongo mongo) {
 		this.mongo = mongo;
 	}
-
-	public boolean isDeleted() {
-		return isDeleted;
-	}
-
-	public void setIsDeleted(boolean b) {
-		isDeleted = b;
-	}
-
 }

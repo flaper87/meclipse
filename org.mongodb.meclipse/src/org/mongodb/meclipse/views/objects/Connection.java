@@ -36,8 +36,6 @@ public final class Connection extends TreeParent {
 		delete = new Action() {
 			public void run() {
 				if (view != null) {
-					MeclipsePlugin.getDefault()
-							.markMongoDeleted(conn.getName());
 					MeclipsePlugin.getDefault().removeMongo(conn.getName());
 					view.refreshMe();
 				}

@@ -233,10 +233,8 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 				file.createNewFile();
 			writer = new FileWriter(file, false); // overwrite all servers
 			for (MongoInstance server : mongoInstances.values()) {
-				if (!server.isDeleted()) {
-					writer.write(server.getName() + "," + server.getHost()
-							+ "," + server.getPort() + "\n");
-				}
+				writer.write(server.getName() + "," + server.getHost() + ","
+						+ server.getPort() + "\n");
 			}
 
 		}
@@ -259,10 +257,6 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 
 	public void removeMongo(String name) {
 		mongoInstances.remove(name);
-	}
-
-	public void markMongoDeleted(String name) {
-		mongoInstances.get(name).setIsDeleted(true);
 	}
 
 	/**
