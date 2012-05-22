@@ -1,12 +1,10 @@
 package org.mongodb.meclipse;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,6 +30,9 @@ import org.mongodb.meclipse.views.MeclipseView;
 import org.mongodb.meclipse.views.objects.Filter;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+
+import com.csvreader.CsvReader;
+import com.csvreader.CsvWriter;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -187,7 +188,7 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 	}
 
 	private MongoInstance[] loadSavedServers() {
-		FileInputStream inputStream = null;
+		CsvReader reader = null;
 		try {
 			IPath libPath = MeclipsePlugin.getDefault().getStateLocation();
 			libPath = libPath.append("servers.cfg");
@@ -195,22 +196,16 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 			if (!file.exists())
 				return new MongoInstance[0];
 
-			inputStream = new FileInputStream(file);
-			DataInputStream dataInputStream = new DataInputStream(inputStream);
-			BufferedReader bReader = new BufferedReader(new InputStreamReader(
-					dataInputStream));
+			reader = new CsvReader(new BufferedReader(new FileReader(file)));
 
 			java.util.List<MongoInstance> savedServersList = new ArrayList<MongoInstance>();
-			String line;
-			while ((line = bReader.readLine()) != null) {
-				// TODO: use CsvWriter
-				String[] values = line.split(",");
-				MongoInstance server = new MongoInstance(values[0]);
-				server.setHost(values[1]);
+			while (reader.readRecord()) {
+				MongoInstance server = new MongoInstance(reader.get(0));
+				server.setHost(reader.get(1));
 				try {
-					server.setPort(Integer.valueOf(values[2]));
-				} catch (NumberFormatException ex) {
-					System.out.println(ex);
+					server.setPort(Integer.valueOf(reader.get(2)));
+				} catch (NumberFormatException e) {
+					System.out.println(e);
 				}
 				savedServersList.add(server);
 			}
@@ -218,41 +213,39 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 					.size()]);
 		} catch (IOException ex) {
 			ex.printStackTrace();
+		} finally {
+			if (reader != null) {
+				reader.close();
+			}
 		}
+
 		return new MongoInstance[0];
 	}
 
 	private void saveServers() {
 		// save server preferences here
-		FileWriter writer = null;
+		CsvWriter writer = null;
 		try {
 			IPath libPath = getStateLocation();
 			libPath = libPath.append("servers.cfg");
 			File file = libPath.toFile();
-			if (!file.exists())
+			if (!file.exists()) {
 				file.createNewFile();
-			writer = new FileWriter(file, false); // overwrite all servers
-			for (MongoInstance server : mongoInstances.values()) {
-				writer.write(server.getName() + "," + server.getHost() + ","
-						+ server.getPort() + "\n");
 			}
-
-		}
-		/*
-		 * catch (MalformedURLException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); }
-		 */
-		catch (IOException ex) {
+			writer = new CsvWriter(new FileWriter(file, false), ',');
+			for (MongoInstance server : mongoInstances.values()) {
+				writer.write(server.getName());
+				writer.write(server.getHost());
+				writer.write(String.valueOf(server.getPort()));
+				writer.endRecord();
+			}
+		} catch (IOException ex) {
 			ex.printStackTrace();
 		} finally {
 			if (writer != null) {
-				try {
-					writer.close();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				writer.close();
 			}
-		}// end finally
+		}
 	}
 
 	public void removeMongo(String name) {
