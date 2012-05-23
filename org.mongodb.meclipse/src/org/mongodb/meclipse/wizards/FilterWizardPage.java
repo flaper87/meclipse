@@ -23,6 +23,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.mongodb.meclipse.Images;
 import org.mongodb.meclipse.MeclipsePlugin;
 import org.mongodb.meclipse.views.FilterPlacement;
 import org.mongodb.meclipse.views.objects.Collection;
@@ -39,6 +40,7 @@ public class FilterWizardPage extends WizardPage {
 	private Text queryText;
 	private IObservableValue nameValue = new WritableValue("", String.class);
 	private IObservableValue queryValue = new WritableValue("", String.class);
+	private static Image help = Images.get(Images.Help);
 
 	private final class FilterNameValidator implements IValidator {
 		public IStatus validate(Object value) {
@@ -110,9 +112,7 @@ public class FilterWizardPage extends WizardPage {
 		nameText.setLayoutData(gd);
 
 		label = new Label(container, SWT.NULL);
-		label.setImage(new Image(container.getDisplay(), MeclipsePlugin.class
-				.getClassLoader().getResourceAsStream(
-						MeclipsePlugin.HELP_IMG_ID)));
+		label.setImage(help);
 		label.setToolTipText(getCaption("filterWizard.tooltip.name"));
 
 		label = new Label(container, SWT.NULL);
@@ -123,9 +123,7 @@ public class FilterWizardPage extends WizardPage {
 
 		label = new Label(container, SWT.NULL);
 		label.setToolTipText(getCaption("filterWizard.tooltip.query"));
-		label.setImage(new Image(container.getDisplay(), MeclipsePlugin.class
-				.getClassLoader().getResourceAsStream(
-						MeclipsePlugin.HELP_IMG_ID)));
+		label.setImage(help);
 
 		// add WizardPage validators
 		DataBindingContext dbc = new DataBindingContext();

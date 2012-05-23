@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.mongodb.meclipse.MeclipsePlugin;
+import org.mongodb.meclipse.Images;
 import org.mongodb.meclipse.preferences.MongoInstance;
 import org.mongodb.meclipse.views.objects.Connection;
 
@@ -40,6 +40,8 @@ public class ConnectionWizardPage extends WizardPage /* implements Listener */{
 	private Text username;
 	private Text password;
 	private Connection conn;
+	private static Image help = Images.get(Images.Help);
+
 	// private ISelection selection;
 	private Button saveCheckBox;
 	// private Combo savedServersSelect;
@@ -117,9 +119,7 @@ public class ConnectionWizardPage extends WizardPage /* implements Listener */{
 		connName = new Text(container, SWT.BORDER | SWT.SINGLE);
 		connName.setLayoutData(gd);
 		label = new Label(container, SWT.NULL);
-		label.setImage(new Image(container.getDisplay(), MeclipsePlugin.class
-				.getClassLoader().getResourceAsStream(
-						MeclipsePlugin.HELP_IMG_ID)));
+		label.setImage(help);
 		label.setToolTipText(getCaption("connectionWizard.tooltip.name"));
 
 		label = new Label(container, SWT.NULL);
@@ -127,9 +127,7 @@ public class ConnectionWizardPage extends WizardPage /* implements Listener */{
 		host = new Text(container, SWT.BORDER | SWT.SINGLE);
 		host.setLayoutData(gd);
 		label = new Label(container, SWT.NULL);
-		label.setImage(new Image(container.getDisplay(), MeclipsePlugin.class
-				.getClassLoader().getResourceAsStream(
-						MeclipsePlugin.HELP_IMG_ID)));
+		label.setImage(help);
 		label.setToolTipText(getCaption("connectionWizard.tooltip.host"));
 
 		label = new Label(container, SWT.NULL);
@@ -138,9 +136,7 @@ public class ConnectionWizardPage extends WizardPage /* implements Listener */{
 		port.setLayoutData(gd);
 		port.setText("27017");
 		label = new Label(container, SWT.NULL);
-		label.setImage(new Image(container.getDisplay(), MeclipsePlugin.class
-				.getClassLoader().getResourceAsStream(
-						MeclipsePlugin.HELP_IMG_ID)));
+		label.setImage(help);
 		label.setToolTipText(getCaption("connectionWizard.tooltip.port"));
 
 		/*
