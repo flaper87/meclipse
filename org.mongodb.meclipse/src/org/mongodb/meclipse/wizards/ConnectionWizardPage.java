@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.mongodb.meclipse.Images;
+import org.mongodb.meclipse.MeclipsePlugin;
 import org.mongodb.meclipse.preferences.MongoInstance;
 import org.mongodb.meclipse.views.objects.Connection;
 
@@ -50,7 +51,31 @@ public class ConnectionWizardPage extends WizardPage /* implements Listener */{
 
 	private IObservableValue hostValue = new WritableValue("", String.class);
 	private IObservableValue portValue = new WritableValue("", String.class);
+	private IObservableValue nameValue = new WritableValue("", String.class);
 
+	/**
+	 * Validator which verifies that the name is matching criteria
+	 */
+	private final class NameValidator implements IValidator {
+
+		@Override
+		public IStatus validate(Object value) {
+			if (null == value || ((String) value).trim().isEmpty()) {
+				return ValidationStatus
+						.error(getCaption("connectionWizard.error.empty.name"));
+			} else if (null != MeclipsePlugin.getDefault().getMongoInstance(
+					(String) value)) {
+				return ValidationStatus
+						.error(getCaption("connectionWizard.error.dupl.name"));
+			}
+			return ValidationStatus.ok();
+		}
+	}
+
+	/**
+	 * Validator which validates that a hostname matching the required criteria
+	 * is inserted for a new connection
+	 */
 	private final class HostNameValidator implements IValidator {
 		public IStatus validate(Object value) {
 			if (null != value && ((String) value).trim().isEmpty()) {
@@ -61,6 +86,9 @@ public class ConnectionWizardPage extends WizardPage /* implements Listener */{
 		}
 	}
 
+	/**
+	 * Validator which validates that the inserted port matches criteria
+	 */
 	private final class PortValidator implements IValidator {
 
 		@Override
@@ -156,6 +184,10 @@ public class ConnectionWizardPage extends WizardPage /* implements Listener */{
 		// add WizardPage validators
 		DataBindingContext dbc = new DataBindingContext();
 		WizardPageSupport.create(this, dbc);
+
+		dbc.bindValue(SWTObservables.observeText(connName, SWT.Modify),
+				nameValue, new UpdateValueStrategy()
+						.setBeforeSetValidator(new NameValidator()), null);
 		dbc.bindValue(SWTObservables.observeText(host, SWT.Modify), hostValue,
 				new UpdateValueStrategy()
 						.setBeforeSetValidator(new HostNameValidator()), null);

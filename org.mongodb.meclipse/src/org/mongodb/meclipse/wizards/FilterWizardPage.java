@@ -43,6 +43,7 @@ public class FilterWizardPage extends WizardPage {
 	private static Image help = Images.get(Images.Help);
 
 	private final class FilterNameValidator implements IValidator {
+		@Override
 		public IStatus validate(Object value) {
 			if (existingFilters != null) {
 				for (Filter filter : existingFilters)
