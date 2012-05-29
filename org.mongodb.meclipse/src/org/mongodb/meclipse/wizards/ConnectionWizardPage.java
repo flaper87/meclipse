@@ -3,7 +3,9 @@ package org.mongodb.meclipse.wizards;
 import static org.mongodb.meclipse.MeclipsePlugin.getCaption;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -52,7 +54,18 @@ public class ConnectionWizardPage extends WizardPage /* implements Listener */{
 	private IObservableValue hostValue = new WritableValue("", String.class);
 	private IObservableValue portValue = new WritableValue("", String.class);
 	private IObservableValue nameValue = new WritableValue("", String.class);
+	private Set<String> mongoInstances = MeclipsePlugin.getDefault()
+			.getMongoNames();
 
+	private final class DuplicateValidator implements IValidator {
+
+		@Override
+		public IStatus validate(Object arg0) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+	}
 	/**
 	 * Validator which verifies that the name is matching criteria
 	 */
@@ -63,8 +76,7 @@ public class ConnectionWizardPage extends WizardPage /* implements Listener */{
 			if (null == value || ((String) value).trim().isEmpty()) {
 				return ValidationStatus
 						.error(getCaption("connectionWizard.error.empty.name"));
-			} else if (null != MeclipsePlugin.getDefault().getMongoInstance(
-					(String) value)) {
+			} else if (mongoInstances.contains((String) value)) {
 				return ValidationStatus
 						.error(getCaption("connectionWizard.error.dupl.name"));
 			}
@@ -82,7 +94,13 @@ public class ConnectionWizardPage extends WizardPage /* implements Listener */{
 				return ValidationStatus
 						.error(getCaption("connectionWizard.error.empty.host"));
 			}
-			return ValidationStatus.ok();
+			Integer val = 0;
+			try {
+				val = Integer.parseInt(port.getText());
+			} catch (NumberFormatException e) {
+			}
+
+			return checkDuplicateConnection((String) value, val);
 		}
 	}
 
@@ -97,8 +115,9 @@ public class ConnectionWizardPage extends WizardPage /* implements Listener */{
 				return ValidationStatus
 						.error(getCaption("connectionWizard.error.port"));
 			}
+			int val = 0;
 			try {
-				int val = Integer.parseInt((String) value);
+				val = Integer.parseInt((String) value);
 				if (val < 0 || val > 65535) {
 					return ValidationStatus
 							.error(getCaption("connectionWizard.error.port"));
@@ -107,9 +126,24 @@ public class ConnectionWizardPage extends WizardPage /* implements Listener */{
 				return ValidationStatus
 						.error(getCaption("connectionWizard.error.port"));
 			}
-			return ValidationStatus.ok();
+			return checkDuplicateConnection(host.getText(), val);
 		}
 
+	}
+
+	public IStatus checkDuplicateConnection(String hostname, int port) {
+		Iterator<String> it = mongoInstances.iterator();
+		while (it.hasNext()) {
+			String cur = it.next();
+			MongoInstance instance = MeclipsePlugin.getDefault()
+					.getMongoInstance(cur);
+			if (instance.getPort() == port
+					&& instance.getHost().equals(hostname)) {
+				return ValidationStatus.warning(String.format(
+						getCaption("connectionWizard.warn.duplicate"), cur));
+			}
+		}
+		return ValidationStatus.ok();
 	}
 
 	public Map<String, MongoInstance> getSavedServers() {
