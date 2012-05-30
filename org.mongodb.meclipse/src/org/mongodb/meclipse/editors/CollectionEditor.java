@@ -12,6 +12,9 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseWheelListener;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -21,6 +24,7 @@ import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
@@ -218,7 +222,6 @@ public class CollectionEditor extends MultiPageEditorPart
 		composite.setLayout(layout);
 
 		final ExpandItem expandItem = new ExpandItem(bar, SWT.NONE, 0);
-
 		for (Object key : o.keySet()) {
 			if (key == "_id" || key == "_ns")
 				continue;
@@ -240,6 +243,28 @@ public class CollectionEditor extends MultiPageEditorPart
 		expandItem.setText(String.valueOf(value));
 		expandItem.setControl(composite);
 		expandItem.setHeight(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+		composite.addMouseWheelListener(new MouseWheelListener() {
+
+			@Override
+			public void mouseScrolled(MouseEvent arg0) {
+				Event ev = new Event();
+				ev.count = arg0.count;
+				expandItem.notifyListeners(SWT.MouseVerticalWheel, ev);
+				int direction = (ev.count < 0) ? 1 : -1;
+				ScrollBar vBar = bar.getVerticalBar();
+				if ((vBar.getThumbBounds().y + vBar.getThumbBounds().height
+						+ 15 == vBar.getMaximum() && 1 == direction)
+						|| (vBar.getSelection() == vBar.getMinimum() && -1 == direction)) {
+					return;
+				}
+				vBar.setSelection(vBar.getSelection() + vBar.getIncrement()
+						* direction);
+				Point location = composite.getLocation();
+				location.y = location.y - vBar.getIncrement() * direction;
+				System.out.println(location);
+				composite.setLocation(location);
+			}
+		});
 	}
 	@SuppressWarnings("unchecked")
 	public void loadEntries(boolean ignoreLimit) {
