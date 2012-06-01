@@ -44,6 +44,8 @@ public class ConnectionWizard extends Wizard implements INewWizard {
 		MongoInstance mongoInstance = new MongoInstance(page.getConnName());
 		mongoInstance.setHost(page.getHost());
 		mongoInstance.setPort(page.getPort());
+		mongoInstance.setUsername(page.getUsername());
+		mongoInstance.setPassword(page.getPassword());
 		MeclipsePlugin.getDefault().addMongo(page.getConnName(), mongoInstance);
 
 		return true;

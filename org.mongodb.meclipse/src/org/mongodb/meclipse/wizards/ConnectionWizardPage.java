@@ -139,19 +139,21 @@ public class ConnectionWizardPage extends WizardPage /* implements Listener */{
 		label.setImage(help);
 		label.setToolTipText(getCaption("connectionWizard.tooltip.port"));
 
-		/*
-		 * label = new Label(container, SWT.NULL); label.setText("&Username:");
-		 * username= new Text(container, SWT.BORDER | SWT.SINGLE);
-		 * username.setLayoutData(gd);
-		 */
-
-		/*
-		 * label = new Label(container, SWT.NULL); label.setText("Passwo&rd:");
-		 * password = new Text(container, SWT.BORDER | SWT.SINGLE);
-		 * password.setLayoutData(gd);
-		 */
 		label = new Label(container, SWT.NULL);
-		label.setText("Auth not supported yet...");
+		label.setText(getCaption("connectionWizard.label.username"));
+		username = new Text(container, SWT.BORDER | SWT.SINGLE);
+		username.setLayoutData(gd);
+		label = new Label(container, SWT.NULL);
+		label.setImage(help);
+		label.setToolTipText(getCaption("connectionWizard.tooltip.auth"));
+
+		label = new Label(container, SWT.NULL);
+		label.setText(getCaption("connectionWizard.label.password"));
+		password = new Text(container, SWT.BORDER | SWT.SINGLE);
+		password.setLayoutData(gd);
+		label = new Label(container, SWT.NULL);
+		label.setImage(help);
+		label.setToolTipText(getCaption("connectionWizard.tooltip.auth"));
 
 		// add WizardPage validators
 		DataBindingContext dbc = new DataBindingContext();

@@ -67,6 +67,15 @@ public final class Connection extends TreeParent {
 			try {
 				mongo = new Mongo(mongoInstance.getHost(),
 						mongoInstance.getPort());
+				// we've got some Node admin login credentials so authenticate
+				// to gain access.
+				if (null != mongoInstance.getUsername()) {
+					if (!mongo.getDB("admin").authenticate(
+							mongoInstance.getUsername(),
+							mongoInstance.getPassword().toCharArray())) {
+						this.showMessage(getCaption("connection.error.authAdmin"));
+					}
+				}
 				mongo.getDatabaseNames();
 				mongoInstance.setMongo(mongo); // add the active Mongo instance
 												// to the plug-in's state
@@ -80,8 +89,8 @@ public final class Connection extends TreeParent {
 			}
 			if (!isDown) {
 				this.showMessage(String.format(
-						getCaption("connection.connectionError"),
-						this.getName(), mongoInstance.getHost(), ex));
+						getCaption("connection.error.conn"), this.getName(),
+						mongoInstance.getHost(), ex));
 				isDown = true;
 			}
 			return null;

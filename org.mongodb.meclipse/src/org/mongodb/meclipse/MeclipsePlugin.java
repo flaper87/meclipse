@@ -1,10 +1,13 @@
 package org.mongodb.meclipse;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,6 +20,9 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.equinox.security.storage.ISecurePreferences;
+import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
+import org.eclipse.equinox.security.storage.StorageException;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.wizard.IWizard;
@@ -50,6 +56,11 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 	private static final ResourceBundle bundle = ResourceBundle
 			.getBundle("messages");
 
+	private IPath pluginPath;
+	private File serversPath;
+	private File passwordsPath;
+	private final static char seperator = ',';
+
 	public static String getCaption(String key) {
 		return bundle.getString(key);
 	}
@@ -81,6 +92,9 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		pluginPath = getStateLocation();
+		serversPath = pluginPath.append("servers.cfg").toFile();
+		passwordsPath = pluginPath.append("passwords.cfg").toFile();
 		MongoInstance[] savedServers = loadSavedServers();
 		for (MongoInstance savedServer : savedServers) {
 			mongoInstances.put(savedServer.getName(), savedServer);
@@ -190,15 +204,17 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 	private MongoInstance[] loadSavedServers() {
 		CsvReader reader = null;
 		try {
-			IPath libPath = MeclipsePlugin.getDefault().getStateLocation();
-			libPath = libPath.append("servers.cfg");
-			File file = libPath.toFile();
-			if (!file.exists())
+			if (!serversPath.exists())
 				return new MongoInstance[0];
 
-			reader = new CsvReader(new BufferedReader(new FileReader(file)));
+			reader = new CsvReader(new BufferedReader(new FileReader(
+					serversPath)), seperator);
 
 			java.util.List<MongoInstance> savedServersList = new ArrayList<MongoInstance>();
+
+			ISecurePreferences passwrds = SecurePreferencesFactory.open(
+					passwordsPath.toURI().toURL(), null);
+
 			while (reader.readRecord()) {
 				MongoInstance server = new MongoInstance(reader.get(0));
 				server.setHost(reader.get(1));
@@ -206,6 +222,18 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 					server.setPort(Integer.valueOf(reader.get(2)));
 				} catch (NumberFormatException e) {
 					System.out.println(e);
+				}
+				try {
+					String credentials = passwrds.get(server.getName(), null);
+					if (null != credentials) {
+						CsvReader credReader = CsvReader.parse(credentials);
+						credReader.readRecord();
+						server.setUsername(credReader.get(0));
+						server.setPassword(credReader.get(1));
+					}
+				} catch (StorageException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				savedServersList.add(server);
 			}
@@ -226,19 +254,38 @@ public class MeclipsePlugin extends AbstractUIPlugin {
 		// save server preferences here
 		CsvWriter writer = null;
 		try {
-			IPath libPath = getStateLocation();
-			libPath = libPath.append("servers.cfg");
-			File file = libPath.toFile();
-			if (!file.exists()) {
-				file.createNewFile();
+			if (!serversPath.exists()) {
+				serversPath.createNewFile();
 			}
-			writer = new CsvWriter(new FileWriter(file, false), ',');
+			writer = new CsvWriter(new FileWriter(serversPath, false),
+					seperator);
+			ISecurePreferences passwrds = SecurePreferencesFactory.open(
+					passwordsPath.toURI().toURL(), null);
+			passwrds.clear();
 			for (MongoInstance server : mongoInstances.values()) {
 				writer.write(server.getName());
 				writer.write(server.getHost());
+				if (null != server.getPassword()
+						&& null != server.getUsername()) {
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					Writer wr = new OutputStreamWriter(baos);
+					CsvWriter pwriter = new CsvWriter(wr, seperator);
+					try {
+						pwriter.write(server.getUsername());
+						pwriter.write(server.getPassword());
+						pwriter.endRecord();
+						pwriter.flush();
+						passwrds.put(server.getName(), baos.toString(), false);
+					} catch (StorageException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					baos.close();
+				}
 				writer.write(String.valueOf(server.getPort()));
 				writer.endRecord();
 			}
+			passwrds.flush();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} finally {
