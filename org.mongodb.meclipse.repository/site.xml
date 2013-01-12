@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description name="Meclipse" url="http://flaper87.github.com/meclipse/updates">
+      
+   </description>
+   <feature url="features/org.mongodb.meclipse.bundle_0.0.5.201301122256.jar" id="org.mongodb.meclipse.bundle" version="0.0.5.201301122256">
+      <category name="org.mongodb.meclipse.category"/>
+   </feature>
+   <category-def name="org.mongodb.meclipse.category" label="Meclipse">
+      <description>
+         MongoDB Editor for Eclipse
+      </description>
+   </category-def>
+</site>

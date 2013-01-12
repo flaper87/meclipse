@@ -6,3 +6,7 @@
 # ignore eclipse app settings
 .metadata/
 
+org.mongodb.meclipse.repository/artifacts.jar
+org.mongodb.meclipse.repository/content.jar
+org.mongodb.meclipse.repository/features
+org.mongodb.meclipse.repository/plugins
