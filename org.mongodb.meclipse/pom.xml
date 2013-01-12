@@ -1,90 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>mavenparent</artifactId>
-    <groupId>org.mongodb.meclipse</groupId>
-    <version>0.0.5-SNAPSHOT</version>
-    <relativePath>../org.mongodb.meclipse.mavenparent</relativePath>
-  </parent>
-  <artifactId>meclipse</artifactId>
-  <packaging>eclipse-plugin</packaging>
-  
-  <build>
-  	<plugins>
-		<plugin>
-        	<groupId>org.apache.maven.plugins</groupId>
-           	<artifactId>maven-dependency-plugin</artifactId>
-               	<executions>
-                   	<execution>
-                       	<id>copy-bundle-classpath-libs</id>
-                          	<phase>validate</phase>
-                          	<goals>
-                              	<goal>copy</goal>
-                           </goals>
-						<!--
-						        This is where we grab regular-old jar dependencies and stick them
-						        in the lib directory. Note that, unlike the usual Maven dependency
-						        handling, this won't follow transitive dependencies.  This simply
-						        grabs the given artifact from maven, but only the specified artifact.
-						
-						        Ultimately, we should build the parser as on osgi bundle to avoid
-						        specifying its transitive dependencies.
-						 -->
-                            <configuration>
-                             <outputDirectory>libs</outputDirectory>
-                             <overWriteReleases>true</overWriteReleases>
-                             <overWriteSnapshots>true</overWriteSnapshots>
-                             <overWriteIfNewer>true</overWriteIfNewer>
-                             <stripVersion>true</stripVersion>
-                             <artifactItems>
-							     <artifactItem>
-									 <groupId>org.json</groupId>
-									 <artifactId>json</artifactId>
-									 <version>20090211</version>
-						         </artifactItem>
-			                 </artifactItems>
-                            </configuration>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>mavenparent</artifactId>
+		<groupId>org.mongodb.meclipse</groupId>
+		<version>0.0.5-SNAPSHOT</version>
+		<relativePath>../org.mongodb.meclipse.mavenparent</relativePath>
+	</parent>
+	<artifactId>meclipse</artifactId>
+	<packaging>eclipse-plugin</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-bundle-classpath-libs</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<!-- This is where we grab regular-old jar dependencies and stick them 
+							in the lib directory. Note that, unlike the usual Maven dependency handling, 
+							this won't follow transitive dependencies. This simply grabs the given artifact 
+							from maven, but only the specified artifact. Ultimately, we should build 
+							the parser as on osgi bundle to avoid specifying its transitive dependencies. -->
+						<configuration>
+							<outputDirectory>libs</outputDirectory>
+							<overWriteReleases>true</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+							<stripVersion>true</stripVersion>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.json</groupId>
+									<artifactId>json</artifactId>
+									<version>20090211</version>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
 					</execution>
 				</executions>
-			</plugin>			 
+			</plugin>
 		</plugins>
-  	<pluginManagement>
-  		<plugins>
-  			<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-  			<plugin>
-  				<groupId>org.eclipse.m2e</groupId>
-  				<artifactId>lifecycle-mapping</artifactId>
-  				<version>1.0.0</version>
-  				<configuration>
-  					<lifecycleMappingMetadata>
-  						<pluginExecutions>
-  							<pluginExecution>
-  								<pluginExecutionFilter>
-  									<groupId>
-  										org.apache.maven.plugins
-  									</groupId>
-  									<artifactId>
-  										maven-dependency-plugin
-  									</artifactId>
-  									<versionRange>
-  										[2.1,)
-  									</versionRange>
-  									<goals>
-  										<goal>copy</goal>
-  									</goals>
-  								</pluginExecutionFilter>
-  								<action>
-  									<ignore></ignore>
-  								</action>
-  							</pluginExecution>
-  						</pluginExecutions>
-  					</lifecycleMappingMetadata>
-  				</configuration>
-  			</plugin>
-  		</plugins>
-  	</pluginManagement>
-  </build>
-
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-dependency-plugin
+										</artifactId>
+										<versionRange>
+											[2.1,)
+										</versionRange>
+										<goals>
+											<goal>copy</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 </project>

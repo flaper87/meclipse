@@ -9,14 +9,15 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class UIUtils {
 
-	public static void openErrorDialog(Shell shell, String message){
-		MessageDialog.openError(shell, "Error", message);		
+	public static void openErrorDialog(Shell shell, String message) {
+		MessageDialog.openError(shell, "Error", message);
 	}
-	
-//	public static MeclipseView getMeclipseView(){
-//		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-//		IWorkbenchPage page = window.getActivePage();
-//		MeclipseView view = (MeclipseView) page.findView(MeclipseView.ID);
-//		return view;
-//	}
+
+	// public static MeclipseView getMeclipseView(){
+	// IWorkbenchWindow window =
+	// PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+	// IWorkbenchPage page = window.getActivePage();
+	// MeclipseView view = (MeclipseView) page.findView(MeclipseView.ID);
+	// return view;
+	// }
 }

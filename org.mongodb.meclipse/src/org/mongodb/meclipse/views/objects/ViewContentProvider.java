@@ -7,8 +7,10 @@ import org.eclipse.jface.viewers.Viewer;
 /**
  * @author Flavio [FlaPer87] Percoco Premoli
  */
-public class ViewContentProvider implements IStructuredContentProvider,
-		ITreeContentProvider {
+public class ViewContentProvider
+		implements
+			IStructuredContentProvider,
+			ITreeContentProvider {
 
 	@Override
 	public void inputChanged(Viewer v, Object oldInput, Object newInput) {

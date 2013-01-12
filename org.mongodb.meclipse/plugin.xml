@@ -5,12 +5,12 @@
   <!-- Meclipse editor -->
    <extension point="org.eclipse.ui.editors">
       <editor
-            class="org.mongodb.meclipse.editors.MeclipseEditor"
+            class="org.mongodb.meclipse.editors.CollectionEditor"
             contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
             default="true"
             icon="icons/template.gif"
-            id="org.mongodb.meclipse.editors.meclipseEditor"
-            name="MeclipseEditor">
+            id="org.mongodb.meclipse.editors.CollectionEditor"
+            name="CollectionEditor">
       </editor>
    </extension>
    
@@ -31,7 +31,7 @@
    <command
             description="Calls the Meclipse Editor"
             id="org.mongodb.meclipse.editors.handlers.CallEditor"
-            defaultHandler="org.mongodb.meclipse.editors.handlers.MeclipseEditorCall"
+            defaultHandler="org.mongodb.meclipse.editors.handlers.ConnectionEditorCall"
             name="Meclipse Editor">
       </command>
    <command

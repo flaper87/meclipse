@@ -1,5 +1,7 @@
 package org.mongodb.meclipse.views.objects;
 
+import static org.mongodb.meclipse.MeclipsePlugin.getCaption;
+
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -14,7 +16,7 @@ import org.mongodb.meclipse.views.MeclipseView;
  * @author Flavio [FlaPer87] Percoco Premoli
  */
 public class TreeObject implements IAdaptable {
-	
+
 	private String name;
 	public MeclipseView view;
 	private TreeParent parent;
@@ -25,20 +27,22 @@ public class TreeObject implements IAdaptable {
 		this.name = name;
 		makeActions();
 	}
-	
+
 	private void makeActions() {
-		reflesh = new Action("Refresh"){
+		reflesh = new Action(getCaption("treeObject.refresh")) {
 			@Override
 			public void run() {
-				view.getViewer().refresh(TreeObject.this, false);
+				view.getViewer().refresh(TreeObject.this, true);
 			}
 		};
-		
-		showPropertiesView = new Action("Properties") {
+
+		showPropertiesView = new Action(getCaption("treeObject.properties")) {
 			@Override
 			public void run() {
 				try {
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.ui.views.PropertySheet");
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+							.getActivePage()
+							.showView("org.eclipse.ui.views.PropertySheet");
 				} catch (PartInitException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -69,10 +73,10 @@ public class TreeObject implements IAdaptable {
 	public Object getAdapter(Class key) {
 		return null;
 	}
-	
+
 	public void doubleClickAction() {
 	}
-	
+
 	public void fillContextMenu(IMenuManager manager) {
 		manager.add(reflesh);
 		manager.add(showPropertiesView);
@@ -80,7 +84,7 @@ public class TreeObject implements IAdaptable {
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
-	
+
 	public void setViewer(MeclipseView view) {
 		this.view = view;
 	}

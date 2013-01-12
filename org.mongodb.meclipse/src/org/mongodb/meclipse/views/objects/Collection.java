@@ -1,5 +1,7 @@
 package org.mongodb.meclipse.views.objects;
 
+import static org.mongodb.meclipse.MeclipsePlugin.getCaption;
+
 import java.io.File;
 
 import org.eclipse.core.runtime.IAdaptable;
@@ -26,66 +28,77 @@ import com.mongodb.MongoException;
 /**
  * @author Flavio [FlaPer87] Percoco Premoli
  */
-public final class Collection extends CollectionBase
-implements IAdaptable {
+public final class Collection extends CollectionBase implements IAdaptable {
 	private DBCollection col;
 	private IAction rename;
 	private IAction delete;
 	private IAction insert;
-	
+	private CollectionType type = null;
+
+	public enum CollectionType {
+		SYSINDEX, COLLECTION
+	}
+
 	public Collection(String name) {
 		super(name);
 		makeActions();
 	}
-	
+
 	private void makeActions() {
-		insert = new Action("Insert Document"){
+		insert = new Action(getCaption("collection.insertDoc")) {
 			@Override
-			public void run(){
-				FileDialog dialog = new FileDialog(view.getSite().getShell(), SWT.OPEN);
+			public void run() {
+				FileDialog dialog = new FileDialog(view.getSite().getShell(),
+						SWT.OPEN);
 				dialog.setFilterExtensions(new String[]{"*.json"});
 				String result = dialog.open();
-				if(result != null){
+				if (result != null) {
 					try {
 						String jsonText = IOUtils.readFile(new File(result));
 						JSONObject jsonObj = new JSONObject(jsonText);
 						col.insert(JSONUtils.toDBObject(jsonObj));
-					} catch(Exception ex){
-						UIUtils.openErrorDialog(view.getSite().getShell(), ex.toString());
+					} catch (Exception ex) {
+						UIUtils.openErrorDialog(view.getSite().getShell(),
+								ex.toString());
 					}
 				}
 			}
 		};
-		
-		rename = new Action("Rename Collection"){
+
+		rename = new Action(getCaption("collection.renameColl")) {
 			@Override
 			public void run() {
-				InputDialog dialog = new InputDialog(view.getSite().getShell(), 
-						"Rename Collection", "Collection Name:", col.getName(), 
-						new RequiredInputValidator("Please input the collection name."));
-				if(dialog.open() == InputDialog.OK){
+				InputDialog dialog = new InputDialog(view.getSite().getShell(),
+						getCaption("collection.renameColl"),
+						getCaption("collection.msg.newCollName"),
+						col.getName(), new RequiredInputValidator(
+								getCaption("collection.msg.inputCollName")));
+				if (dialog.open() == InputDialog.OK) {
 					try {
 						col.rename(dialog.getValue());
-					} catch(MongoException ex){
-						UIUtils.openErrorDialog(view.getSite().getShell(), ex.toString());
+					} catch (MongoException ex) {
+						UIUtils.openErrorDialog(view.getSite().getShell(),
+								ex.toString());
 					}
 					view.getViewer().refresh(getParent());
 				}
 			}
 		};
-		
-		delete = new Action("Delete Collection"){
+
+		delete = new Action(getCaption("collection.deleteColl")) {
 			@Override
 			public void run() {
-				if(MessageDialog.openConfirm(view.getSite().getShell(), "Confirm", 
-						String.format("Are you sure you want to delete collection '%s'?", col.getName()))){
+				if (MessageDialog.openConfirm(view.getSite().getShell(),
+						getCaption("confirm"), String.format(
+								getCaption("collection.msg.reallyDeleteColl"),
+								col.getName()))) {
 					col.drop();
 					view.getViewer().refresh(getParent());
 				}
 			}
 		};
 	}
-	
+
 	@Override
 	public void fillContextMenu(IMenuManager manager) {
 		manager.add(insert);
@@ -95,29 +108,40 @@ implements IAdaptable {
 		super.fillContextMenu(manager);
 	}
 
-
-
 	@Override
 	public void setParent(TreeParent parent) {
 		super.setParent(parent);
-		col = ((Database)this.getParent()).getDB().getCollection(this.getName());
+		col = ((Database) this.getParent()).getDB().getCollection(
+				this.getName());
 	}
-	
+
 	@Override
 	public DBCollection getCollection() {
 		return col;
 	}
 
+	public CollectionType getType() {
+		if (type == null) {
+			if (col.getName().equalsIgnoreCase("system.indexes")) {
+				type = CollectionType.SYSINDEX;
+			} else {
+				type = CollectionType.COLLECTION;
+			}
+		}
+		return type;
+	}
+
 	@Override
 	public void doubleClickAction() {
-		IHandlerService handlerService = (IHandlerService) view.getSite().getService(IHandlerService.class);
+		IHandlerService handlerService = (IHandlerService) view.getSite()
+				.getService(IHandlerService.class);
 		try {
 			handlerService.executeCommand(
 					"org.mongodb.meclipse.editors.handlers.CallEditor", null);
 		} catch (Exception ex) {
 			System.out.println(ex.toString());
-//			throw new RuntimeException(
-//					"org.mongodb.meclipse.editors.handlers.CallEditor not found");
+			// throw new RuntimeException(
+			// "org.mongodb.meclipse.editors.handlers.CallEditor not found");
 		}
 	}
 

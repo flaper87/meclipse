@@ -1,5 +1,7 @@
 package org.mongodb.meclipse.wizards;
 
+import static org.mongodb.meclipse.MeclipsePlugin.getCaption;
+
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeSelection;
@@ -28,7 +30,8 @@ public class FilterWizard extends Wizard implements INewWizard {
 
 	public void addPages() {
 		if (selection == null)
-			selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
+			selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+					.getSelectionService().getSelection();
 		page = new FilterWizardPage(selection);
 		addPage(page);
 	}
@@ -38,23 +41,27 @@ public class FilterWizard extends Wizard implements INewWizard {
 		addFilter(selection, page.getFilter());
 		return true;
 	}
-	
-	public void addFilter(ISelection selection, Filter filter)
-	{
+
+	public void addFilter(ISelection selection, Filter filter) {
 		if (selection == null)
-			throw new IllegalStateException("Can't add filter to a null selection");
+			throw new IllegalStateException(
+					getCaption("filterWizard.error.nullSelection"));
 
 		if (!(selection instanceof ITreeSelection))
-			throw new IllegalStateException(selection.getClass().getSimpleName() + "? Did not expect to be called with anything but an ITreeSelection object.");
-		
-		ITreeSelection treeSelection = (ITreeSelection)selection;
+			throw new IllegalStateException(selection.getClass()
+					.getSimpleName()
+					+ getCaption("filterWizard.error.noITreeSelection"));
+
+		ITreeSelection treeSelection = (ITreeSelection) selection;
 		Object obj = treeSelection.getFirstElement();
 		if (!(obj instanceof Collection) && !(obj instanceof Filter))
-			throw new IllegalStateException(obj.getClass().getSimpleName() + "? Should not arrive here without a reference to a Collection or Filter");
-		
-		TreeParent parent = (TreeParent)obj;
+			throw new IllegalStateException(obj.getClass().getSimpleName()
+					+ getCaption("filterWizard.error.noCollection"));
+
+		TreeParent parent = (TreeParent) obj;
 		filter.setParent(parent);
-		MeclipsePlugin.getDefault().addFilter(new FilterPlacement(parent), filter);
+		MeclipsePlugin.getDefault().addFilter(new FilterPlacement(parent),
+				filter);
 	}
 
 	/**

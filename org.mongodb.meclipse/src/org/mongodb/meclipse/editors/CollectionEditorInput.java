@@ -10,14 +10,14 @@ import org.mongodb.meclipse.views.objects.Collection;
  */
 public class CollectionEditorInput implements IEditorInput {
 
-	private final Collection person;
+	private final Collection collection;
 
-	public CollectionEditorInput(Collection person) {
-		this.person = person;
+	public CollectionEditorInput(Collection collection) {
+		this.collection = collection;
 	}
 
 	public Collection getObject() {
-		return person;
+		return collection;
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class CollectionEditorInput implements IEditorInput {
 
 	@Override
 	public String getName() {
-		return person.toString();
+		return collection.toString();
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class CollectionEditorInput implements IEditorInput {
 
 	@Override
 	public String getToolTipText() {
-		return person.toString();
+		return collection.toString();
 	}
 
 	@Override
@@ -57,13 +57,13 @@ public class CollectionEditorInput implements IEditorInput {
 			return true;
 		}
 		if (obj instanceof CollectionEditorInput) {
-			return person.equals(((CollectionEditorInput) obj).getObject());
+			return collection.equals(((CollectionEditorInput) obj).getObject());
 		}
 		return false;
 	}
 
 	@Override
 	public int hashCode() {
-		return person.hashCode();
+		return collection.hashCode();
 	}
 }

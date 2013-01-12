@@ -5,20 +5,18 @@ import com.mongodb.Mongo;
 /**
  * 
  * @author Joey Mink, ExoAnalyticSolutions
- *
+ * 
  */
 public class MongoInstance {
 	private String name;
 	private String host;
 	private Integer port;
 	private Mongo mongo;
-	private boolean isDeleted = false;
 
-	public MongoInstance(String name)
-	{
+	public MongoInstance(String name) {
 		this.name = name;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -43,13 +41,4 @@ public class MongoInstance {
 	public void setMongo(Mongo mongo) {
 		this.mongo = mongo;
 	}
-
-	public boolean isDeleted() {
-		return isDeleted ;
-	}
-
-	public void setIsDeleted(boolean b) {
-		isDeleted = b;
-	}
-	
 }
