@@ -6,7 +6,15 @@
    <feature url="features/org.mongodb.meclipse.bundle_0.0.5.201301122256.jar" id="org.mongodb.meclipse.bundle" version="0.0.5.201301122256">
       <category name="org.mongodb.meclipse.category"/>
    </feature>
+   <feature url="features/org.mongodb.meclipse.bundle_0.1.0.201301130000.jar" id="org.mongodb.meclipse.bundle" version="0.1.0.201301130000" os="linux,macosx,win32" nl="en">
+      <category name="org.mongodb.meclipse.0.1.0"/>
+   </feature>
    <category-def name="org.mongodb.meclipse.category" label="Meclipse">
+      <description>
+         MongoDB Editor for Eclipse
+      </description>
+   </category-def>
+   <category-def name="org.mongodb.meclipse.0.1.0" label="Meclipse">
       <description>
          MongoDB Editor for Eclipse
       </description>
