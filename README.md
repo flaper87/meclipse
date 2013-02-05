@@ -8,7 +8,7 @@ Meclipse is an [Eclipse][eclipse] plugin for [MongoDB][mongodb]
 
 ## How to install? ##
 
-Use the update site: `http://flaper87.github.com/meclipse/updates/`
+Use the Eclipse update site: `http://flaper87.github.com/meclipse/updates/`, this won't give you a download, as this URL is only considered to be used by Eclipse.
 
 ## What does Meclipse do? ##
 
