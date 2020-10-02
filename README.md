@@ -28,6 +28,7 @@ Here's a shot of the DB view:
  * Meclipse already shows the connections, databases, collections and data stored in MongoDB so I think that the critical point (where I/you/we should focus) is how data is shown in the editor.
  * Many other things.
  * Update this README :)
+ * this is easy to use and flexible than other sequal databases
 
 ## Credits ##
 
